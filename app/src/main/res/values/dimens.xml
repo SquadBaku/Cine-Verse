@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <dimen name="radius_2xs">2dp</dimen>
+    <dimen name="radius_xs">4dp</dimen>
+    <dimen name="radius_s">8dp</dimen>
+    <dimen name="radius_md">10dp</dimen>
+    <dimen name="radius_lg">12dp</dimen>
+    <dimen name="radius_xl">16dp</dimen>
+    <dimen name="radius_2xl">20dp</dimen>
+    <dimen name="radius_3xl">24dp</dimen>
+    <dimen name="radius_4xl">28dp</dimen>
+    <dimen name="radius_5xl">32dp</dimen>
+    <dimen name="radius_full">1000dp</dimen>
+
+    <!-- old  -->
     <!-- spacing -->
     <dimen name="spacing_extra_large">32dp</dimen>
     <dimen name="spacing_large">24dp</dimen>

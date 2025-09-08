@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.search
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -33,7 +34,9 @@ class SearchViewModel @Inject constructor(
     private val getSearchForSeriesUserCase: GetSearchForSeriesUserCase,
     private val getSearchForActorUseCase: GetSearchForActorUseCase,
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
-    private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase
+    private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase,
+    private val deleteAllSearchHistoryUseCase: DeleteAllSearchHistoryUseCase,
+    private val deleteSearchHistoryItemUseCase: DeleteSearchHistoryItemUseCase,
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener {
 
@@ -143,6 +146,24 @@ class SearchViewModel @Inject constructor(
 
     override fun onClickSearchHistory(name: String) {
         onSearchInputChange(name)
+    }
+
+    override fun onClickDeleteSearchHistoryItem(id: Long) {
+        Log.d("onClickDelete tag", "onClickDeleteSearchHistoryItem: delete : $id")
+        viewModelScope.launch {
+            deleteSearchHistoryItemUseCase(id = id)
+            _uiState.update {
+                it.copy(searchHistory = it.searchHistory.filter { item -> item.id != id })
+            }
+        }
+    }
+
+    override fun onClickClearAllHistory() {
+        Log.d("onClickDelete tag", "onClickDeleteSearchHistoryItem: delete : clear all")
+        _uiState.update { it.copy(searchHistory = emptyList()) }
+        viewModelScope.launch {
+            deleteAllSearchHistoryUseCase()
+        }
     }
 
     fun onClickBack() {

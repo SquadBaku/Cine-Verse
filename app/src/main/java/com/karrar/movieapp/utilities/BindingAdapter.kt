@@ -258,3 +258,10 @@ fun setRating(view: RatingBar?, rating: Float) {
 fun <T> showWhenTextNotEmpty(view: View,text:String){
     view.isVisible = text.isNotEmpty()
 }
+
+@BindingAdapter("app:adapterRecycler")
+fun bindRecyclerAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
+    adapter?.let {
+        recyclerView.adapter = it
+    }
+}

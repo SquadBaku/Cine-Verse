@@ -62,8 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            style="@style/CustomTextInputLayout.NoPadding"
             android:textColorHint="@color/shade_tertiary"
-            app:layout_constraintBottom_toTopOf="@+id/materialButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/collection_name">
@@ -71,18 +71,19 @@
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Typography.body_md_regular"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:afterTextChanged="@{(text) -> viewModel.onListNameInputChange(text)}"
-                android:background="@drawable/edit_text_border"
                 android:drawableStart="@drawable/border_folder_icon"
                 android:drawablePadding="8dp"
+                android:gravity="center_vertical"
                 android:hint="@string/e_g_my_watchlist"
-                android:gravity="center_horizontal|start"
                 android:inputType="textPersonName"
                 android:maxLength="15"
                 android:maxLines="1"
                 android:textColor="@color/shade_primary_color"
-                android:textCursorDrawable="@drawable/color_cursor" />
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:paddingStart="16dp"
+                android:background="@drawable/edit_text_border" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,7 +94,7 @@
             style="@style/Typography.body_md_medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="6dp"
             android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
             android:paddingVertical="14dp"
@@ -115,7 +116,7 @@
             android:insetBottom="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
             android:paddingVertical="14dp"
             android:stateListAnimator="@null"

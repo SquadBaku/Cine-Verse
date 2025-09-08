@@ -15,28 +15,54 @@
         android:layout_height="wrap_content"
         tools:background="@color/background_color">
 
-        <TextView
-            android:id="@+id/text_seasons"
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/season_section"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/seasons"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/text_seasons"
+                style="@style/Typography.title_sm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/radius_xl"
+                android:text="@string/latest_seasons"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/showMoreText"
+                style="@style/Typography.body_md_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/radius_xl"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/show_more"
+                android:textColor="@color/brand_primary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_seasons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/radius_lg"
+            app:adapterRecycler="@{adapterRecycler}"
             android:orientation="vertical"
-            android:adapter="@{adapterRecycler}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_seasons"
+            app:layout_constraintTop_toBottomOf="@+id/season_section"
             tools:itemCount="3"
             tools:listitem="@layout/item_season" />
 

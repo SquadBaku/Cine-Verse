@@ -318,6 +318,9 @@
             android:id="@+id/action_tvShowDetailsFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
         <action
+            android:id="@+id/action_tvShowDetailsFragment_to_seasonListFragment"
+            app:destination="@id/seasonListFragment" />
+        <action
             android:id="@+id/action_tvShowDetailsFragment_to_saveMovieDialog"
             app:destination="@id/saveMovieDialog" />
         <action
@@ -327,5 +330,19 @@
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
     </fragment>
+
+    <fragment
+        android:id="@+id/seasonListFragment"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.SeasonListFragment"
+        android:label="Seasons"
+        tools:layout="@layout/fragment_season_list">
+    </fragment>
+
+    <fragment
+        android:id="@+id/allSeasonsFragment"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.SeasonListFragment"
+        android:label="All Seasons"
+        tools:layout="@layout/list_season" />
+
 
 </navigation>

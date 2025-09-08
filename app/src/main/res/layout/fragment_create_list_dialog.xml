@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,30 +13,47 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_sheet_corners"
-        android:paddingVertical="@dimen/spacing_large">
+        android:background="@drawable/bottom_sheet_background"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/primary_text"
-            style="@style/SemiBold.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_semibold"
-            android:text="@string/create_a_new_list"
+        <View
+            android:id="@+id/view"
+            android:layout_width="48dp"
+            android:layout_height="3dp"
+            android:background="@drawable/line_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView5"
-            android:layout_width="300dp"
+            android:id="@+id/primary_text"
+            style="@style/Typography.title_sm"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:fontFamily="@font/plus_jakarta_sans_regular"
-            android:text="@string/explore_some_movies_on_home_or_search_and_then_create_your_movie_list"
-            android:textAlignment="center"
-            android:textColor="@color/shade_secondary_color"
+            android:paddingVertical="20dp"
+            android:textColor="@color/shade_primary"
+            android:text="@string/create_a_new_list"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/close_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/primary_text"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/collection_name"
+            style="@style/Typography.body_md_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/collection_name"
+            android:textColor="@color/shade_secondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/primary_text" />
 
@@ -43,20 +61,23 @@
             android:id="@+id/list_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:hint="@string/list_name"
-            android:textColorHint="@color/shade_secondary_color"
-            app:hintTextColor="@color/shade_secondary_color"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/shade_tertiary"
+            app:layout_constraintBottom_toTopOf="@+id/materialButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5">
+            app:layout_constraintTop_toBottomOf="@+id/collection_name">
 
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/Typography.body_md_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:afterTextChanged="@{(text) -> viewModel.onListNameInputChange(text)}"
-                android:fontFamily="@font/plus_jakarta_sans_regular"
+                android:background="@drawable/edit_text_border"
+                android:drawableStart="@drawable/border_folder_icon"
+                android:drawablePadding="8dp"
+                android:hint="@string/e_g_my_watchlist"
+                android:gravity="center_horizontal|start"
                 android:inputType="textPersonName"
                 android:maxLength="15"
                 android:maxLines="1"
@@ -66,23 +87,45 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
+            android:id="@+id/materialButton"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            style="@style/Typography.body_md_medium"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="6dp"
             android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
-            android:fontFamily="@font/plus_jakarta_sans_semibold"
-            android:onClick="@{()->viewModel.onClickAddList()}"
-            android:paddingVertical="@dimen/spacing_medium"
+            android:paddingVertical="14dp"
+            android:stateListAnimator="@null"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/button_onSecondary"
+            app:backgroundTint="@color/button_secondary"
+            app:cornerRadius="@dimen/radius_lg"
+            app:layout_constraintEnd_toStartOf="@id/button2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button2"
+            style="@style/Typography.body_md_medium"
+            android:layout_width="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="24dp"
+            android:enabled="@{!viewModel.createListDialogUIState.mediaListName.empty}"
+            android:paddingVertical="14dp"
+            android:stateListAnimator="@null"
             android:text="@string/create"
             android:textAllCaps="false"
-            android:textColor="@color/white_primary"
-            app:backgroundTint="@color/color_states_material_button"
-            app:cornerRadius="@dimen/spacing_small"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/button_onPrimary"
+            app:backgroundTint="@color/button_primary"
+            app:cornerRadius="@dimen/radius_lg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/materialButton"
             app:layout_constraintTop_toBottomOf="@+id/list_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

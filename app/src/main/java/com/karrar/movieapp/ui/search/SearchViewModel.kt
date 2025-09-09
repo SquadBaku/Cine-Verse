@@ -5,15 +5,27 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
-import com.karrar.movieapp.domain.usecases.searchUseCase.*
+import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDetailsUseCase
+import com.karrar.movieapp.domain.usecases.searchUseCase.DeleteAllSearchHistoryUseCase
+import com.karrar.movieapp.domain.usecases.searchUseCase.DeleteSearchHistoryItemUseCase
+import com.karrar.movieapp.domain.usecases.searchUseCase.GetSearchForActorUseCase
+import com.karrar.movieapp.domain.usecases.searchUseCase.GetSearchForMovieUseCase
+import com.karrar.movieapp.domain.usecases.searchUseCase.GetSearchForSeriesUserCase
+import com.karrar.movieapp.domain.usecases.searchUseCase.GetSearchHistoryUseCase
+import com.karrar.movieapp.domain.usecases.searchUseCase.PostSaveSearchResultUseCase
+import com.karrar.movieapp.ui.adapters.MediaInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaSearchUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaTypes
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.SearchHistoryUIState
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
 import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
 import com.karrar.movieapp.utilities.Event
@@ -37,8 +49,9 @@ class SearchViewModel @Inject constructor(
     private val postSaveSearchResultUseCase: PostSaveSearchResultUseCase,
     private val deleteAllSearchHistoryUseCase: DeleteAllSearchHistoryUseCase,
     private val deleteSearchHistoryItemUseCase: DeleteSearchHistoryItemUseCase,
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
-    SearchHistoryInteractionListener {
+    SearchHistoryInteractionListener, MediaInteractionListener , MovieInteractionListener{
 
     private val _uiState = MutableStateFlow(MediaSearchUIState())
     val uiState = _uiState.asStateFlow()
@@ -55,10 +68,14 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getAllSearchHistory() {
+        Log.d("TAG lol", "getAllSearchHistory: : all items are : innnnnnnnnn")
+
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try {
+                Log.d("TAG lol", "getAllSearchHistory: first: all items are in tryyyyyyy")
                 getSearchHistoryUseCase().collect { list ->
+                    Log.d("TAG lol", "getAllSearchHistory: first: all items are in collect: $list")
                     _uiState.update {
                         it.copy(searchHistory = list.map { item ->
                             searchHistoryUIStateMapper.map(
@@ -66,13 +83,48 @@ class SearchViewModel @Inject constructor(
                             )
                         }, isLoading = false, isEmpty = false)
                     }
+                    Log.d("TAG lol", "getAllSearchHistory: first: all items are end collect: ${_uiState.value.searchHistory}")
+                    getAllRecentlyViewed()
                 }
+                Log.d("TAG lol", "getAllSearchHistory: first 11111: all items are : ${_uiState.value.searchHistory}")
             } catch (e: Throwable) {
+                Log.d("TAG lol", "getAllSearchHistory: erroooooor: all items are : ${e.message}")
                 _uiState.update {
                     it.copy(error = listOf(Error(0, e.message.toString())))
                 }
             }
         }
+        Log.d("TAG lol", "getAllSearchHistory: first: all items are : ${_uiState.value.searchHistory}")
+    }
+
+    private fun getAllRecentlyViewed() {
+        viewModelScope.launch {
+            val recentlyViewedMovies = getSearchHistoryUseCase()
+
+            recentlyViewedMovies.collect { list ->
+                list.forEach { item ->
+                    val details = getMovieDetailsUseCase.getMovieDetails(item.id.toInt())
+                    _uiState.update {
+                        it.copy(
+                            recentlyViewed = it.recentlyViewed + MediaUIState(
+                                mediaID = details.movieId,
+                                mediaName = details.movieName,
+                                mediaImage = details.movieImage,
+                                mediaTypes = MediaTypes.MOVIE.name,
+                                mediaVoteAverage = 9.0f,
+                                mediaReleaseDate = "",
+                            )
+                        )
+                    }
+                }
+                Log.d("TAG lol", "getAllRecentlyViewed: second: in collect : ${_uiState.value.recentlyViewed}")
+                _uiState.update { it.copy(items = it.searchHistory.map { historyUIState -> historyUIState.toSearchItem() } + it.recentlyViewed.toSearchItem()) }
+                Log.d("TAG lol", "getAllRecentlyViewed: last: all items are : ${_uiState.value.items}")
+
+            }
+        }
+        Log.d("TAG lol", "getAllRecentlyViewed: second:  : ${_uiState.value.recentlyViewed}")
+
     }
 
     fun onSearchInputChange(searchTerm: CharSequence) {
@@ -177,11 +229,13 @@ class SearchViewModel @Inject constructor(
                     it.copy(isLoading = true, error = emptyList(), isEmpty = false)
                 }
             }
+
             is LoadState.Error -> {
                 _uiState.update {
                     it.copy(isLoading = false, error = listOf(Error(404, "")), isEmpty = false)
                 }
             }
+
             is LoadState.NotLoading -> {
                 if (itemCount < 1) {
                     _uiState.update {
@@ -204,4 +258,38 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    override fun onClickMedia(mediaId: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickMovie(movieId: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
+        TODO("Not yet implemented")
+    }
+
+}
+
+fun SearchHistoryUIState.toSearchItem(): SearchItem {
+    return SearchItem.RecentSearch(
+        item = SearchHistoryUIState(
+            id = this.id,
+            name = this.name,
+        ),
+        type = SearchItemType.RECENT_SEARCH
+    )
+}
+
+fun List<MediaUIState>.toSearchItem(): SearchItem {
+    return SearchItem.RecentlyViewed(
+        media = this.map {
+            MediaUiState(
+                id = it.mediaID,
+                imageUrl = it.mediaImage
+            )
+        },
+        type = SearchItemType.RECENTLY_VIEWED
+    )
 }

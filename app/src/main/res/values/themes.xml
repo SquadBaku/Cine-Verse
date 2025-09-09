@@ -94,10 +94,10 @@
 
     <style name="TopRoundedImage">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">32dp</item>
-        <item name="cornerSizeTopRight">32dp</item>
-        <item name="cornerSizeBottomLeft">4dp</item>
-        <item name="cornerSizeBottomRight">4dp</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_5xl</item>
+        <item name="cornerSizeTopRight">@dimen/radius_5xl</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_xs</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_xs</item>
     </style>
 
     <!--  old App Theme -->

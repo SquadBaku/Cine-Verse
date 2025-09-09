@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.myList.listDetails.listDetailsUIState
 
+import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.utilities.Constants
 
 data class SavedMediaUIState(
@@ -9,4 +10,5 @@ data class SavedMediaUIState(
     val voteAverage: Double = 0.0,
     val releaseDate: String = "",
     val image: String = "",
+    val genre: List<Genre> = emptyList()
 )

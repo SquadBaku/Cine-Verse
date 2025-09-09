@@ -21,69 +21,105 @@
         android:layout_marginHorizontal="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_medium"
         android:onClick="@{()-> listener.onItemClick(item)}"
-        app:cardCornerRadius="@dimen/radius_small"
+        app:cardCornerRadius="@dimen/radius_lg"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/card_background_color">
+            android:background="@color/background_card">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_movie"
-                android:layout_width="142dp"
-                android:layout_height="80dp"
-                android:background="@drawable/ic_media_background"
+                android:layout_width="64dp"
+                android:layout_height="88dp"
                 android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:posterImage="@{item.image}"
-                app:shapeAppearanceOverlay="@style/CardCorners.Small"
+                app:shapeAppearanceOverlay="@style/CardCorners.Small.NoBottomRight"
                 tools:src="@drawable/test" />
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title_movie"
-                style="@style/Regular.Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_medium"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:ellipsize="end"
-                android:lines="2"
-                android:text="@{item.title}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/image_movie"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="The Mandalorian" />
-
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_rate_movie"
-                style="@style/SemiBold.Small"
+                style="@style/Typography.body_md_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginBottom="@dimen/spacing_small"
-                android:drawableStart="@drawable/ic_star_small"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:text="@{item.title}"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintBottom_toTopOf="@+id/text_genre_movie"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/image_movie"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="The Mandalorian" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_genre_movie"
+                style="@style/Typography.body_sm_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="end"
+                android:text="@{item.genre.toString()}"
+                app:layout_constraintBottom_toTopOf="@+id/text_duration_movie"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_movie"
+                app:layout_constraintTop_toBottomOf="@+id/text_title_movie"
+                tools:text="Drama, Action, Crime, Thriller" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_duration_movie"
+                style="@style/Typography.label_md_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:drawableStart="@drawable/clock"
                 android:drawablePadding="@dimen/spacing_too_small"
                 android:text="@{String.valueOf(item.voteAverage)}"
-                android:textColor="@color/yellow"
+                android:textColor="@color/shade_secondary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
-                tools:text="8.4" />
+                app:layout_constraintTop_toBottomOf="@+id/text_genre_movie"
+                tools:text="2h 32m" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_year"
-                style="@style/Regular.Small.ternary"
+                style="@style/Typography.label_md_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginStart="8dp"
+                android:drawableStart="@drawable/calendar"
+                android:drawablePadding="@dimen/spacing_too_small"
                 android:text="@{item.releaseDate}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/text_rate_movie"
-                tools:text="2022" />
+                android:textColor="@color/shade_secondary"
+                app:layout_constraintBottom_toBottomOf="@+id/text_duration_movie"
+                app:layout_constraintStart_toEndOf="@+id/text_duration_movie"
+                app:layout_constraintTop_toTopOf="@+id/text_duration_movie"
+                tools:text="2008, Jul 18" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_rate_movie"
+                style="@style/Typography.label_md_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/star"
+                android:drawablePadding="@dimen/spacing_too_small"
+                android:text="@{String.valueOf(item.voteAverage)}"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintBottom_toBottomOf="@+id/text_title_movie"
+                app:layout_constraintEnd_toEndOf="@+id/text_genre_movie"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/text_title_movie"
+                app:layout_constraintTop_toTopOf="@+id/text_title_movie"
+                tools:text="7.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

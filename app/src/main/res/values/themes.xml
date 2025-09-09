@@ -179,14 +179,14 @@
 
     <style name="CardCorners.Small">
         <item name="cornerSize">@dimen/radius_small</item>
+    </style>
 
-        <style name="CardCorners.Small.NoBottomRight">
-            <item name="cornerFamily">rounded</item>
-            <item name="cornerSizeTopLeft">12dp</item>
-            <item name="cornerSizeTopRight">12dp</item>
-            <item name="cornerSizeBottomLeft">12dp</item>
-            <item name="cornerSizeBottomRight">0dp</item>
-        </style>
+    <style name="CardCorners.Small.NoBottomRight">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
     <style name="RectangleFab" parent="Widget.MaterialComponents.FloatingActionButton">

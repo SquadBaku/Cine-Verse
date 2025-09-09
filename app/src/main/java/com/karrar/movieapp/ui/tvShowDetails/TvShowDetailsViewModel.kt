@@ -218,4 +218,7 @@ class TvShowDetailsViewModel @Inject constructor(
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickSeasonEvent(seasonNumber)) }
     }
 
+    fun onClickShowMoreSeasons() {
+        _tvShowDetailsUIEvent.tryEmit(Event(TvShowDetailsUIEvent.ClickShowMoreSeasonsEvent))
+    }
 }

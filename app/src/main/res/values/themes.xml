@@ -189,6 +189,15 @@
         </style>
     </style>
 
+    <style name="RectangleFab" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/RectangleShape</item>
+    </style>
+
+    <style name="RectangleShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
     <style name="CardCorners.Medium">
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>

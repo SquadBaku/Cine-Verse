@@ -28,8 +28,8 @@
 
             <ImageView
                 android:id="@+id/backArrow"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="@dimen/radius_s"
                 android:layout_marginTop="@dimen/radius_s"
                 android:layout_marginBottom="@dimen/radius_s"

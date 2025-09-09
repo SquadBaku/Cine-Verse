@@ -19,14 +19,14 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_lost_connection"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_marginBottom="@dimen/spacing_small"
             app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/lost_internet_animation" />
+            android:src="@drawable/ic_no_internet" />
 
         <TextView
             android:id="@+id/title_lost_connection"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_extra_large"
-            android:text="@string/oops"
+            android:text="Oops! No Internet"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,33 +45,35 @@
             style="@style/Regular.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_small"
             android:gravity="center"
-            android:text="@string/description"
-            android:textColor="@color/brand_color"
+            android:paddingHorizontal="60dp"
+            android:text="Looks like you're offline. Let's reconnect so you don't miss out!"
+            android:textColor="@color/shade_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
 
         <Button
             android:id="@+id/button_retry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="60dp"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:backgroundTint="@color/button_primary"
             android:onClick="@{() -> viewModel.getData()}"
-            android:text="@string/retry"
+            android:text="Try Again"
+            android:textAllCaps="false"
             android:textColor="@color/white_primary"
+            app:cornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
-
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="title_lost_connection,animation_lost_connection,description_lost_connection,button_retry"
             app:isVisible="@{isError}" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

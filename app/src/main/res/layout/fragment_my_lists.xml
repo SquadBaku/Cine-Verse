@@ -229,30 +229,29 @@
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/start_collecting"
-            style="@style/Typography.body_md_medium"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:enabled="@{}"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingVertical="12dp"
-            android:stateListAnimator="@null"
-            android:text="@string/start_collecting"
-            android:textAllCaps="false"
-            android:textColor="@color/button_onPrimary"
-            app:backgroundTint="@color/button_primary"
-            app:cornerRadius="@dimen/radius_md"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_empty_list" />
+        android:id="@+id/button_start_collecting"
+        style="@style/Typography.body_md_medium"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingVertical="12dp"
+        android:stateListAnimator="@null"
+        android:text="@string/start_collecting"
+        android:textAllCaps="false"
+        android:textColor="@color/button_onPrimary"
+        app:backgroundTint="@color/button_primary"
+        app:cornerRadius="@dimen/radius_md"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_empty_list" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/empty_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="description_empty_list,title,no_data"
+            app:constraint_referenced_ids="description_empty_list,title,no_data,button_start_collecting"
             app:isListEmpty="@{viewModel.createdListUIState.isEmpty}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

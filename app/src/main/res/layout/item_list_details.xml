@@ -68,7 +68,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
-                android:text="@{item.genre.toString()}"
+                android:text="@{item.title}"
                 app:layout_constraintBottom_toTopOf="@+id/text_duration_movie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_movie"

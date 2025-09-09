@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.myList.MyListsViewModel" />
@@ -61,6 +60,7 @@
             android:id="@+id/list_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hintEnabled="false"
             android:layout_marginTop="8dp"
             app:boxStrokeColor="@color/stroke_input_colors"
             app:hintTextColor="@color/text_input_colors"
@@ -124,6 +124,7 @@
             android:stateListAnimator="@null"
             android:text="@string/create"
             android:textAllCaps="false"
+            android:onClick="@{()->viewModel.onClickAddList()}"
             android:textColor="@color/button_text_selector"
             app:backgroundTint="@color/button_primary_selector"
             app:cornerRadius="@dimen/radius_lg"

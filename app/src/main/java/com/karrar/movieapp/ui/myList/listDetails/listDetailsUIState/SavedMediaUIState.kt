@@ -10,5 +10,5 @@ data class SavedMediaUIState(
     val voteAverage: Double = 0.0,
     val releaseDate: String = "",
     val image: String = "",
-    val genre: List<Genre> = emptyList()
+//    val genre: List<Genre> = emptyList()
 )

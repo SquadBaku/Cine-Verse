@@ -53,7 +53,7 @@
                 android:id="@+id/list_count"
                 style="@style/Typography.body_sm_regular"
                 android:layout_height="wrap_content"
-                android:text='@{String.valueOf(item.count) + " shows"}'
+                android:text="show"
                 tools:text="5 shows"
                 app:layout_constraintStart_toStartOf="@id/list_name"
                 app:layout_constraintEnd_toEndOf="@id/list_name"

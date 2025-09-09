@@ -76,6 +76,7 @@
                 android:id="@+id/list_count"
                 style="@style/Typography.body_sm_regular"
                 android:layout_height="wrap_content"
+                android:layout_width="0dp"
                 android:text='@{String.valueOf(item.mediaCounts) + " shows"}'
                 tools:text="5 shows"
                 app:layout_constraintStart_toStartOf="@id/list_name"

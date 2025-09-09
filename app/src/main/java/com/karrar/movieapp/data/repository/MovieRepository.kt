@@ -15,6 +15,9 @@ import com.karrar.movieapp.data.remote.response.review.ReviewsDto
 import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface MovieRepository {
 
@@ -56,7 +59,7 @@ interface MovieRepository {
 
     suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
-   suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
+    suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
 
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
@@ -99,5 +102,13 @@ interface MovieRepository {
     suspend fun deleteRating(movieId: Int): RatingDto?
 
     suspend fun getRatedMovie(): List<RatedMoviesDto>?
+
+    suspend fun getMatchListMovie(
+        genres: List<String>?,
+        withRuntimeGte: Int?,
+        withRuntimeLte: Int?,
+        primaryReleaseDateGte: String?,
+        primaryReleaseDateLte: String?,
+    ): List<MovieDto>?
 
 }

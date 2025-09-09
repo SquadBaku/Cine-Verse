@@ -35,6 +35,7 @@
                 android:layout_marginTop="@dimen/radius_s"
                 android:layout_marginBottom="@dimen/radius_s"
                 android:clickable="true"
+                android:onClick="@{() -> viewModel.onclickBack()}"
                 android:contentDescription="@string/back_button"
                 android:focusable="true"
                 android:padding="12dp"

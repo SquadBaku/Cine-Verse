@@ -16,7 +16,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background_screen">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/season_section"
@@ -60,7 +61,7 @@
             android:id="@+id/recycler_seasons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/radius_xl"
+            android:layout_margin="@dimen/radius_xl"
             android:orientation="vertical"
             app:adapterRecycler="@{adapterRecycler}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

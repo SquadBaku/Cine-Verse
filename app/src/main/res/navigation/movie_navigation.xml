@@ -132,6 +132,15 @@
     </fragment>
 
     <fragment
+        android:id="@+id/matchFragment"
+        android:name="com.karrar.movieapp.ui.match.MatchFragment"
+        tools:layout="@layout/fragment_match">
+
+    </fragment>
+
+
+
+    <fragment
         android:id="@+id/categoryFragment"
         android:name="com.karrar.movieapp.ui.category.CategoryFragment"
         tools:layout="@layout/fragment_category">

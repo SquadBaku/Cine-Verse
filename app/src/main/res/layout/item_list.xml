@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.MyListItemUI" />
@@ -19,70 +20,23 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginVertical="@dimen/spacing_too_small"
         android:onClick="@{() -> listener.onClickSaveList(item.listID)}"
-        app:cardBackgroundColor="@color/background_bottom_sheet_card"
-        app:cardCornerRadius="@dimen/radius_lg"
+        app:cardBackgroundColor="@color/background_color"
+        app:cardCornerRadius="@dimen/radius_large"
         app:cardElevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/list_name"
+            style="@style/Regular.Medium.Primary"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="12dp">
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@{item.name}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="list name" />
 
-            <ImageView
-                android:id="@+id/folder_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/folder_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/list_name"
-                style="@style/Typography.body_md_medium"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@{item.name}"
-                app:layout_constraintEnd_toStartOf="@id/alt_arrow_right"
-                app:layout_constraintStart_toEndOf="@id/folder_icon"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="My Favorite TV Shows" />
-
-            <TextView
-                android:id="@+id/list_count"
-                style="@style/Typography.body_sm_regular"
-                android:layout_height="wrap_content"
-                android:text='@{String.valueOf(item.count) + " shows"}'
-                tools:text="5 shows"
-                app:layout_constraintStart_toStartOf="@id/list_name"
-                app:layout_constraintEnd_toEndOf="@id/list_name"
-                app:layout_constraintTop_toBottomOf="@id/list_name"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <ImageView
-                android:id="@+id/alt_arrow_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/alt_arrow_right"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/list_name"-->
-        <!--            style="@style/Regular.Medium.Primary"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginVertical="16dp"-->
-        <!--            android:layout_marginStart="16dp"-->
-        <!--            android:text="@{item.name}"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            tools:text="list name" />-->
 
     </com.google.android.material.card.MaterialCardView>
 </layout>

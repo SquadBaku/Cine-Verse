@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,8 +10,109 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background_screen"
         tools:context=".ui.match.matchChoices.MatchChoicesFragment">
+        <LinearLayout
+            android:id="@+id/top_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16.dp"
+            android:paddingVertical="16.dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/back_icon"
+                android:layout_width="24.dp"
+                android:layout_height="24.dp"
+                android:src="@drawable/arrow_left"/>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/loader"
+            android:layout_width="match_parent"
+            android:layout_height="12.dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/top_bar_container"
+            android:layout_marginVertical="16.dp"
+            android:layout_marginHorizontal="16.dp"
+            android:background="@drawable/white_rectangle"
+            />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/third"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75"/>
+        <LinearLayout
+            android:id="@+id/loading_color"
+            android:layout_width="0.dp"
+            android:layout_height="12.dp"
+            android:layout_marginTop="16.dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="16.dp"
+            android:background="@drawable/blue_rectangle"
+            app:layout_constraintTop_toBottomOf="@id/top_bar_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/first"
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/loading_color"
+            app:layout_constraintBottom_toTopOf="@+id/start_matching_button">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom">
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/start_matching_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectancle_button"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:paddingVertical="12.dp"
+            android:layout_marginHorizontal="16.dp"
+            android:layout_marginBottom="16dp"
+            app:layout_goneMarginTop="32.dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/button_text"
+                style="@style/Typography.body_sm_medium"
+                android:layout_width="240.dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/next"
+                android:textColor="@color/button_onPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

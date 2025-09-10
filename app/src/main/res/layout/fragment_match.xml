@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background_screen"
         tools:context=".ui.match.MatchFragment">
 
         <LinearLayout
@@ -37,8 +38,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2.dp"
-            android:background="@color/background_screen"
+            android:layout_height="1.dp"
+            android:background="@color/stroke_primary"
             android:orientation="horizontal"
             android:paddingHorizontal="16.dp"
             android:paddingVertical="16.dp"

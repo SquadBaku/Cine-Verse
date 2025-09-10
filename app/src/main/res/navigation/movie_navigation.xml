@@ -136,9 +136,16 @@
         android:name="com.karrar.movieapp.ui.match.MatchFragment"
         tools:layout="@layout/fragment_match">
 
+        <action
+            android:id="@+id/action_matchFragment_to_matchChoicesFragment"
+            app:destination="@id/matchChoicesFragment" />
     </fragment>
 
-
+    <fragment
+        android:id="@+id/matchChoicesFragment"
+        android:name="com.karrar.movieapp.ui.match.matchChoices.MatchChoicesFragment"
+        android:label="MatchChoicesFragment"
+        tools:layout="@layout/fragment_match_choices"/>
 
     <fragment
         android:id="@+id/categoryFragment"

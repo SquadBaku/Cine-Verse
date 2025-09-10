@@ -3,9 +3,11 @@ package com.karrar.movieapp.ui.match
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMatchBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.home.HomeFragmentDirections
 
 
 class MatchFragment : BaseFragment<FragmentMatchBinding>() {
@@ -20,7 +22,8 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
 
     private fun init() {
         binding.startMatchingButton.setOnClickListener {
-
+            val action = MatchFragmentDirections.actionMatchFragmentToMatchChoicesFragment()
+            findNavController().navigate(action)
         }
     }
 }

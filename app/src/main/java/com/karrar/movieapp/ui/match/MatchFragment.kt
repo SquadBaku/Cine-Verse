@@ -15,5 +15,12 @@ class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
+        init()
+    }
+
+    private fun init() {
+        binding.startMatchingButton.setOnClickListener {
+
+        }
     }
 }

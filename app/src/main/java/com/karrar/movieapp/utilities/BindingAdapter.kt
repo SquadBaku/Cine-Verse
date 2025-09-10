@@ -116,6 +116,37 @@ fun hideWhenSearch(view: View, text: String) {
     view.isVisible = text.isBlank()
 }
 
+
+@BindingAdapter("app:hideWhileTyping")
+fun hideWhileTyping(view: View, text: String?) {
+    (view.getTag() as? Runnable)?.let { view.removeCallbacks(it) }
+
+    if (!text.isNullOrBlank()) {
+        view.isVisible = false
+
+        val showRunnable = Runnable { view.isVisible = true }
+        view.postDelayed(showRunnable, 1500)
+
+        view.setTag(showRunnable)
+    } else {
+        view.isVisible = false
+    }
+}
+
+
+@BindingAdapter(value = ["app:showWhileTyping"])
+fun showWhileTyping(view: View, text: String?) {
+    (view.getTag() as? Runnable)?.let { view.removeCallbacks(it) }
+    if (!text.isNullOrBlank()) {
+        view.isVisible = true
+        val hideRunnable = Runnable { view.isVisible = false }
+        view.postDelayed(hideRunnable, 1500)
+        view.setTag(hideRunnable)
+    } else {
+        view.isVisible = false
+    }
+}
+
 @BindingAdapter(value = ["app:hideWhenBlankSearch"])
 fun hideWhenBlankSearch(view: View, text: String) {
     if (text.isBlank()) {
@@ -255,6 +286,6 @@ fun setRating(view: RatingBar?, rating: Float) {
 }
 
 @BindingAdapter("showWhenTextNotEmpty")
-fun <T> showWhenTextNotEmpty(view: View,text:String){
+fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
 }

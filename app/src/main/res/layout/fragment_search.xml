@@ -75,7 +75,7 @@
             app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             app:selectionRequired="true"
-            app:showWhenSearch="@{viewModel.uiState.searchInput}"
+            app:hideWhileTyping="@{viewModel.uiState.searchInput}"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
@@ -148,6 +148,21 @@
             app:layout_constraintEnd_toEndOf="@id/input_search"
             app:layout_constraintTop_toTopOf="@id/text_search_label" />
 
+        <TextView
+            android:id="@+id/label_suggested_search"
+            style="@style/Typography.title_sm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/search_suggestion"
+            android:textColor="@color/shade_primary"
+            app:hideWhenListIsEmpty="@{viewModel.uiState.searchHistory}"
+            app:showWhileTyping="@{viewModel.uiState.searchInput}"
+            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/input_search" />
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_media"
             android:layout_width="0dp"
@@ -156,14 +171,12 @@
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/spacing_small"
             android:paddingVertical="@dimen/spacing_small"
-            app:errorSearch="@{viewModel.uiState.error}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chip_group_media_type"
-            app:loadingSearch="@{viewModel.uiState.loading}"
-            app:searchInput="@{viewModel.uiState.searchInput}"
+            app:hideWhileTyping="@{viewModel.uiState.searchInput}"
             tools:listitem="@layout/item_media_search" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -186,6 +199,27 @@
             android:layout_marginTop="@dimen/spacing_small"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_search_history" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_search_suggestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:paddingVertical="@dimen/spacing_too_small"
+            android:scrollbars="none"
+            app:items="@{viewModel.uiState.filteredSearchHistory}"
+            app:showWhileTyping="@{viewModel.uiState.searchInput}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/input_search"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/imagw_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/text_search_label"
+            android:layout_marginTop="40dp"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/item_search_suggestion" />
 
         <include
             android:id="@+id/loading"

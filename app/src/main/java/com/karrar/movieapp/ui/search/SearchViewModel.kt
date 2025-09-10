@@ -189,11 +189,34 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchInputChange(searchTerm: CharSequence) {
         _uiState.update { it.copy(searchInput = searchTerm.toString(), isLoading = true) }
+        filteredSearchHistory()
         viewModelScope.launch {
             when (_uiState.value.searchTypes) {
                 MediaTypes.MOVIE -> onSearchForMovie()
                 MediaTypes.TVS_SHOW -> onSearchForSeries()
                 MediaTypes.ACTOR -> onSearchForActor()
+            }
+        }
+    }
+
+    fun filteredSearchHistory() {
+        val query = uiState.value.searchInput
+        viewModelScope.launch {
+            if (query.isEmpty()) {
+                _uiState.update {
+                    it.copy(filteredSearchHistory = it.searchHistory)
+                }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        filteredSearchHistory = it.searchHistory.filter { searchHistoryItem ->
+                            searchHistoryItem.name.contains(
+                                query,
+                                ignoreCase = true
+                            )
+                        }
+                    )
+                }
             }
         }
     }

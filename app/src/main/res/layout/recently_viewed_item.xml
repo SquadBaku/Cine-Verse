@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.adapters.MediaInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
+
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/basic_card"
+            android:layout_width="@dimen/media_card_width"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1.4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:background="@color/yellow"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{()->listener.onClickMediaCard(item)}"
+            app:posterImage="@{item.mediaImage}"
+            app:shapeAppearanceOverlay="@style/CardCorners.12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/basic_card"
+            app:layout_constraintStart_toStartOf="@id/basic_card"
+            android:text="@{item.mediaName}"
+            tools:text="The Flash"
+            style="@style/Typography.body_md_medium"
+            android:textColor="@color/shade_secondary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/basic_card"
+            app:layout_constraintEnd_toEndOf="@id/basic_card"
+            android:text="@{String.valueOf(item.mediaVoteAverage)}"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_small"
+            style="@style/Typography.label_md_medium"
+            android:textColor="@color/yellow"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

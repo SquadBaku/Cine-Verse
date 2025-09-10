@@ -91,12 +91,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 when (event.mediaUIState.mediaTypes) {
                     Constants.MOVIE -> navigateToMovieDetails(event.mediaUIState.mediaID)
                     Constants.TV_SHOWS -> navigateToSeriesDetails(event.mediaUIState.mediaID)
+                    Constants.ACTOR -> navigateToActorDetails(actorId = event.mediaUIState.mediaID)
                 }
             }
             SearchUIEvent.ClickRetryEvent -> {
                 actorSearchAdapter.retry()
                 mediaSearchAdapter.retry()
             }
+
+            is SearchUIEvent.ClickMovieEvent -> navigateToMovieDetails(event.movieID)
         }
     }
 

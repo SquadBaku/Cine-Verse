@@ -23,6 +23,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             android:src="@drawable/circle_loader"
+            android:rotation="90"
             app:isVisible="@{isLoading}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

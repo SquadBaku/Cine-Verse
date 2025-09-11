@@ -11,6 +11,7 @@ import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
+import com.karrar.movieapp.ui.explore.ExploringFragmentDirections
 import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
@@ -27,7 +28,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, getTitle())
         setMediaAdapter()
         collectEvent()
         collectData()
@@ -78,13 +78,13 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
     private fun navigateToMovieDetails(movieId: Int) {
-        val action = CategoryFragmentDirections.actionCategoryFragmentToMovieDetailFragment(movieId)
+        val action = ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(movieId)
         findNavController().navigate(action)
     }
 
     private fun navigateToTvShowDetails(tvShowId: Int) {
         val action =
-            CategoryFragmentDirections.actionCategoryFragmentToTvShowDetailsFragment(tvShowId)
+            ExploringFragmentDirections.actionExploringFragmentToTvShowDetailsFragment(tvShowId)
         findNavController().navigate(action)
     }
 
@@ -93,6 +93,18 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             resources.getString(R.string.title_tv_shows)
         } else {
             resources.getString(R.string.movies)
+        }
+    }
+
+    companion object {
+        private const val ARG_MEDIA_ID = "mediaId"
+
+        fun newInstance(mediaId: Int): CategoryFragment {
+            val fragment = CategoryFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(ARG_MEDIA_ID, mediaId)
+            }
+            return fragment
         }
     }
 }

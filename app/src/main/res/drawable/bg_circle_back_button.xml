@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/spacing_48"
+    android:height="@dimen/spacing_48"
+    android:shape="rectangle">
+    <solid android:color="@color/button_secondary" />
+    <corners android:radius="@dimen/spacing_medium"/>
+</shape>

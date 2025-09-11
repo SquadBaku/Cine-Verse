@@ -102,4 +102,11 @@
     <string name="this_list_has_no_lists">No lists found</string>
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
+    <string name="welcome_to_your_movie_universe">Welcome to Your Movie Universe</string>
+    <string name="discover_track_and_rate_your_favorite_nmovies_amp_series"><![CDATA[Discover, track, and rate your favorite \nmovies & series.]]></string>
+    <string name="track_everything">Track Everything</string>
+    <string name="your_watchlist_your_ratings_all_in_one_place">Your Watchlist. Your Ratings. All in One /nPlace.</string>
+    <string name="personalized_recommendations">Personalized Recommendations</string>
+    <string name="answer_fun_questions_to_get_handpicked_recommendations">Answer fun questions to get handpicked \nrecommendations.</string>
+    <string name="get_started">Get Started</string>
 </resources>

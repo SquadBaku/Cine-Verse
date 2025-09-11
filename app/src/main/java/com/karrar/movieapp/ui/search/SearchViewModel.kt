@@ -8,6 +8,7 @@ import androidx.paging.map
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDetailsUseCase
+import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieRateUseCase
 import com.karrar.movieapp.domain.usecases.searchUseCase.DeleteAllSearchHistoryUseCase
 import com.karrar.movieapp.domain.usecases.searchUseCase.DeleteSearchHistoryItemUseCase
 import com.karrar.movieapp.domain.usecases.searchUseCase.GetSearchForActorUseCase
@@ -54,7 +55,8 @@ class SearchViewModel @Inject constructor(
     private val deleteAllSearchHistoryUseCase: DeleteAllSearchHistoryUseCase,
     private val deleteSearchHistoryItemUseCase: DeleteSearchHistoryItemUseCase,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase
+    private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
+    private val getMovieRateUseCase: GetMovieRateUseCase
 ) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
     SearchHistoryInteractionListener, MediaInteractionListener, MovieInteractionListener {
 
@@ -113,8 +115,8 @@ class SearchViewModel @Inject constructor(
 
     private fun getAllRecentlyViewed() {
         Log.d("TAG lol", "getAllRecentlyViewed: ")
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val recentlyViewedMovies = getSearchHistoryUseCase()
                 Log.d(
                     "TAG lol",
@@ -128,6 +130,8 @@ class SearchViewModel @Inject constructor(
                                 "getAllRecentlyViewed: zoz search history item : $item"
                             )
                             val details = getMovieDetailsUseCase.getMovieDetails(item.id.toInt())
+//                            val rate = getMovieRateUseCase(item.id.toInt())
+//                            Log.d("TAG zoz", "rateeeeeeee: getAllRecentlyViewed: rate is $rate")
                             Log.d(
                                 "TAG lol",
                                 "getAllRecentlyViewed: zoz success collect details : $details"
@@ -139,7 +143,7 @@ class SearchViewModel @Inject constructor(
                                         mediaName = details.movieName,
                                         mediaImage = details.movieImage,
                                         mediaTypes = Constants.MOVIE,
-                                        mediaVoteAverage = 9.0f,
+                                        mediaVoteAverage = details.movieVoteAverage.toFloat(),
                                         mediaReleaseDate = "",
                                     )
                                 )
@@ -161,7 +165,7 @@ class SearchViewModel @Inject constructor(
                                         mediaName = details.tvShowName,
                                         mediaImage = details.tvShowImage,
                                         mediaTypes = Constants.TV_SHOWS,
-                                        mediaVoteAverage = 9.0f,
+                                        mediaVoteAverage = details.tvShowVoteAverage.toFloat(),
                                         mediaReleaseDate = "",
                                     )
                                 )
@@ -179,12 +183,12 @@ class SearchViewModel @Inject constructor(
                     )
 
                 }
-            }
-            Log.d("TAG lol", "getAllRecentlyViewed: second:  : ${_uiState.value.recentlyViewed}")
-        } catch (e: Exception) {
-            Log.d("TAG zoz", "getAllRecentlyViewed: catcheddddddddddddddd error: ${e.message}")
-        }
+            } catch (e: Exception) {
 
+            }
+
+        }
+        Log.d("TAG lol", "getAllRecentlyViewed: second:  : ${_uiState.value.recentlyViewed}")
     }
 
     fun onSearchInputChange(searchTerm: CharSequence) {

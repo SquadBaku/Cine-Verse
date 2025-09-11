@@ -7,9 +7,9 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMatchBinding
 import com.karrar.movieapp.ui.base.BaseFragment
-import com.karrar.movieapp.ui.home.HomeFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MatchFragment : BaseFragment<FragmentMatchBinding>() {
     override val layoutIdFragment = R.layout.fragment_match
     override val viewModel: MatchViewModel by viewModels()

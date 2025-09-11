@@ -11,11 +11,19 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMatchChoicesBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
     override val layoutIdFragment = R.layout.fragment_match_choices
     override val viewModel: MatchChoicesViewModel by viewModels()
     private var counter = 0
+    private var time:String = ""
+    private var classicOrRecent:String  = ""
+    private val listOfSelectGenre = mutableListOf<String>()
+    private val listOfGenre = listOf("Action", "Comedy" , "Drama", "Romance", "Sci-Fi" , "Thriller",
+                                    "Animation" , "Mystery")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
@@ -35,18 +43,22 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
             binding.classic.isSelected = false
             binding.both.isSelected = false
             makeButtonClickable()
+            classicOrRecent = "Recent"
         }
         binding.classic.setOnClickListener {
             binding.recent.isSelected = false
             binding.classic.isSelected = true
             binding.both.isSelected = false
             makeButtonClickable()
+            classicOrRecent = "Classic"
+
         }
         binding.both.setOnClickListener {
             binding.recent.isSelected = false
             binding.classic.isSelected = false
             binding.both.isSelected = true
             makeButtonClickable()
+            classicOrRecent = "Both"
         }
     }
 
@@ -56,6 +68,13 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
             val chip = binding.timeGroup.getChildAt(i)
             chip.setOnClickListener {
                 makeSelectFromTime(index = i)
+                if(i == 0){
+                    time = "Short"
+                }else if( i == 1 ){
+                    time = "Medium"
+                }else if (i == 2 ){
+                    time = "long"
+                }
                 makeButtonClickable()
             }
         }
@@ -121,6 +140,16 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
             }
         }
     }
+    private fun createListOfSelectGenre(genreGroup: ChipGroup) {
+        listOfSelectGenre.clear()
+        for(i in 0 until genreGroup.childCount ){
+            val child = genreGroup.getChildAt(i)
+            if(child.isSelected){
+                listOfSelectGenre.add(listOfGenre[i])
+            }
+        }
+    }
+
     private fun appearAllChipsNotSelected(chipGroup : ChipGroup){
         for(i in 0 until chipGroup.childCount ){
             val child = chipGroup.getChildAt(i)
@@ -159,6 +188,7 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                     handleLoadingColorLocation(binding.third.id)
 
                     disAppearAllChipsNotSelected(binding.genreGroup)
+                    createListOfSelectGenre(binding.genreGroup)
                     binding.genreTitle.alpha = 0.30f
                     binding.timeGroup.visibility = View.VISIBLE
                     binding.timeTitle.visibility = View.VISIBLE
@@ -202,6 +232,11 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                         binding.recent.visibility = View.GONE
                     }
 
+                    viewModel.getMatchMovie(
+                        genre = listOfSelectGenre,
+                        time = time,
+                        classicOrRecent = classicOrRecent
+                    )
                 }
             }
         }
@@ -286,10 +321,5 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
         params.endToEnd = idOfEndWithStop
         binding.loadingColor.layoutParams = params
     }
-
-    //    View.VISIBLE
-//    View.INVISIBLE
-//    View.GONE
-
-
 }
+

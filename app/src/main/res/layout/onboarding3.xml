@@ -72,6 +72,7 @@
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:backgroundTint="@color/button_primary"
                 android:drawableEnd="@drawable/ic_right_vector"
+                android:drawableTint="@color/button_onPrimary"
                 android:gravity="center"
                 android:text="@string/get_started"
                 android:textAllCaps="false"

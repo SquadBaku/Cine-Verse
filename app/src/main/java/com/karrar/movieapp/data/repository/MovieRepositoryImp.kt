@@ -115,6 +115,18 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.delete(item)
     }
 
+    override suspend fun deleteSearchHistoryItemByName(name: String) {
+        movieDao.deleteFromSearchHistoryByName(name = name)
+    }
+
+    override suspend fun deleteSearchHistoryItemById(id: Long) {
+        movieDao.deleteFromSearchHistoryById(id = id)
+    }
+
+    override suspend fun deleteAllSearchHistory() {
+        movieDao.deleteAllSearchHistory()
+    }
+
     override suspend fun insertMovie(movie: WatchHistoryEntity) {
         return movieDao.insert(movie)
     }

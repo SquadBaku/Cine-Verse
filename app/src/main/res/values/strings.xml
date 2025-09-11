@@ -6,7 +6,7 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
-    <string name="search_hint">Search for a movie, tv show, person…</string>
+    <string name="search_hint">Search…</string>
     <string name="movies_chip">Movies</string>
     <string name="tv_shows_chip">TV Shows</string>
     <string name="actors_label">Actors</string>
@@ -103,4 +103,7 @@
     <string name="this_list_has_no_lists">No lists found</string>
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
+    <string name="clear_all">Clear all</string>
+    <string name="you_recently_viewed">You Recent viewed</string>
+    <string name="search_suggestion">Search Suggestion</string>
 </resources>

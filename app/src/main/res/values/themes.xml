@@ -181,6 +181,10 @@
         <item name="cornerSize">@dimen/radius_small</item>
     </style>
 
+    <style name="CardCorners.12">
+        <item name="cornerSize">@dimen/radius_lg</item>
+    </style>
+
     <style name="CardCorners.Medium">
         <item name="cornerSize">@dimen/radius_medium</item>
     </style>

@@ -1,18 +1,13 @@
 package com.karrar.movieapp.ui.search.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.ui.adapters.DetailedMediaAdapter
-import com.karrar.movieapp.ui.adapters.MediaAdapter
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
-import com.karrar.movieapp.ui.adapters.MovieAdapter
-import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
-import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.search.SearchItem
 
 
@@ -86,7 +81,6 @@ class SearchHistoryAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        Log.d("TAG lol", "getItemViewType: in adapteeeeer: $searchItems , position: $position")
         if (searchItems.isNotEmpty()) {
             return when (searchItems[position]) {
                 is SearchItem.RecentSearch -> com.karrar.movieapp.R.layout.item_search_history
@@ -103,20 +97,3 @@ interface SearchHistoryInteractionListener : BaseInteractionListener {
     fun onClickDeleteSearchHistoryItem(id: Long)
     fun onClickClearAllHistory()
 }
-
-
-//package com.karrar.movieapp.ui.search.adapters
-//
-//import com.karrar.movieapp.R
-//import com.karrar.movieapp.ui.base.*
-//import com.karrar.movieapp.ui.search.mediaSearchUIState.SearchHistoryUIState
-//
-//
-//class SearchHistoryAdapter(items: List<SearchHistoryUIState>, listener: SearchHistoryInteractionListener)
-//    : BaseAdapter<SearchHistoryUIState>(items,listener){
-//    override val layoutID: Int = R.layout.item_search_history
-//}
-//
-//interface SearchHistoryInteractionListener : BaseInteractionListener {
-//    fun onClickSearchHistory(name: String)
-//}

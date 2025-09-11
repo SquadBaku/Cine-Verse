@@ -145,7 +145,11 @@
         android:id="@+id/matchChoicesFragment"
         android:name="com.karrar.movieapp.ui.match.matchChoices.MatchChoicesFragment"
         android:label="MatchChoicesFragment"
-        tools:layout="@layout/fragment_match_choices"/>
+        tools:layout="@layout/fragment_match_choices">
+        <action
+            android:id="@+id/action_matchChoicesFragment_to_matchResultFragment"
+            app:destination="@id/matchResultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/categoryFragment"
@@ -342,6 +346,33 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchResultFragment"
+        android:name="com.karrar.movieapp.ui.match.matchPager.MatchResultFragment"
+        android:label="fragment_match_result"
+        tools:layout="@layout/fragment_match_result" >
+        <argument
+            android:name="movieNames"
+            app:argType="string[]" />
+        <argument
+            android:name="voteAverage"
+            app:argType="string[]" />
+        <argument
+            android:name="moviesId"
+            app:argType="string[]" />
+        <argument
+            android:name="releaseDate"
+            app:argType="string[]" />
+        <argument
+            android:name="moviesImage"
+            app:argType="string[]" />
+        <argument
+            android:name="movieGenres"
+            app:argType="string[]" />
+        <action
+            android:id="@+id/action_matchResultFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 
 </navigation>

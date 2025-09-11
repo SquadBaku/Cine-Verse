@@ -1,6 +1,7 @@
 package com.karrar.movieapp.ui.match.matchChoices
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,6 +12,7 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentMatchChoicesBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,8 +23,22 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
     private var time:String = ""
     private var classicOrRecent:String  = ""
     private val listOfSelectGenre = mutableListOf<String>()
-    private val listOfGenre = listOf("Action", "Comedy" , "Drama", "Romance", "Sci-Fi" , "Thriller",
+    private val listOfGenre = listOf("Action", "Comedy" , "Drama", "Romance", "Science Fiction" , "Thriller",
                                     "Animation" , "Mystery")
+
+    override fun onStart() {
+        super.onStart()
+        collectLast(viewModel.matchChoicesEvent) {
+            it.getContentIfNotHandled()?.let { onEvent(it) }
+        }
+    }
+    private fun onEvent(event: MatchChoicesUIEvent) {
+        when (event) {
+            is MatchChoicesUIEvent.DoneLoadingDataEvent -> {
+               //handle navigate to screen result
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

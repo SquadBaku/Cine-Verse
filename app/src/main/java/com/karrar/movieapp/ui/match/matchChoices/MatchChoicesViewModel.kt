@@ -1,10 +1,14 @@
 package com.karrar.movieapp.ui.match.matchChoices
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.GetMatchMovieListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.match.MatchFragmentDirections
+import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,6 +16,9 @@ import javax.inject.Inject
 class MatchChoicesViewModel @Inject constructor(
     private val getMatchMovieListUseCase : GetMatchMovieListUseCase
 ) : BaseViewModel() {
+
+    private val _matchChoicesEvent = MutableStateFlow<Event<MatchChoicesUIEvent?>>(Event(null))
+    val matchChoicesEvent = _matchChoicesEvent.asStateFlow()
 
     fun getMatchMovie(
         genre: List<String>,
@@ -23,8 +30,6 @@ class MatchChoicesViewModel @Inject constructor(
         val primaryReleaseDateGte: String? = getPrimaryReleaseDateGte(classicOrRecent)
         val primaryReleaseDateLte : String?= getPrimaryReleaseDateLte(classicOrRecent)
 
-        val action = MatchFragmentDirections.actionMatchFragmentToMatchChoicesFragment()
-
         viewModelScope.launch {
             try {
                val result =  getMatchMovieListUseCase(
@@ -34,7 +39,7 @@ class MatchChoicesViewModel @Inject constructor(
                     primaryReleaseDateGte = primaryReleaseDateGte,
                     primaryReleaseDateLte = primaryReleaseDateLte
                 )
-
+                _matchChoicesEvent.update { Event(MatchChoicesUIEvent.DoneLoadingDataEvent) }
 
             } catch (th: Throwable) {
 

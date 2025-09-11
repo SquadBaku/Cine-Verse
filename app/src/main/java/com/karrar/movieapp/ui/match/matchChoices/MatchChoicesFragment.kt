@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.match.matchChoices
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,10 +31,26 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
     }
+
     private fun onEvent(event: MatchChoicesUIEvent) {
         when (event) {
             is MatchChoicesUIEvent.DoneLoadingDataEvent -> {
-               //handle navigate to screen result
+//                val action =
+//                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
+//                        event.castID
+//                    )
+
+                val action =
+                    MatchChoicesFragmentDirections.actionMatchChoicesFragmentToMatchResultFragment(
+                        arrayOf("alaa", "ragab"),
+                        arrayOf("7.8", "8"),
+                        arrayOf("755898", "1007734"),
+                        arrayOf("alaa", "ragab"),
+                        arrayOf("https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg", "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg"),
+                        arrayOf("alaa", "ragab")
+                    )
+                findNavController().navigate(action)
+
             }
         }
     }

@@ -1,11 +1,15 @@
 package com.karrar.movieapp.ui.match.matchChoices
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
@@ -13,17 +17,41 @@ import com.karrar.movieapp.databinding.FragmentMatchChoicesBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
     override val layoutIdFragment = R.layout.fragment_match_choices
     override val viewModel: MatchChoicesViewModel by viewModels()
     private var counter = 0
-    private var time:String = ""
-    private var classicOrRecent:String  = ""
+    private var time: String = ""
+    private var classicOrRecent: String = ""
     private val listOfSelectGenre = mutableListOf<String>()
-    private val listOfGenre = listOf("Action", "Comedy" , "Drama", "Romance", "Science Fiction" , "Thriller",
-                                    "Animation" , "Mystery")
+    private val listOfGenre = listOf(
+        "Action", "Comedy", "Drama", "Romance", "Science Fiction", "Thriller",
+        "Animation", "Mystery"
+    )
+    val genreMap = mapOf(
+        28 to "Action",
+        12 to "Adventure",
+        16 to "Animation",
+        35 to "Comedy",
+        80 to "Crime",
+        99 to "Documentary",
+        18 to "Drama",
+        10751 to "Family",
+        14 to "Fantasy",
+        36 to "History",
+        27 to "Horror",
+        10402 to "Music",
+        9648 to "Mystery",
+        10749 to "Romance",
+        878 to "Science Fiction",
+        10770 to "TV Movie",
+        53 to "Thriller",
+        10752 to "War",
+        37 to "Western"
+    )
 
     override fun onStart() {
         super.onStart()
@@ -32,24 +60,42 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
         }
     }
 
-    private fun onEvent(event: MatchChoicesUIEvent) {
+
+    private suspend fun onEvent(event: MatchChoicesUIEvent) {
         when (event) {
             is MatchChoicesUIEvent.DoneLoadingDataEvent -> {
+
+                viewModel.matchUiState.collect { uiState ->
+
+                    uiState.result?.filter { it.movieGenres.isNotEmpty() }?.take(5)?.let { movies ->
+                        val movieNames = movies.map { it.movieName }.toTypedArray()
+                        val movieIds = movies.map { it.movieId.toString() }.toTypedArray()
+                        val movieImages = movies.map { it.movieImage }.toTypedArray()
+                        val movieGenres = movies.map { movie ->
+                            movie.movieGenres.joinToString(", ") { genreId ->
+                                genreMap[genreId.toInt()] ?: "Unknown"
+                            }
+                        }.toTypedArray()
+                        val movieReleaseDates = movies.map { it.movieReleaseDate }.toTypedArray()
+                        val movieVotes = movies.map { it.movieVoteAverage.take(3) }.toTypedArray()
+
+                        val action = MatchChoicesFragmentDirections
+                            .actionMatchChoicesFragmentToMatchResultFragment(
+                                movieNames,
+                                movieVotes,
+                                movieIds,
+                                movieReleaseDates,
+                                movieImages,
+                                movieGenres
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
+
 //                val action =
 //                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
 //                        event.castID
 //                    )
-
-                val action =
-                    MatchChoicesFragmentDirections.actionMatchChoicesFragmentToMatchResultFragment(
-                        arrayOf("alaa", "ragab"),
-                        arrayOf("7.8", "8"),
-                        arrayOf("755898", "1007734"),
-                        arrayOf("alaa", "ragab"),
-                        arrayOf("https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg", "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg"),
-                        arrayOf("alaa", "ragab")
-                    )
-                findNavController().navigate(action)
 
             }
         }
@@ -66,6 +112,11 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
         initAgeTime()
         init()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        counter = 0
     }
 
     private fun initAgeTime() {
@@ -99,11 +150,11 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
             val chip = binding.timeGroup.getChildAt(i)
             chip.setOnClickListener {
                 makeSelectFromTime(index = i)
-                if(i == 0){
+                if (i == 0) {
                     time = "Short"
-                }else if( i == 1 ){
+                } else if (i == 1) {
                     time = "Medium"
-                }else if (i == 2 ){
+                } else if (i == 2) {
                     time = "long"
                 }
                 makeButtonClickable()
@@ -112,7 +163,7 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
     }
 
 
-    private fun makeSelectFromTime(index : Int ){
+    private fun makeSelectFromTime(index: Int) {
         for (i in 0 until binding.timeGroup.childCount) {
             val chip = binding.timeGroup.getChildAt(i)
             chip.isSelected = i == index
@@ -126,7 +177,8 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                 chip.isSelected = !chip.isSelected
                 manageButtonClickable(binding.genreGroup)
             }
-        }    }
+        }
+    }
 
     private fun initChipsMood() {
         for (i in 0 until binding.moodGroup.childCount) {
@@ -138,10 +190,10 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
         }
     }
 
-    private fun manageButtonClickable(chipGroup : ChipGroup){
-        for(i in 0 until chipGroup.childCount ){
+    private fun manageButtonClickable(chipGroup: ChipGroup) {
+        for (i in 0 until chipGroup.childCount) {
             val child = chipGroup.getChildAt(i)
-            if(child.isSelected){
+            if (child.isSelected) {
                 makeButtonClickable()
                 return
             }
@@ -161,41 +213,44 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
         }
     }
 
-    private fun disAppearAllChipsNotSelected(chipGroup : ChipGroup){
-        for(i in 0 until chipGroup.childCount ){
+    private fun disAppearAllChipsNotSelected(chipGroup: ChipGroup) {
+        for (i in 0 until chipGroup.childCount) {
             val child = chipGroup.getChildAt(i)
-            if(!child.isSelected){
-                child.visibility  = View.GONE
-            }else{
+            if (!child.isSelected) {
+                child.visibility = View.GONE
+            } else {
                 child.alpha = 0.30f
             }
         }
     }
+
     private fun createListOfSelectGenre(genreGroup: ChipGroup) {
         listOfSelectGenre.clear()
-        for(i in 0 until genreGroup.childCount ){
+        for (i in 0 until genreGroup.childCount) {
             val child = genreGroup.getChildAt(i)
-            if(child.isSelected){
+            if (child.isSelected) {
                 listOfSelectGenre.add(listOfGenre[i])
             }
         }
     }
 
-    private fun appearAllChipsNotSelected(chipGroup : ChipGroup){
-        for(i in 0 until chipGroup.childCount ){
+    private fun appearAllChipsNotSelected(chipGroup: ChipGroup) {
+        for (i in 0 until chipGroup.childCount) {
             val child = chipGroup.getChildAt(i)
-            child.visibility  = View.VISIBLE
+            child.visibility = View.VISIBLE
             child.alpha = 1f
 
         }
     }
-    private fun makeAllSelectedFalse(chipGroup : ChipGroup){
-        for(i in 0 until chipGroup.childCount ){
+
+    private fun makeAllSelectedFalse(chipGroup: ChipGroup) {
+        for (i in 0 until chipGroup.childCount) {
             val child = chipGroup.getChildAt(i)
             child.isSelected = false
 
         }
     }
+
     private fun initNextButtonAction() {
         binding.startMatchingButton.setOnClickListener {
             when (counter) {
@@ -248,18 +303,18 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                 3 -> {
                     counter++
                     binding.ageTitle.alpha = 0.3f
-                    if (binding.recent.isSelected){
+                    if (binding.recent.isSelected) {
                         binding.classic.visibility = View.GONE
                         binding.both.visibility = View.GONE
                         binding.recent.alpha = 0.30f
 
-                    }else if ( binding.classic.isSelected){
+                    } else if (binding.classic.isSelected) {
                         binding.classic.alpha = 0.30f
                         binding.both.visibility = View.GONE
                         binding.recent.visibility = View.GONE
-                    }else{
+                    } else {
                         binding.classic.visibility = View.GONE
-                        binding.both.alpha =0.30f
+                        binding.both.alpha = 0.30f
                         binding.recent.visibility = View.GONE
                     }
 
@@ -312,23 +367,24 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                     binding.ageTitle.visibility = View.GONE
                     binding.ageGroup.visibility = View.GONE
                 }
-                4->{
-                    counter--
-                        binding.ageTitle.alpha = 1f
-                        binding.classic.visibility = View.VISIBLE
-                        binding.both.visibility = View.VISIBLE
-                        binding.recent.visibility = View.VISIBLE
 
-                        binding.recent.alpha = 1f
-                        binding.classic.alpha = 1f
-                        binding.both.alpha = 1f
+                4 -> {
+                    counter--
+                    binding.ageTitle.alpha = 1f
+                    binding.classic.visibility = View.VISIBLE
+                    binding.both.visibility = View.VISIBLE
+                    binding.recent.visibility = View.VISIBLE
+
+                    binding.recent.alpha = 1f
+                    binding.classic.alpha = 1f
+                    binding.both.alpha = 1f
                     viewModel.stopLoadingData()
                 }
             }
         }
     }
 
-    private fun changeButtonText(text : String ) {
+    private fun changeButtonText(text: String) {
         binding.buttonText.text = text
     }
 

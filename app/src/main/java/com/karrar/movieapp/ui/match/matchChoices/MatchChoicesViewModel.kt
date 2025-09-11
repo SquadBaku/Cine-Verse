@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.usecases.GetMatchMovieListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,6 +18,10 @@ import javax.inject.Inject
 class MatchChoicesViewModel @Inject constructor(
     private val getMatchMovieListUseCase : GetMatchMovieListUseCase
 ) : BaseViewModel() {
+
+    private val _matchUiState = MutableStateFlow(MatchChoicesUiState())
+    val matchUiState = _matchUiState.asStateFlow()
+
 
     private val _matchChoicesEvent = MutableStateFlow<Event<MatchChoicesUIEvent?>>(Event(null))
     val matchChoicesEvent = _matchChoicesEvent.asStateFlow()
@@ -42,10 +47,21 @@ class MatchChoicesViewModel @Inject constructor(
                     primaryReleaseDateGte = primaryReleaseDateGte,
                     primaryReleaseDateLte = primaryReleaseDateLte
                 )
-                _matchChoicesEvent.update { Event(MatchChoicesUIEvent.DoneLoadingDataEvent) }
+
+                _matchUiState.value = _matchUiState.value.copy(
+                    result = result
+                )
+
+                _matchChoicesEvent.update {
+                    Event(MatchChoicesUIEvent.DoneLoadingDataEvent)
+                }
 
             } catch (th: Throwable) {
-
+                _matchUiState.value = _matchUiState.value.copy(
+                    result = null ,
+                    isLoading = false,
+                    error = listOf(th.message.toString())
+                )
             }
         }
     }

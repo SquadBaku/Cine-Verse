@@ -23,8 +23,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/basic_card"
-            android:layout_width="@dimen/media_card_width"
-            android:layout_height="0dp"
+            android:layout_width="136dp"
+            android:layout_height="182dp"
             android:layout_marginHorizontal="@dimen/spacing_small"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1.4"
@@ -46,15 +46,35 @@
             style="@style/Typography.body_md_medium"
             android:textColor="@color/shade_secondary"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/chip"
+            android:layout_width="50dp"
+            android:layout_height="24dp"
             app:layout_constraintTop_toTopOf="@id/basic_card"
             app:layout_constraintEnd_toEndOf="@id/basic_card"
-            android:text="@{String.valueOf(item.mediaVoteAverage)}"
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_small"
-            style="@style/Typography.label_md_medium"
-            android:textColor="@color/yellow"/>
+            android:gravity="center_vertical"
+            android:background="@drawable/star_chip_rating"
+            android:paddingStart="@dimen/spacing_small"
+            android:paddingEnd="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(item.mediaVoteAverage)}"
+                style="@style/Typography.label_md_medium"
+                android:textColor="@color/shade_primary"
+                tools:text="8.5"
+                android:layout_marginRight="4dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/star"
+                app:tint="@color/additional_primary_yellow" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

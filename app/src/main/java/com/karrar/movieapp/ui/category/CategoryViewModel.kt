@@ -13,6 +13,8 @@ import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
 import com.karrar.movieapp.ui.category.uiState.CategoryUIState
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -68,7 +70,7 @@ class CategoryViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     isLoading = false,
-                    media = result.map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } },
+                    media = result.map { pagingData -> pagingData.map { SearchMediaUIStateMapper().map(it)} },
                     error = emptyList()
                 )
             }

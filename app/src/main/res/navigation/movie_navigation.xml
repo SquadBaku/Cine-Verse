@@ -338,11 +338,7 @@
         tools:layout="@layout/fragment_season_list">
     </fragment>
 
-    <fragment
-        android:id="@+id/allSeasonsFragment"
-        android:name="com.karrar.movieapp.ui.tvShowDetails.SeasonListFragment"
-        android:label="All Seasons"
-        tools:layout="@layout/list_season" />
+
 
 
 </navigation>

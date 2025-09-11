@@ -6,6 +6,7 @@ import com.karrar.movieapp.domain.usecases.GetMatchMovieListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -20,6 +21,8 @@ class MatchChoicesViewModel @Inject constructor(
     private val _matchChoicesEvent = MutableStateFlow<Event<MatchChoicesUIEvent?>>(Event(null))
     val matchChoicesEvent = _matchChoicesEvent.asStateFlow()
 
+    private var fetchJob: Job? = null
+
     fun getMatchMovie(
         genre: List<String>,
         time: String,
@@ -30,7 +33,7 @@ class MatchChoicesViewModel @Inject constructor(
         val primaryReleaseDateGte: String? = getPrimaryReleaseDateGte(classicOrRecent)
         val primaryReleaseDateLte : String?= getPrimaryReleaseDateLte(classicOrRecent)
 
-        viewModelScope.launch {
+        fetchJob =viewModelScope.launch {
             try {
                val result =  getMatchMovieListUseCase(
                     genres = genre,
@@ -45,6 +48,10 @@ class MatchChoicesViewModel @Inject constructor(
 
             }
         }
+    }
+
+    fun stopLoadingData() {
+        fetchJob?.cancel()
     }
 
     private fun getPrimaryReleaseDateLte(classicOrRecent: String): String? {

@@ -307,7 +307,7 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                         binding.recent.alpha = 1f
                         binding.classic.alpha = 1f
                         binding.both.alpha = 1f
-
+                    viewModel.stopLoadingData()
                 }
             }
         }

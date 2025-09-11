@@ -6,7 +6,6 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.map
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDetailsUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieRateUseCase
 import com.karrar.movieapp.domain.usecases.searchUseCase.DeleteAllSearchHistoryUseCase
@@ -21,7 +20,6 @@ import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
-import com.karrar.movieapp.ui.models.MediaUiState
 import com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
@@ -36,7 +34,6 @@ import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -75,14 +72,10 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getAllSearchHistory() {
-        Log.d("TAG lol", "getAllSearchHistory: : all items are : innnnnnnnnn")
-
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try {
-                Log.d("TAG lol", "getAllSearchHistory: first: all items are in tryyyyyyy")
                 getSearchHistoryUseCase().collect { list ->
-                    Log.d("TAG lol", "getAllSearchHistory: first: all items are in collect: $list")
                     _uiState.update {
                         it.copy(searchHistory = list.map { item ->
                             searchHistoryUIStateMapper.map(
@@ -90,52 +83,24 @@ class SearchViewModel @Inject constructor(
                             )
                         }, isLoading = false, isEmpty = false)
                     }
-                    Log.d(
-                        "TAG lol",
-                        "getAllSearchHistory: first: all items are end collect: ${_uiState.value.searchHistory}"
-                    )
                     getAllRecentlyViewed()
                 }
-                Log.d(
-                    "TAG lol",
-                    "getAllSearchHistory: first 11111: all items are : ${_uiState.value.searchHistory}"
-                )
             } catch (e: Throwable) {
-                Log.d("TAG lol", "getAllSearchHistory: erroooooor: all items are : ${e.message}")
                 _uiState.update {
                     it.copy(error = listOf(Error(0, e.message.toString())))
                 }
             }
         }
-        Log.d(
-            "TAG lol",
-            "getAllSearchHistory: first: all items are : ${_uiState.value.searchHistory}"
-        )
     }
 
     private fun getAllRecentlyViewed() {
-        Log.d("TAG lol", "getAllRecentlyViewed: ")
         viewModelScope.launch {
             try {
                 val recentlyViewedMovies = getSearchHistoryUseCase()
-                Log.d(
-                    "TAG lol",
-                    "getAllRecentlyViewed: first: before collect : ${recentlyViewedMovies.first()}"
-                )
                 recentlyViewedMovies.collect { list ->
                     list.forEach { item ->
                         if (item.mediaType == Constants.MOVIE) {
-                            Log.d(
-                                "TAG lol",
-                                "getAllRecentlyViewed: zoz search history item : $item"
-                            )
                             val details = getMovieDetailsUseCase.getMovieDetails(item.id.toInt())
-//                            val rate = getMovieRateUseCase(item.id.toInt())
-//                            Log.d("TAG zoz", "rateeeeeeee: getAllRecentlyViewed: rate is $rate")
-                            Log.d(
-                                "TAG lol",
-                                "getAllRecentlyViewed: zoz success collect details : $details"
-                            )
                             _uiState.update {
                                 it.copy(
                                     recentlyViewed = it.recentlyViewed + MediaUIState(
@@ -149,15 +114,7 @@ class SearchViewModel @Inject constructor(
                                 )
                             }
                         } else if (item.mediaType == Constants.TV_SHOWS) {
-                            Log.d(
-                                "TAG lol",
-                                "getAllRecentlyViewed: zoz search history item : $item"
-                            )
                             val details = getTvShowDetailsUseCase.getTvShowDetails(item.id.toInt())
-                            Log.d(
-                                "TAG lol",
-                                "getAllRecentlyViewed: zoz success collect details : $details"
-                            )
                             _uiState.update {
                                 it.copy(
                                     recentlyViewed = it.recentlyViewed + MediaUIState(
@@ -172,23 +129,12 @@ class SearchViewModel @Inject constructor(
                             }
                         }
                     }
-                    Log.d(
-                        "TAG lol",
-                        "getAllRecentlyViewed: second: in collect : ${_uiState.value.recentlyViewed}"
-                    )
                     _uiState.update { it.copy(items = it.searchHistory.map { historyUIState -> historyUIState.toSearchItem() } + it.recentlyViewed.toSearchItem()) }
-                    Log.d(
-                        "TAG lol",
-                        "getAllRecentlyViewed: last: all items are : ${_uiState.value.items}"
-                    )
-
                 }
             } catch (e: Exception) {
 
             }
-
         }
-        Log.d("TAG lol", "getAllRecentlyViewed: second:  : ${_uiState.value.recentlyViewed}")
     }
 
     fun onSearchInputChange(searchTerm: CharSequence) {

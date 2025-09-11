@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_screen"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- أيقونة السهم -->
+            <ImageView
+                android:id="@+id/backIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/back_button" />
+
+            <!-- النص -->
+            <TextView
+                android:id="@+id/titleAppBar"
+                style="@style/Typography.title_sm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Here’s Your Match List"
+                android:textColor="@color/shade_primary" />
+
+        </LinearLayout>
+
+
+        <!-- Poster ViewPager -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/posterViewPager"
+            android:layout_width="0dp"
+            android:layout_height="320dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:layout_marginTop="74dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBar"
+            tools:listitem="@layout/item_movie_match_pager" />
+
+        <!-- Details Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/detailsCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/posterViewPager">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titleText"
+                        style="@style/Typography.label_md_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MOVIE"
+                        android:textColor="@color/brand_primary" />
+
+                    <TextView
+                        android:id="@+id/nameOfMovies"
+                        style="@style/Typography.title_md"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Until Dawn"
+                        android:textColor="@color/shade_primary" />
+
+                    <TextView
+                        android:id="@+id/category"
+                        style="@style/Typography.body_sm_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Horror, Mystery, Science Fiction"
+                        android:textColor="@color/shade_secondary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/ratingText"
+                            style="@style/Typography.label_md_regular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:drawableStart="@drawable/ic_star_gradient"
+                            android:drawablePadding="4dp"
+                            android:text="8.5"
+                            android:textColor="@color/shade_secondary" />
+
+                        <TextView
+                            android:id="@+id/durationText"
+                            style="@style/Typography.label_md_regular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:drawableStart="@drawable/clock"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_vertical"
+                            android:text="2h 32m"
+                            android:textColor="@color/shade_secondary" />
+
+                        <TextView
+                            android:id="@+id/releaseText"
+                            style="@style/Typography.label_md_regular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/calendar"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_vertical"
+                            android:text="2008, Jul 18"
+                            android:textColor="@color/shade_secondary" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/play_button" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/add_to_collections_button" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/viewDetailsButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/view_details_button_background"
+            android:fontFamily="@font/manrope_medium"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="View Details"
+            android:textAllCaps="false"
+            android:textColor="@color/button_onPrimary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailsCard" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

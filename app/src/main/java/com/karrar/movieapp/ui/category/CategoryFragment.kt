@@ -30,6 +30,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override val layoutIdFragment = R.layout.fragment_category
     override val viewModel: CategoryViewModel by viewModels()
     private val allMediaAdapter by lazy { CategoryAdapter(viewModel) }
+    private val listAdapter by lazy { ExploreListAdapter(viewModel) }
 
     private var currentMode = ViewMode.GRID
 
@@ -74,23 +75,25 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
     private fun updateRecyclerLayout(mode: ViewMode) {
-        binding.recyclerMedia.layoutManager = when (mode) {
-            ViewMode.GRID -> GridLayoutManager(requireContext(), 2).apply {
-                setSpanSize(
-                    LoadUIStateAdapter(allMediaAdapter::retry),
-                    allMediaAdapter,
-                    2
-                )
+        when (mode) {
+            ViewMode.GRID -> {
+                binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
+                binding.recyclerMedia.adapter = allMediaAdapter
             }
-            ViewMode.LIST -> LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            ViewMode.LIST -> {
+                binding.recyclerMedia.layoutManager = LinearLayoutManager(requireContext())
+                binding.recyclerMedia.adapter = listAdapter
+            }
         }
     }
 
     private fun collectData() {
         lifecycleScope.launch {
             viewModel.uiState.collect {
-                collectLast(viewModel.uiState.value.media)
-                { allMediaAdapter.submitData(it) }
+                collectLast(viewModel.uiState.value.media) { pagingData ->
+                    allMediaAdapter.submitData(pagingData)
+                    listAdapter.submitData(pagingData)
+                }
             }
         }
     }

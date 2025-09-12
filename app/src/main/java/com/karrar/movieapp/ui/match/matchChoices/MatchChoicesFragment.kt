@@ -323,6 +323,12 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                         time = time,
                         classicOrRecent = classicOrRecent
                     )
+
+                    binding.startMatchingButton.isClickable = false
+                    binding.buttonText.visibility = View.INVISIBLE
+                    binding.buttonProgressBar.visibility = View.VISIBLE
+                    binding.loadingText.visibility = View.VISIBLE
+
                 }
             }
         }
@@ -379,6 +385,12 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                     binding.classic.alpha = 1f
                     binding.both.alpha = 1f
                     viewModel.stopLoadingData()
+
+                    binding.buttonText.visibility = View.VISIBLE
+                    binding.buttonProgressBar.visibility = View.INVISIBLE
+                    binding.loadingText.visibility = View.GONE
+                    binding.startMatchingButton.isClickable = true
+
                 }
             }
         }

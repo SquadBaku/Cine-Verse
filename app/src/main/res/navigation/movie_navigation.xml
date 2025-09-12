@@ -148,7 +148,9 @@
         tools:layout="@layout/fragment_match_choices">
         <action
             android:id="@+id/action_matchChoicesFragment_to_matchResultFragment"
-            app:destination="@id/matchResultFragment" />
+            app:destination="@id/matchResultFragment"
+            app:popUpTo="@id/matchChoicesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

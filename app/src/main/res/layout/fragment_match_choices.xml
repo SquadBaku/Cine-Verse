@@ -588,6 +588,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:layout_marginHorizontal="16.dp"
                     android:text="Loading recommendations you’ll love..."
                     android:layout_marginBottom="32.dp"
                     android:gravity="center"
@@ -601,7 +602,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/start_matching_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48.dp"
             android:layout_marginHorizontal="16.dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
@@ -625,7 +626,7 @@
             <ProgressBar
                 android:id="@+id/button_progress_bar"
                 android:layout_width="24dp"
-                android:layout_height="18dp"
+                android:layout_height="24dp"
                 android:indeterminate="true"
                 android:visibility="invisible"
                 android:indeterminateDrawable="@drawable/circle_loader"

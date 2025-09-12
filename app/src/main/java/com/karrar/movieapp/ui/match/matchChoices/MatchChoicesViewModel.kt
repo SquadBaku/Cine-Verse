@@ -66,6 +66,22 @@ class MatchChoicesViewModel @Inject constructor(
         }
     }
 
+    fun clearError(){
+        _matchUiState.update {
+            it.copy(error = emptyList())
+        }
+    }
+
+    fun clearData(){
+        _matchUiState.update {
+            it.copy(
+                error = emptyList(),
+                result = null ,
+                isLoading = false
+            )
+        }
+    }
+
     fun stopLoadingData() {
         fetchJob?.cancel()
     }

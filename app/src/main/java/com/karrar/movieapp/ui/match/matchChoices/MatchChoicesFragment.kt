@@ -103,12 +103,31 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
         initChipTime()
         initAgeTime()
         init()
-
+        observeData()
     }
 
+    private fun observeData(){
+        lifecycleScope.launch {
+            viewModel.matchUiState.collect {
+                if(it.error.isNotEmpty()){
+
+                    binding.loadingText.text = "Something wrong, try again press \"Start Matching\""
+                    binding.loadingText.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            R.color.additional_primary_red
+                        )
+                    )
+
+                    binding.startMatchingButton.isClickable = true
+
+                    binding.buttonText.visibility = View.VISIBLE
+                    binding.buttonProgressBar.visibility = View.INVISIBLE
+                }
+            }
+        }
+    }
     override fun onResume() {
         super.onResume()
-        counter = 0
     }
 
     private fun initAgeTime() {
@@ -322,6 +341,25 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                     binding.loadingText.visibility = View.VISIBLE
 
                 }
+                4->{
+                    viewModel.clearError()
+                    viewModel.getMatchMovie(
+                        genre = listOfSelectGenre,
+                        time = time,
+                        classicOrRecent = classicOrRecent
+                    )
+
+                    binding.loadingText.text = "Loading recommendations you’ll love..."
+                    binding.loadingText.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            R.color.shade_primary
+                        )
+                    )
+                    binding.startMatchingButton.isClickable = false
+                    binding.buttonText.visibility = View.INVISIBLE
+                    binding.buttonProgressBar.visibility = View.VISIBLE
+
+                }
             }
         }
     }
@@ -382,6 +420,15 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                     binding.buttonProgressBar.visibility = View.INVISIBLE
                     binding.loadingText.visibility = View.GONE
                     binding.startMatchingButton.isClickable = true
+
+                    viewModel.clearError()
+
+                    binding.loadingText.text = "Loading recommendations you’ll love..."
+                    binding.loadingText.setTextColor(
+                        ContextCompat.getColor(requireContext(),
+                            R.color.shade_primary
+                        )
+                    )
 
                 }
             }

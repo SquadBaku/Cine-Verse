@@ -64,7 +64,11 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
 
                 viewModel.matchUiState.collect { uiState ->
 
-                    uiState.result?.filter { it.movieGenres.isNotEmpty() }?.take(5)?.let { movies ->
+                    uiState.result
+                        ?.filter { it.movieGenres.isNotEmpty() }
+                        ?.shuffled()
+                        ?.take(5)
+                        ?.let { movies ->
                         val movieNames = movies.map { it.movieName }.toTypedArray()
                         val movieIds = movies.map { it.movieId.toString() }.toTypedArray()
                         val movieImages = movies.map { it.movieImage }.toTypedArray()
@@ -125,9 +129,6 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                 }
             }
         }
-    }
-    override fun onResume() {
-        super.onResume()
     }
 
     private fun initAgeTime() {

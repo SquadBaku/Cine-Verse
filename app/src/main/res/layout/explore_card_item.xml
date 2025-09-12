@@ -19,7 +19,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/basic_card"
@@ -37,16 +38,18 @@
             app:shapeAppearanceOverlay="@style/CardCorners.12" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/basic_card"
-            app:layout_constraintStart_toStartOf="@id/basic_card"
             android:text="@{item.mediaName}"
             android:maxLines="1"
             android:ellipsize="end"
             tools:text="The Flash"
+            android:layout_marginTop="8dp"
             style="@style/Typography.body_md_medium"
-            android:textColor="@color/shade_secondary"/>
+            android:textColor="@color/shade_secondary"
+            app:layout_constraintTop_toBottomOf="@id/basic_card"
+            app:layout_constraintStart_toStartOf="@id/basic_card"
+            app:layout_constraintEnd_toEndOf="@id/basic_card"/>
 
 
         <LinearLayout

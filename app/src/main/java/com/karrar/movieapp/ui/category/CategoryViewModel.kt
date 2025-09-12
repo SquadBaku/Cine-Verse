@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMediaByGenreIDUseCase
@@ -67,10 +68,15 @@ class CategoryViewModel @Inject constructor(
     fun getMediaList(selectedCategory: Int) {
         viewModelScope.launch {
             val result = getCategoryUseCase(args.mediaId, selectedCategory)
+                .map { pagingData ->
+                    pagingData.map { SearchMediaUIStateMapper().map(it) }
+                }
+                .cachedIn(viewModelScope)
+
             _uiState.update {
                 it.copy(
                     isLoading = false,
-                    media = result.map { pagingData -> pagingData.map { SearchMediaUIStateMapper().map(it)} },
+                    media = result,
                     error = emptyList()
                 )
             }

@@ -77,9 +77,11 @@ class MatchResultFragment : BaseFragment<FragmentMatchResultBinding>(
                 page.translationY = offset
             }
 
-            page.scaleY = 0.85f + (1 - kotlin.math.abs(position)) * 0.15f
-            page.scaleX = 0.85f + (1 - kotlin.math.abs(position)) * 0.15f
+            val scale = 0.85f + (1 - kotlin.math.abs(position)) * 0.15f
+            page.scaleY = scale
+            page.scaleX = scale
             page.alpha = 0.5f + (1 - kotlin.math.abs(position)) * 0.5f
+            page.translationZ = 1 - kotlin.math.abs(position)
         }
 
         fun updateDetails(movie: MovieMatch) {

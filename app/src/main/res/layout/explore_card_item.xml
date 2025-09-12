@@ -32,7 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:background="@color/yellow"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{()->listener.onClickMediaCard(item)}"
+            android:onClick="@{()->listener.onClickMedia(item.mediaID)}"
             app:posterImage="@{item.mediaImage}"
             app:shapeAppearanceOverlay="@style/CardCorners.12" />
 

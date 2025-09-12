@@ -45,6 +45,10 @@ class MatchResultFragment : BaseFragment<FragmentMatchResultBinding>(
             )
         }
 
+        binding.backIcon.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         binding.viewDetailsButton.setOnClickListener {
 
             val action =

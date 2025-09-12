@@ -28,14 +28,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- أيقونة السهم -->
                 <ImageView
                     android:id="@+id/backIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/back_button" />
 
-                <!-- النص -->
                 <TextView
                     android:id="@+id/titleAppBar"
                     style="@style/Typography.title_sm"
@@ -48,7 +46,6 @@
             </LinearLayout>
 
 
-            <!-- Poster ViewPager -->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/posterViewPager"
                 android:layout_width="0dp"
@@ -64,7 +61,6 @@
                 app:layout_constraintTop_toBottomOf="@id/appBar"
                 tools:listitem="@layout/item_movie_match_pager" />
 
-            <!-- Details Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/detailsCard"
                 android:layout_width="0dp"

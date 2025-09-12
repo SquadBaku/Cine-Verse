@@ -91,8 +91,6 @@ class MatchResultFragment : BaseFragment<FragmentMatchResultBinding>(
             binding.releaseText.text = movie.movieReleaseDate
         }
 
-
-
         updateDetails(x[0])
 
         binding.posterViewPager.registerOnPageChangeCallback(object :

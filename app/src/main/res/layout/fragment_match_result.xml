@@ -15,8 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background_screen"
-            android:padding="16dp">
+            android:background="@color/background_screen">
 
             <LinearLayout
                 android:id="@+id/appBar"
@@ -24,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -65,6 +65,7 @@
                 android:id="@+id/detailsCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp"
@@ -184,6 +185,7 @@
                 android:id="@+id/viewDetailsButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/view_details_button_background"
                 android:fontFamily="@font/manrope_medium"

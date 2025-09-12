@@ -1,15 +1,12 @@
 package com.karrar.movieapp.ui.match.matchChoices
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
@@ -91,11 +88,6 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                         findNavController().navigate(action)
                     }
                 }
-
-//                val action =
-//                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToActorDetailsFragment(
-//                        event.castID
-//                    )
 
             }
         }

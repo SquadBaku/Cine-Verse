@@ -77,16 +77,21 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="16.dp"
             android:orientation="vertical"
+            android:foregroundGravity="top"
+            android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/start_matching_button"
             app:layout_constraintTop_toBottomOf="@+id/loading_color">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:orientation="vertical">
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.dp"
+                    android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/mood_title"
                     style="@style/Typography.title_sm"

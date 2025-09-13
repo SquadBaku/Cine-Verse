@@ -45,4 +45,7 @@
     <dimen name="chip_height">32dp</dimen>
     <dimen name="spacing_60">60dp</dimen>
 
+    <dimen name="pageMargin">16dp</dimen>
+    <dimen name="offset">32dp</dimen>
+
 </resources>

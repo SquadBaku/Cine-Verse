@@ -75,7 +75,7 @@ interface MovieRepository {
 
     suspend fun getTrendingMovies(): Flow<List<TrendingMovieEntity>>
 
-   suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
+    suspend fun getNowStreamingMovies(): Flow<List<NowStreamingMovieEntity>>
 
     suspend fun getUpcomingMovies(): Flow<List<UpcomingMovieEntity>>
 
@@ -118,5 +118,13 @@ interface MovieRepository {
     suspend fun deleteRating(movieId: Int): RatingDto?
 
     suspend fun getRatedMovie(): List<RatedMoviesDto>?
+
+    suspend fun getMatchListMovie(
+        genres: List<String>?,
+        withRuntimeGte: Int?,
+        withRuntimeLte: Int?,
+        primaryReleaseDateGte: String?,
+        primaryReleaseDateLte: String?,
+    ): List<MovieDto>?
 
 }

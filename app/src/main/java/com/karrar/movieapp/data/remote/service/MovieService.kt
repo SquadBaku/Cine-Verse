@@ -57,6 +57,17 @@ interface MovieService {
         @Query("page") page: Int = 1
     ): Response<BaseListResponse<MovieDto>>
 
+    @GET("discover/movie")
+    suspend fun getMatchListMovie(
+        @Query("page") page: Int = 1,
+        @Query("WITH_GENRES") genres: List<String>? = null,
+        @Query("with_runtime.gte") withRuntimeGte: Int?= null,
+        @Query("with_runtime.lte") withRuntimeLte: Int? = null,
+        @Query("primary_release_date.gte") primaryReleaseDateGte: String? = null,
+        @Query("primary_release_date.lte") primaryReleaseDateLte: String? = null,
+        @Query("sort_by") sortBy: String = "popularity.desc"
+    ): Response<BaseListResponse<MovieDto>>
+
     @GET("trending/person/{time_window}")
     suspend fun getTrendingActors(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,

@@ -5,6 +5,7 @@ data class SeasonUIState(
     val seasonName: String = "",
     val seasonYear: String = "",
     val seasonNumber: Int = 0,
+    val rating: Float = 0F,
     val episodeCount: Int = 0,
     val seasonDescription: String = "",
 )

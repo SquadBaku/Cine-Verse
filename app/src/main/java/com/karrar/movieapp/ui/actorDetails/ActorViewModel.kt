@@ -4,7 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.usecases.GetActorDetailsUseCase
+import com.karrar.movieapp.domain.usecases.GetActorImagesUseCase
 import com.karrar.movieapp.domain.usecases.GetActorMoviesUseCase
+import com.karrar.movieapp.domain.usecases.GetActorSocialMediaUseCase
+import com.karrar.movieapp.ui.actorDetails.socialMedia.SocialMediaInteractionListener
+import com.karrar.movieapp.ui.actorDetails.socialMedia.SocialMediaUIMapper
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Event
@@ -21,9 +25,12 @@ class ActorViewModel @Inject constructor(
     state: SavedStateHandle,
     private val getActorDetailsUseCase: GetActorDetailsUseCase,
     private val getActorMoviesUseCase: GetActorMoviesUseCase,
+    private val getActorSocialMediaUseCase: GetActorSocialMediaUseCase,
+    private val getActorImagesUseCase: GetActorImagesUseCase,
     private val actorDetailsUIMapper: ActorDetailsUIMapper,
-    private val actorMoviesUIMapper: ActorMoviesUIMapper
-) : BaseViewModel(), MovieInteractionListener {
+    private val actorMoviesUIMapper: ActorMoviesUIMapper,
+    private val actorSocialMediaUIMapper: SocialMediaUIMapper
+) : BaseViewModel(), MovieInteractionListener, SocialMediaInteractionListener {
 
     val args = ActorDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -44,6 +51,9 @@ class ActorViewModel @Inject constructor(
             try {
                 val actorDetails = actorDetailsUIMapper.map(getActorDetailsUseCase(args.id))
                 val actorMovies = getActorMoviesUseCase(args.id).map { actorMoviesUIMapper.map(it) }
+                val socialMediaLinks =
+                    actorSocialMediaUIMapper.map(getActorSocialMediaUseCase(args.id))
+                val actorImages = getActorImagesUseCase(args.id)
                 _actorDetailsUIState.update {
                     it.copy(
                         name = actorDetails.name,
@@ -54,6 +64,8 @@ class ActorViewModel @Inject constructor(
                         birthday = actorDetails.birthday,
                         knownFor = actorDetails.knownFor,
                         actorMovies = actorMovies,
+                        actorSocialMediaLinks = socialMediaLinks,
+                        actorImages = actorImages,
                         isLoading = false,
                         isSuccess = true
                     )
@@ -83,6 +95,14 @@ class ActorViewModel @Inject constructor(
 
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.SeeAllMovies) }
+    }
+
+    override fun onClickSocialMediaLink(link: String) {
+        _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.OpenSocialMediaLink(link)) }
+    }
+
+    fun onClickSeeAllGallery() {
+        _actorDetailsUIEvent.update { Event(ActorDetailsUIEvent.SeeActorGallery) }
     }
 
 }

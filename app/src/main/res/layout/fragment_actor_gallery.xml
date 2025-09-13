@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.actorDetails.actorGallery.ActorGalleryAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.actorDetails.ActorViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_screen">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/season_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backArrow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/radius_s"
+                android:layout_marginTop="@dimen/radius_s"
+                android:layout_marginBottom="@dimen/radius_s"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.onClickBack()}"
+                android:contentDescription="@string/back_button"
+                android:focusable="true"
+                android:padding="@dimen/radius_s"
+                android:src="@drawable/ic_arrow_left"
+                app:tint="@color/shade_primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_seasons"
+                style="@style/Typography.title_sm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/radius_s"
+                android:text='@{ viewModel.actorDetailsUIState.name + " Gallery"}'
+                android:textColor="@color/shade_primary"
+                app:layout_constraintBottom_toBottomOf="@id/backArrow"
+                app:layout_constraintStart_toEndOf="@+id/backArrow"
+                app:layout_constraintTop_toTopOf="@+id/backArrow"
+                tools:text="Christian Bale Gallery"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_seasons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/radius_xl"
+            android:orientation="vertical"
+            app:adapterRecycler="@{adapterRecycler}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/season_section"
+            tools:listitem="@layout/item_gallery" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

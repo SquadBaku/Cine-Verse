@@ -92,12 +92,28 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="PosterCorners" parent="">
+    <style name="RoundedImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_xl</item>
+        <item name="cornerSizeTopRight">@dimen/spacing_medium</item>
+        <item name="cornerSizeBottomLeft">@dimen/spacing_medium</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_xl</item>
+    </style>
+
+    <style name="GalleryRounded">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
         <item name="cornerSizeTopRight">@dimen/radius_lg</item>
         <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
-        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_lg</item>
+    </style>
+
+    <style name="TopRoundedImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_5xl</item>
+        <item name="cornerSizeTopRight">@dimen/radius_5xl</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_xs</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_xs</item>
     </style>
 
     <!--  old App Theme -->

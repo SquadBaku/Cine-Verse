@@ -1,7 +1,11 @@
 package com.karrar.movieapp.ui.profile.myratings
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetListOfRatedUseCase
+import com.karrar.movieapp.domain.usecases.GetTVShowDurationUseCase
+import com.karrar.movieapp.domain.usecases.movieDetails.GetMovieDurationUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
@@ -16,7 +20,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MyRatingsViewModel @Inject constructor(
     private val getRatedUseCase: GetListOfRatedUseCase,
-    private val ratedUIStateMapper: RatedUIStateMapper
+    private val ratedUIStateMapper: RatedUIStateMapper,
+    private val getGenreListUseCase: GetGenreListUseCase,
+    private val getMovieDurationUseCase: GetMovieDurationUseCase,
+    private val getTvShowDurationUseCase: GetTVShowDurationUseCase,
 ) : BaseViewModel(), RatedMoviesInteractionListener {
 
     private val _ratedUiState = MutableStateFlow(MyRateUIState())
@@ -26,23 +33,123 @@ class MyRatingsViewModel @Inject constructor(
         MutableStateFlow(Event(null))
     val myRatingUIEvent = _myRatingUIEvent.asStateFlow()
 
+    // إضافة متتبعات حالة التابات
+    private val _isMoviesTab = MutableStateFlow(true)
+    val isMoviesTab: StateFlow<Boolean> = _isMoviesTab.asStateFlow()
+
+    private val _isSeriesTab = MutableStateFlow(false)
+    val isSeriesTab: StateFlow<Boolean> = _isSeriesTab.asStateFlow()
+
+    // إضافة متتبعات للانيميشن
+    private val _isTabAnimating = MutableStateFlow(false)
+    val isTabAnimating: StateFlow<Boolean> = _isTabAnimating.asStateFlow()
+
+    // دوال getter للاستخدام في Data Binding
+    fun getIsMoviesTab(): Boolean = _isMoviesTab.value
+    fun getIsSeriesTab(): Boolean = _isSeriesTab.value
+
+    // قائمة كاملة للبيانات المحفوظة
+    private var allRatedList: List<RatedUIState> = emptyList()
+
     init {
+        getGenres()
         getData()
+    }
+
+    private fun getGenres() {
+        viewModelScope.launch {
+            try {
+                val movieGenreList = getGenreListUseCase(Constants.MOVIE_CATEGORIES_ID)
+                val seriesGenreList = getGenreListUseCase(Constants.TV_CATEGORIES_ID)
+                val mergedGenreList = movieGenreList + seriesGenreList
+                _ratedUiState.update { it.copy(genreList = mergedGenreList) }
+            } catch (e: Throwable) {
+                _ratedUiState.update { it.copy(genreList = emptyList()) }
+            }
+        }
     }
 
     override fun getData() {
         viewModelScope.launch {
             _ratedUiState.update { it.copy(isLoading = true) }
             try {
-                val listOfRated =
-                    getRatedUseCase().map { rate -> ratedUIStateMapper.map(rate) }
-                _ratedUiState.update { it.copy(ratedList = listOfRated, isLoading = false) }
-            } catch (e: Throwable) {
-                _ratedUiState.update { it.copy(error = listOf(Error("")), isLoading = false) }
+                val baseList = getRatedUseCase().map { rate ->
+                    ratedUIStateMapper.map(
+                        input = rate,
+                        categoryIdList = ratedUiState.value.genreList
+                    )
+                }
+
+                val listWithDurations = baseList.map { item ->
+                    val minutes = if (item.mediaType == Constants.MOVIE) {
+                        getMovieDurationUseCase(movieId = item.id)
+                    } else {
+                        Log.d("TAG", "getData: ${item.id}")
+                        getTvShowDurationUseCase(tvShowId = item.id)
+                    }
+                    if (item.mediaType != Constants.MOVIE)
+                        Log.d("TAG", "getData: $minutes")
+                    val pretty = TimeFormatters.formatMinutes(total = minutes)
+                    item.copy(duration = pretty)
+                }
+
+                // حفظ القائمة الكاملة
+                allRatedList = listWithDurations
+
+                // تطبيق الفلترة بناءً على التاب المحدد
+                filterData()
+
+                _ratedUiState.update {
+                    it.copy(isLoading = false, error = emptyList())
+                }
+            } catch (t: Throwable) {
+                _ratedUiState.update {
+                    it.copy(isLoading = false, error = emptyList())
+                }
             }
         }
     }
 
+    // دالة لفلترة البيانات بناءً على التاب المحدد
+    private fun filterData() {
+        val filteredList = if (_isMoviesTab.value) {
+            allRatedList.filter { it.mediaType == Constants.MOVIE }
+        } else {
+            allRatedList.filter { it.mediaType != Constants.MOVIE }
+        }
+
+        _ratedUiState.update { it.copy(ratedList = filteredList) }
+    }
+
+    // دالة للتبديل إلى تاب الأفلام مع الانيميشن
+    fun onTabMovies() {
+        if (!_isMoviesTab.value && !_isTabAnimating.value) {
+            _isTabAnimating.update { true }
+            viewModelScope.launch {
+                _isMoviesTab.update { true }
+                _isSeriesTab.update { false }
+                filterData()
+                // إنهاء الانيميشن بعد فترة قصيرة
+                kotlinx.coroutines.delay(300)
+                _isTabAnimating.update { false }
+            }
+        }
+    }
+
+    // دالة للتبديل إلى تاب المسلسلات مع الانيميشن
+    fun onTabSeries() {
+        if (!_isSeriesTab.value && !_isTabAnimating.value) {
+            _isTabAnimating.update { true }
+            viewModelScope.launch {
+                _isMoviesTab.update { false }
+                _isSeriesTab.update { true }
+                filterData()
+                // إنهاء الانيميشن بعد فترة قصيرة
+                kotlinx.coroutines.delay(300)
+                _isTabAnimating.update { false }
+            }
+        }
+    }
 
     override fun onClickMovie(movieId: Int) {
         ratedUiState.value.ratedList.let { it ->

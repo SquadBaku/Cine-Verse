@@ -42,6 +42,30 @@ class SeriesRepositoryImp @Inject constructor(
         return service.getGenreTvShowList().body()?.genres
     }
 
+    override suspend fun getTVShowDuration(tvId: Int): Int {
+
+        val tvResp = service.getTvShowDetails(tvShowId = tvId)
+        val details = tvResp.body()
+
+        val firstRealSeasonNumber = details?.season
+            ?.mapNotNull { it.seasonNumber }
+            ?.filter { it >= 1 }
+            ?.minOrNull()
+
+        if (firstRealSeasonNumber == null) {
+            val avg = details?.episodeRunTime?.firstOrNull()
+            return avg ?: 0
+        }
+
+        val epResp = service.getEpisodeDetails(
+            tvId = tvId,
+            seasonNumber = firstRealSeasonNumber,
+            episodeNumber = 1
+        )
+        val runtime = epResp.body()?.episodeRunTime
+        return runtime?.firstOrNull() ?: 0
+    }
+
     override suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto? {
         return service.getTvShowTrailer(tvShowId).body()
     }

@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">Movie App</string>
 
+
+    <string name="tap">Tap a movie to see details or update your rating</string>
+    <string name="title_empty_ratings">No Ratings Yet</string>
+    <string name="description_empty_ratings">Rate movies and series you\'ve watched to\ntrack what you love, and what you don\';t.</string>
+    <string name="cta_start_rating">Start Rating</string>
+    <string name="known_for">Known For</string>
     <string name="see_all">See all</string>
     <string name="top_rated">Top Rated</string>
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
-    <string name="search_hint">Search for a movie, tv show, person…</string>
+    <string name="search_hint">Search…</string>
     <string name="movies_chip">Movies</string>
     <string name="tv_shows_chip">TV Shows</string>
     <string name="actors_label">Actors</string>
@@ -14,7 +20,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="don_t_have_an_account">Don’t have an account?</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="sign_up">Sign up</string>
     <string name="place_of_birth">place of Birth</string>
     <string name="konwn_for">Known For</string>
@@ -23,6 +29,7 @@
     <string name="birthday">Birthday</string>
     <string name="biography">Biography</string>
     <string name="movies">Movies</string>
+    <string name="series">Series</string>
     <string name="actors">Actors</string>
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
@@ -71,7 +78,7 @@
     <string name="sign_out">Sign Out</string>
     <string name="at">\@</string>
     <string name="are_you_sure">Are You Sure?</string>
-    <string name="you_re_about_to_sign_out_of_your_account">You’re about to sign out of your account.</string>
+    <string name="you_re_about_to_sign_out_of_your_account">You\'re about to sign out of your account.</string>
     <string name="cancel">Cancel</string>
     <string name="logout">Sign Out</string>
     <string name="this_list_has_no_movies">This list has no movies</string>
@@ -82,7 +89,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create">Create</string>
     <string name="list_name">List Name</string>
-    <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on “Home” or “Search” and then create your movie list.</string>
+    <string name="explore_some_movies_on_home_or_search_and_then_create_your_movie_list">Explore some movies on "Home" or "Search" and then create your movie list.</string>
     <string name="empty_overview_text">This season has no description.</string>
     <string name="one_season">%1$d Season</string>
     <string name="more_than_one_season">%1$d Seasons</string>
@@ -119,6 +126,9 @@
     <string name="start_matching">Start Matching</string>
     <string name="next">Next</string>
     <string name="latest_seasons">Latest Seasons</string>
+    <string name="clear_all">Clear all</string>
+    <string name="you_recently_viewed">You Recent viewed</string>
+    <string name="search_suggestion">Search Suggestion</string>
     <string name="oops_no_internet">Oops! No Internet</string>
     <string name="looks_like_you_re_offline_let_s_reconnect_so_nyou_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect so \nyou don\'t miss out!</string>
     <string name="try_again">Try Again</string>

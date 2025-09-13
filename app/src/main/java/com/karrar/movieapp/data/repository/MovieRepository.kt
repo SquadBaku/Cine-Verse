@@ -127,4 +127,6 @@ interface MovieRepository {
         primaryReleaseDateLte: String?,
     ): List<MovieDto>?
 
-}
+    suspend fun getMovieDuration(movieId: Int): Int
+    }
+

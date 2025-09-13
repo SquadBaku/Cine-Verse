@@ -65,6 +65,11 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getDailyTrending().body()!!
     }
 
+    override suspend fun getMovieDuration(movieId: Int): Int {
+        val response = movieService.getMovieDetails(movieId)
+        return response.body()?.runtime ?: 0
+    }
+
 
     override suspend fun getRatedMovie(): List<RatedMoviesDto>? {
         return movieService.getRatedMovie().body()?.items

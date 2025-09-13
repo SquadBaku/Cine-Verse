@@ -9,7 +9,8 @@ import javax.inject.Inject
 class SearchHistoryUIStateMapper @Inject constructor(): Mapper<SearchHistory, SearchHistoryUIState> {
     override fun map(input: SearchHistory): SearchHistoryUIState {
         return SearchHistoryUIState(
-            input.name
+            id = input.id,
+            name = input.name
         )
     }
 }

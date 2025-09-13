@@ -52,6 +52,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         inputMethodManager.showSoftInput(binding.inputSearch, InputMethodManager.SHOW_IMPLICIT)
 
         binding.recyclerSearchHistory.adapter = SearchHistoryAdapter(mutableListOf(), viewModel)
+        binding.recyclerSearchSuggestion.adapter = SearchSuggestionAdapter(mutableListOf(), viewModel)
     }
 
     @OptIn(FlowPreview::class)
@@ -91,12 +92,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 when (event.mediaUIState.mediaTypes) {
                     Constants.MOVIE -> navigateToMovieDetails(event.mediaUIState.mediaID)
                     Constants.TV_SHOWS -> navigateToSeriesDetails(event.mediaUIState.mediaID)
+                    Constants.ACTOR -> navigateToActorDetails(actorId = event.mediaUIState.mediaID)
                 }
             }
             SearchUIEvent.ClickRetryEvent -> {
                 actorSearchAdapter.retry()
                 mediaSearchAdapter.retry()
             }
+
+            is SearchUIEvent.ClickMovieEvent -> navigateToMovieDetails(event.movieID)
         }
     }
 

@@ -10,6 +10,7 @@ import com.karrar.movieapp.domain.usecases.allMedia.GetMediaByTypeUseCase
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,6 +60,10 @@ class AllMovieViewModel @Inject constructor(
         } else {
             _mediaUIEvent.update { Event(MediaUIEvent.ClickMovieEvent(mediaId)) }
         }
+    }
+
+    override fun onClickMediaCard(media: MediaUIState) {
+        // handle if needed
     }
 
     fun setErrorUiState(combinedLoadStates: CombinedLoadStates) {

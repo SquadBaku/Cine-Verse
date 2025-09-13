@@ -14,18 +14,40 @@
 
     </data>
 
-    <TextView
-        android:id="@+id/text_search_history"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_too_small"
-        android:layout_marginBottom="@dimen/spacing_too_small"
-        tools:text="Star Wars"
-        android:text="@{item.name}"
-        style="@style/Regular.Medium"
-        android:textColor="@color/shade_secondary_color"
-        android:drawablePadding="6dp"
-        app:drawableEndCompat="@drawable/ic_arrow_up_left"
-        android:onClick="@{() -> listener.onClickSearchHistory(item.name)}"/>
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@drawable/new_history_item_background"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/new_history_icon"
+            android:padding="@dimen/spacing_small" />
+
+        <TextView
+            android:id="@+id/text_search_history"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            style="@style/Typography.body_md_medium"
+            android:textColor="@color/shade_secondary"
+            android:text="@{item.name}"
+            tools:text="Star Wars"
+            android:onClick="@{() -> listener.onClickSearchHistory(item.name)}" />
+
+        <ImageView
+            android:id="@+id/delete_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/new_cross_icon"
+            android:padding="@dimen/spacing_small"
+            android:onClick="@{() -> listener.onClickDeleteSearchHistoryItem(item.id)}" />
+
+    </LinearLayout>
+
 
 </layout>

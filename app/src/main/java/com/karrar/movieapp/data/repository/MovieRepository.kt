@@ -44,6 +44,12 @@ interface MovieRepository {
 
     suspend fun deleteSearchItem(item: SearchHistoryEntity)
 
+    suspend fun deleteSearchHistoryItemByName(name: String)
+
+    suspend fun deleteSearchHistoryItemById(id: Long)
+
+    suspend fun deleteAllSearchHistory()
+
     suspend fun insertMovie(movie: WatchHistoryEntity)
 
     fun getAllWatchedMovies(): Flow<List<WatchHistoryEntity>>

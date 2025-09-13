@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.karrar.movieapp.domain.usecases.GetGenreListUseCase
 import com.karrar.movieapp.domain.usecases.GetMediaByGenreIDUseCase
@@ -12,6 +13,9 @@ import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
 import com.karrar.movieapp.ui.category.uiState.CategoryUIState
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchHistoryUIStateMapper
+import com.karrar.movieapp.ui.search.uiStatMapper.SearchMediaUIStateMapper
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -64,10 +68,15 @@ class CategoryViewModel @Inject constructor(
     fun getMediaList(selectedCategory: Int) {
         viewModelScope.launch {
             val result = getCategoryUseCase(args.mediaId, selectedCategory)
+                .map { pagingData ->
+                    pagingData.map { SearchMediaUIStateMapper().map(it) }
+                }
+                .cachedIn(viewModelScope)
+
             _uiState.update {
                 it.copy(
                     isLoading = false,
-                    media = result.map { pagingData -> pagingData.map { mediaUIStateMapper.map(it) } },
+                    media = result,
                     error = emptyList()
                 )
             }
@@ -76,6 +85,10 @@ class CategoryViewModel @Inject constructor(
 
     override fun onClickMedia(mediaId: Int) {
         _categoryUIEvent.update { Event(CategoryUIEvent.ClickMovieEvent(mediaId)) }
+    }
+
+    override fun onClickMediaCard(media: MediaUIState) {
+        // handle if needed
     }
 
     override fun onClickCategory(categoryId: Int) {

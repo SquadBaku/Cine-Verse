@@ -15,6 +15,7 @@ import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
+import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -285,6 +286,10 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickMedia(mediaId: Int) {
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeriesEvent(mediaId)) }
+    }
+
+    override fun onClickMediaCard(media: MediaUIState) {
+        // handle if needed
     }
 
     override fun onClickTVShow(tVShowID: Int) {

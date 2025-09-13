@@ -145,6 +145,22 @@ class MovieRepositoryImp @Inject constructor(
         )
     }
 
+    override suspend fun getMatchListMovie(
+        genres: List<String>?,
+        withRuntimeGte: Int?,
+        withRuntimeLte: Int?,
+        primaryReleaseDateGte: String?,
+        primaryReleaseDateLte: String?,
+    ): List<MovieDto>? {
+        return movieService.getMatchListMovie(
+            genres = genres,
+            withRuntimeGte = withRuntimeGte,
+            withRuntimeLte = withRuntimeLte,
+            primaryReleaseDateGte = primaryReleaseDateGte,
+            primaryReleaseDateLte = primaryReleaseDateLte
+        ).body()?.items
+    }
+
 
     /**
      * Caching
@@ -209,17 +225,20 @@ class MovieRepositoryImp @Inject constructor(
 
 
     override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.trendingMovieDataSource })
     }
 
     override suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.nowStreamingMovieMovieDataSource })
     }
 
     override suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.upcomingMovieMovieDataSource })
     }
 

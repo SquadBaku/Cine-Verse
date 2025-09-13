@@ -3,6 +3,7 @@
 
     <dimen name="radius_2xs">2dp</dimen>
     <dimen name="radius_xs">4dp</dimen>
+    <dimen name="radius_ys">6dp</dimen>
     <dimen name="radius_s">8dp</dimen>
     <dimen name="radius_md">10dp</dimen>
     <dimen name="radius_lg">12dp</dimen>
@@ -43,5 +44,8 @@
     <!-- chips -->
     <dimen name="chip_height">32dp</dimen>
     <dimen name="spacing_60">60dp</dimen>
+
+    <dimen name="pageMargin">16dp</dimen>
+    <dimen name="offset">32dp</dimen>
 
 </resources>

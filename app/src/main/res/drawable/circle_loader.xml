@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:innerRadiusRatio="3"
-    android:shape="ring"
-    android:thicknessRatio="10"
-    android:useLevel="false">
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="0"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:duration="100"
+    android:repeatCount="infinite"
+    android:toDegrees="360" >
 
-    <size
-        android:width="48dp"
-        android:height="48dp" />
-    <gradient
-        android:centerColor="#636DB1"
-        android:endColor="#2A2D46"
-        android:startColor="#8B9DFD"
-        android:type="sweep"
-        android:useLevel="false" />
-</shape>
+    <shape
+        android:shape="ring"
+        android:innerRadiusRatio="3"
+        android:thicknessRatio="12"
+        android:useLevel="false">
+        <gradient
+            android:type="sweep"
+            android:useLevel="false"
+            android:startColor="@color/brand_primary"
+            android:centerColor="@color/brand_secondary"
+            android:endColor="@color/brand_tertiary"/>
+    </shape>
+</rotate>

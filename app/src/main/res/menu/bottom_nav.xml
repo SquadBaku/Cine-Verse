@@ -13,10 +13,10 @@
         android:title="@string/explore" />
 
     <item
-        android:id="@+id/myListFragment"
+        android:id="@+id/matchFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_book_mark"
-        android:title="@string/myList" />
+        android:icon="@drawable/magic_pen"
+        android:title="@string/match" />
 
     <item
         android:id="@+id/profileFragment"

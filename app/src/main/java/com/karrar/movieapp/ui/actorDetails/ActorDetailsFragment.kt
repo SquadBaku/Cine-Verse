@@ -1,7 +1,9 @@
 package com.karrar.movieapp.ui.actorDetails
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -22,7 +24,6 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
         binding.relatedMovieRecycler.adapter = ActorMoviesAdapter(mutableListOf(), viewModel)
-
         collectLast(viewModel.actorDetailsUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
@@ -38,6 +39,10 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
             }
             ActorDetailsUIEvent.SeeAllMovies -> {
                 navigateToActorMovies()
+            }
+            ActorDetailsUIEvent.SeeActorGallery -> navigateToActorGallery()
+            is ActorDetailsUIEvent.OpenSocialMediaLink -> {
+                openLink(event.link)
             }
         }
     }
@@ -60,8 +65,39 @@ class ActorDetailsFragment : BaseFragment<FragmentActorDetailsBinding>() {
         )
     }
 
+    private fun openLink(link: String) {
+        try {
+            val intent = when {
+                link.contains("youtube", true) -> Intent(Intent.ACTION_VIEW, "vnd.youtube:${link.substringAfterLast("/")}".toUri())
+                link.contains("facebook", true) -> Intent(Intent.ACTION_VIEW, "fb://facewebmodal/f?href=$link".toUri())
+                link.contains("instagram", true) -> Intent(Intent.ACTION_VIEW, "http://instagram.com/_u/${link.substringAfterLast("/")}".toUri())
+                link.contains("twitter", true) -> Intent(Intent.ACTION_VIEW, "twitter://user?screen_name=${link.substringAfterLast("/")}".toUri())
+                link.contains("tiktok", true) -> Intent(Intent.ACTION_VIEW, "snssdk1233://user/profile/${link.substringAfterLast("/")}".toUri())
+                else -> Intent(Intent.ACTION_VIEW, link.toUri())
+            }
+            startActivity(intent)
+        }
+        catch (e: Exception) {
+            openInBrowser(link)
+        }
+    }
+
+    private fun openInBrowser(link: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = link.toUri()
+        startActivity(intent)
+    }
+
     private fun removeFragment() {
         findNavController().popBackStack()
+    }
+
+    private fun navigateToActorGallery() {
+        findNavController().navigate(
+            ActorDetailsFragmentDirections.actionActorDetailsFragmentToActorGalleryFragment(
+                viewModel.args.id
+            )
+        )
     }
 
 }

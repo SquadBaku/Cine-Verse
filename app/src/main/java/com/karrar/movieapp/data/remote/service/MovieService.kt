@@ -191,8 +191,12 @@ interface MovieService {
     ): Response<AddMovieDto>
 
 
+
+
     @GET("list/{list_id}")
     suspend fun getList(@Path("list_id") listId: Int): Response<MyListsDto>
+
+
 
     @GET("tv/on_the_air")
     suspend fun getOnTheAir(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
@@ -260,6 +264,13 @@ interface MovieService {
         @Path("tv_id") tvShowId: Int,
         @Path("season_number") seasonId: Int,
     ): Response<SeasonDto>
+
+    @GET(value = "tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodeDetails(
+        @Path(value = "tv_id") tvId: Int,
+        @Path(value = "season_number") seasonNumber: Int,
+        @Path(value = "episode_number") episodeNumber: Int
+    ): Response<TvShowDetailsDto>
 
     @GET("tv/{tv_id}/videos")
     suspend fun getTvShowTrailer(@Path("tv_id") tvShowId: Int): Response<TrailerDto>

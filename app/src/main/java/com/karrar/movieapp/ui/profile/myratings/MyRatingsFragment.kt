@@ -2,11 +2,15 @@ package com.karrar.movieapp.ui.profile.myratings
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -34,11 +38,12 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
         setupTabAnimations()
 
+        initializeTabs()
+
         collectLast(viewModel.myRatingUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
 
-        // مراقبة تغيير حالة التابات
         lifecycleScope.launch {
             viewModel.isMoviesTab.collect { isMoviesTab ->
                 animateTabTransition(isMoviesTab)
@@ -46,8 +51,20 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         }
     }
 
+    private fun initializeTabs() {
+
+        val primaryColor = ContextCompat.getColor(requireContext(), R.color.brand_primary)
+        val tertiaryColor = ContextCompat.getColor(requireContext(), R.color.shade_tertiary)
+
+        binding.tvMovies.setTextColor(primaryColor)
+        binding.tvSeries.setTextColor(tertiaryColor)
+        binding.indicatorMovies.visibility = View.VISIBLE
+        binding.indicatorSeries.visibility = View.INVISIBLE
+        binding.indicatorMovies.alpha = 1f
+        binding.indicatorSeries.alpha = 0f
+    }
+
     private fun setupTabAnimations() {
-        // إعداد النقرات مع منع النقرات المتعددة أثناء الأنيميشن
         binding.tabMovies.setOnClickListener {
             if (!isAnimating) {
                 viewModel.onTabMovies()
@@ -69,74 +86,81 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         val primaryColor = ContextCompat.getColor(requireContext(), R.color.brand_primary)
         val tertiaryColor = ContextCompat.getColor(requireContext(), R.color.shade_tertiary)
 
-        // تحديد العناصر المراد تحريكها
         val activeTextView = if (isMoviesTab) binding.tvMovies else binding.tvSeries
         val inactiveTextView = if (isMoviesTab) binding.tvSeries else binding.tvMovies
         val activeIndicator = if (isMoviesTab) binding.indicatorMovies else binding.indicatorSeries
         val inactiveIndicator = if (isMoviesTab) binding.indicatorSeries else binding.indicatorMovies
 
-        // أنيميشن تغيير اللون للنصوص
-        val colorAnimator = ValueAnimator.ofObject(ArgbEvaluator(), tertiaryColor, primaryColor)
-        colorAnimator.duration = 300
-        colorAnimator.interpolator = AccelerateDecelerateInterpolator()
+        val animatorSet = AnimatorSet()
 
-        colorAnimator.addUpdateListener { animator ->
-            val animatedValue = animator.animatedValue as Int
-            val reverseValue = ArgbEvaluator().evaluate(
-                1f - animator.animatedFraction,
-                tertiaryColor,
-                primaryColor
-            ) as Int
+        val activeTextColorAnimator = ObjectAnimator.ofObject(
+            activeTextView, "textColor", ArgbEvaluator(), tertiaryColor, primaryColor
+        )
+        val inactiveTextColorAnimator = ObjectAnimator.ofObject(
+            inactiveTextView, "textColor", ArgbEvaluator(), primaryColor, tertiaryColor
+        )
 
-            activeTextView.setTextColor(animatedValue)
-            inactiveTextView.setTextColor(reverseValue)
-        }
+        val activeTextScaleAnimator = ObjectAnimator.ofPropertyValuesHolder(
+            activeTextView,
+            PropertyValuesHolder.ofFloat("scaleX", 1f, 1.15f, 1f),
+            PropertyValuesHolder.ofFloat("scaleY", 1f, 1.15f, 1f)
+        )
+        activeTextScaleAnimator.interpolator = OvershootInterpolator(1.2f)
 
-        // أنيميشن إظهار/إخفاء المؤشرات
-        val showIndicatorAnimator = ValueAnimator.ofFloat(0f, 1f)
-        val hideIndicatorAnimator = ValueAnimator.ofFloat(1f, 0f)
+        val hideIndicatorAnimator = ObjectAnimator.ofPropertyValuesHolder(
+            inactiveIndicator,
+            PropertyValuesHolder.ofFloat("alpha", 1f, 0f),
+            PropertyValuesHolder.ofFloat("scaleX", 1f, 0.3f),
+            PropertyValuesHolder.ofFloat("scaleY", 1f, 0.3f)
+        )
 
-        showIndicatorAnimator.duration = 300
-        hideIndicatorAnimator.duration = 300
+        val showIndicatorAnimator = ObjectAnimator.ofPropertyValuesHolder(
+            activeIndicator,
+            PropertyValuesHolder.ofFloat("alpha", 0f, 1f),
+            PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f),
+            PropertyValuesHolder.ofFloat("scaleY", 0.3f, 1f)
+        )
 
-        showIndicatorAnimator.interpolator = AccelerateDecelerateInterpolator()
-        hideIndicatorAnimator.interpolator = AccelerateDecelerateInterpolator()
+        val indicatorSlideAnimator = ObjectAnimator.ofFloat(
+            activeIndicator, "translationY", -10f, 0f
+        )
+        indicatorSlideAnimator.interpolator = OvershootInterpolator(0.8f)
 
-        showIndicatorAnimator.addUpdateListener { animator ->
-            activeIndicator.alpha = animator.animatedValue as Float
-            activeIndicator.scaleX = animator.animatedValue as Float
-        }
+        animatorSet.playTogether(
+            activeTextColorAnimator,
+            inactiveTextColorAnimator,
+            activeTextScaleAnimator,
+            hideIndicatorAnimator,
+            showIndicatorAnimator,
+            indicatorSlideAnimator
+        )
 
-        hideIndicatorAnimator.addUpdateListener { animator ->
-            inactiveIndicator.alpha = animator.animatedValue as Float
-            inactiveIndicator.scaleX = animator.animatedValue as Float
-        }
+        animatorSet.duration = 350
+        animatorSet.interpolator = AccelerateDecelerateInterpolator()
 
-        // أنيميشن تكبير وتصغير النص
-        val scaleUpAnimator = ValueAnimator.ofFloat(1f, 1.1f, 1f)
-        scaleUpAnimator.duration = 300
-        scaleUpAnimator.addUpdateListener { animator ->
-            val scale = animator.animatedValue as Float
-            activeTextView.scaleX = scale
-            activeTextView.scaleY = scale
-        }
-
-        // بدء الأنيميشنات
-        colorAnimator.start()
-        showIndicatorAnimator.start()
-        hideIndicatorAnimator.start()
-        scaleUpAnimator.start()
-
-        // إعداد حالة الرؤية للمؤشرات
         activeIndicator.visibility = View.VISIBLE
-        inactiveIndicator.visibility = View.INVISIBLE
 
-        // انتهاء الأنيميشن
-        colorAnimator.addListener(object : AnimatorListenerAdapter() {
+        animatorSet.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator) {
+
+                activeIndicator.visibility = View.VISIBLE
+            }
+
             override fun onAnimationEnd(animation: Animator) {
+
+                inactiveIndicator.visibility = View.INVISIBLE
                 isAnimating = false
+
+                activeIndicator.translationY = 0f
+                activeTextView.scaleX = 1f
+                activeTextView.scaleY = 1f
+
+                activeTextView.setTypeface(activeTextView.typeface, android.graphics.Typeface.BOLD)
+                inactiveTextView.setTypeface(inactiveTextView.typeface, android.graphics.Typeface.NORMAL)
             }
         })
+
+        animatorSet.start()
     }
 
     private fun onEvent(event: MyRatingUIEvent) {

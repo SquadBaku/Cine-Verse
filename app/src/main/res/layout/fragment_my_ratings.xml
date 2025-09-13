@@ -61,85 +61,94 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TableLayout
+        <LinearLayout
             android:id="@+id/tabs_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_screen"
             android:layout_marginTop="8dp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:paddingEnd="16dp"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/tab_movies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{() -> viewModel.onTabMovies()}"
+                android:layout_marginEnd="4dp">
 
-                <LinearLayout
-                    android:id="@+id/tab_movies"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{() -> viewModel.onTabMovies()}">
+                <TextView
+                    android:id="@+id/tv_movies"
+                    style="@style/Typography.body_md_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="@string/movies"
+                    android:textColor="@{viewModel.isMoviesTab ? @color/brand_primary : @color/shade_tertiary}"
+                    android:transitionName="tabTextTransition"
+                    android:letterSpacing="0.02"/>
 
-                    <TextView
-                        android:id="@+id/tv_movies"
-                        style="@style/Typography.body_md_regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:text="@string/movies"
-                        android:textColor="@{viewModel.isMoviesTab ? @color/brand_primary : @color/shade_tertiary}"
-                        android:transitionName="tabTextTransition"/>
+                <View
+                    android:id="@+id/indicator_movies"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_tab_indicator"
+                    android:visibility="@{viewModel.isMoviesTab ? View.VISIBLE : View.INVISIBLE}"
+                    android:transitionName="tabIndicatorTransition"
+                    android:elevation="2dp"/>
+            </LinearLayout>
 
-                    <View
-                        android:id="@+id/indicator_movies"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/bg_tab_indicator"
-                        android:visibility="@{viewModel.isMoviesTab ? View.VISIBLE : View.INVISIBLE}"
-                        android:transitionName="tabIndicatorTransition"/>
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/tab_series"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{() -> viewModel.onTabSeries()}"
+                android:layout_marginStart="4dp">
 
-                <LinearLayout
-                    android:id="@+id/tab_series"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{() -> viewModel.onTabSeries()}">
+                <TextView
+                    android:id="@+id/tv_series"
+                    style="@style/Typography.body_md_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="@string/series"
+                    android:textColor="@{viewModel.isSeriesTab ? @color/brand_primary : @color/shade_tertiary}"
+                    android:transitionName="tabTextTransition"
+                    android:letterSpacing="0.02"/>
 
-                    <TextView
-                        android:id="@+id/tv_series"
-                        style="@style/Typography.body_md_regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:text="@string/series"
-                        android:textColor="@{viewModel.isSeriesTab ? @color/brand_primary : @color/shade_tertiary}"
-                        android:transitionName="tabTextTransition"/>
+                <View
+                    android:id="@+id/indicator_series"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_tab_indicator"
+                    android:visibility="@{viewModel.isSeriesTab ? View.VISIBLE : View.INVISIBLE}"
+                    android:transitionName="tabIndicatorTransition"
+                    android:elevation="2dp"/>
+            </LinearLayout>
 
-                    <View
-                        android:id="@+id/indicator_series"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@drawable/bg_tab_indicator"
-                        android:visibility="@{viewModel.isSeriesTab ? View.VISIBLE : View.INVISIBLE}"
-                        android:transitionName="tabIndicatorTransition"/>
-                </LinearLayout>
-
-            </TableRow>
-        </TableLayout>
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_rated_movies"

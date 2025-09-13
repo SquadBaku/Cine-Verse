@@ -25,6 +25,7 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
     private val args: TvShowDetailsFragmentArgs by navArgs()
     private val detailAdapter by lazy { DetailUIStateAdapter(emptyList(), viewModel) }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(false)
@@ -54,30 +55,43 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             TvShowDetailsUIEvent.ClickBackEvent -> {
                 findNavController().navigateUp()
             }
+
             is TvShowDetailsUIEvent.ClickCastEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToActorDetailsFragment(
                         event.castID
                     )
             }
+
             is TvShowDetailsUIEvent.ClickSeasonEvent -> {
                 action =
-                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(args.tvShowId, event.seasonId)
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToEpisodesFragment(
+                        args.tvShowId,
+                        event.seasonId
+                    )
             }
+
             TvShowDetailsUIEvent.ClickPlayTrailerEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailFragmentToYoutubePlayerActivity(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.ClickReviewsEvent -> {
                 action =
                     TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToReviewFragment(
                         args.tvShowId, MediaType.TV_SHOW
                     )
             }
+
             TvShowDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
+            }
+
+            TvShowDetailsUIEvent.ClickShowMoreSeasonsEvent -> {
+                action = TvShowDetailsFragmentDirections
+                    .actionTvShowDetailsFragmentToSeasonListFragment()
             }
         }
         action?.let { findNavController().navigate(it) }

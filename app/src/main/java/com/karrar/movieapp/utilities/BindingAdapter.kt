@@ -277,3 +277,10 @@ fun bindRecyclerViewAdapter(
 ) {
     recyclerView.adapter = adapter
 }
+
+@BindingAdapter("app:adapterRecycler")
+fun bindRecyclerAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
+    adapter?.let {
+        recyclerView.adapter = it
+    }
+}

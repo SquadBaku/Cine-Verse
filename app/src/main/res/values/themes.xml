@@ -108,6 +108,14 @@
         <item name="cornerSizeBottomRight">@dimen/radius_lg</item>
     </style>
 
+    <style name="TopRoundedImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_5xl</item>
+        <item name="cornerSizeTopRight">@dimen/radius_5xl</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_xs</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_xs</item>
+    </style>
+
     <!--  old App Theme -->
     <style name="Theme.MovieApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/brand_color</item>

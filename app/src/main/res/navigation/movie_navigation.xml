@@ -343,6 +343,9 @@
             android:id="@+id/action_tvShowDetailsFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
         <action
+            android:id="@+id/action_tvShowDetailsFragment_to_seasonListFragment"
+            app:destination="@id/seasonListFragment" />
+        <action
             android:id="@+id/action_tvShowDetailsFragment_to_saveMovieDialog"
             app:destination="@id/saveMovieDialog" />
         <action
@@ -390,5 +393,15 @@
             app:argType="integer" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/seasonListFragment"
+        android:name="com.karrar.movieapp.ui.tvShowDetails.SeasonListFragment"
+        android:label="Seasons"
+        tools:layout="@layout/fragment_season_list">
+    </fragment>
+
+
+
 
 </navigation>

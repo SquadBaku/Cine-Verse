@@ -3,33 +3,34 @@ package com.karrar.movieapp.ui.category
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
-import com.karrar.movieapp.databinding.ItemExploreGridBinding
 import com.karrar.movieapp.databinding.ItemGenersListBinding
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
+import com.karrar.movieapp.ui.base.BasePagingAdapter
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState
 
+
 class CategoryAdapter(
-    private val listener: MediaInteractionListener,
-    private val categoryListener: CategoryInteractionListener
-) : PagingDataAdapter<MediaUIState, RecyclerView.ViewHolder>(MediaComparator) {
+    listener: MediaInteractionListener,
+    private val categoryListener: CategoryInteractionListener,
+) : BasePagingAdapter<MediaUIState>(MediaComparator, listener) {
+
+    override val layoutID: Int = R.layout.item_explore_grid
 
     private var genres: List<GenreUIState> = emptyList()
     private var selectedCategoryId: Int = -1
 
     companion object {
-        private const val VIEW_TYPE_GENRES = 0
-        private const val VIEW_TYPE_MEDIA = 1
+         const val VIEW_TYPE_GENRES = 0
+         const val VIEW_TYPE_MEDIA = 1
     }
 
     fun setGenres(genres: List<GenreUIState>, selectedId: Int) {
         this.genres = genres
         this.selectedCategoryId = selectedId
-        notifyItemChanged(0) // refresh genres row
+        notifyItemChanged(0)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -37,11 +38,10 @@ class CategoryAdapter(
     }
 
     override fun getItemCount(): Int {
-        // +1 for the genres row
         return super.getItemCount() + 1
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
             VIEW_TYPE_GENRES -> {
                 val binding: ItemGenersListBinding = DataBindingUtil.inflate(
@@ -52,50 +52,27 @@ class CategoryAdapter(
                 )
                 GenresViewHolder(binding)
             }
-            else -> {
-                val binding: ItemExploreGridBinding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
-                    R.layout.item_explore_grid,
-                    parent,
-                    false
-                )
-                MediaViewHolder(binding)
-            }
+            else -> super.onCreateViewHolder(parent, viewType)
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is GenresViewHolder) {
-            holder.bind(genres, selectedCategoryId, categoryListener)
-        } else if (holder is MediaViewHolder) {
-            val item = getItem(position - 1) // shift by 1 because first item is genres
-            if (item != null) holder.bind(item, listener)
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        when (holder) {
+            is GenresViewHolder -> holder.bind(genres, selectedCategoryId, categoryListener)
+            is ItemViewHolder -> {
+                val item = getItem(position - 1)
+                if (item != null) bind(item, holder)
+            }
         }
     }
 
     inner class GenresViewHolder(
         private val binding: ItemGenersListBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(
-            genres: List<GenreUIState>,
-            selectedId: Int,
-            listener: CategoryInteractionListener
-        ) {
-            binding.viewModel = null // prevent old binding
+    ) : BaseViewHolder(binding) {
+        fun bind(genres: List<GenreUIState>, selectedId: Int, listener: CategoryInteractionListener) {
             val adapter = GenreAdapter(listener)
             binding.recyclerGenres.adapter = adapter
             adapter.submitList(genres, selectedId)
-        }
-    }
-
-    inner class MediaViewHolder(
-        private val binding: ItemExploreGridBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: MediaUIState, listener: MediaInteractionListener) {
-            binding.item = item
-            binding.listener = listener
-            binding.executePendingBindings()
         }
     }
 

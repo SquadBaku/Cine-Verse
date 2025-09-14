@@ -2,13 +2,11 @@ package com.karrar.movieapp.ui.category
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentCategoryBinding
 import com.karrar.movieapp.ui.adapters.LoadUIStateAdapter
@@ -19,7 +17,6 @@ import com.karrar.movieapp.utilities.Constants.TV_CATEGORIES_ID
 import com.karrar.movieapp.utilities.ViewMode
 import com.karrar.movieapp.utilities.collect
 import com.karrar.movieapp.utilities.collectLast
-import com.karrar.movieapp.utilities.setSpanSize
 import com.karrar.movieapp.utilities.setupViewModeToggle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -50,13 +47,10 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val adapter = binding.recyclerMedia.adapter
-                return if (adapter != null &&
-                    position == adapter.itemCount - 1 &&
-                    footerAdapter.itemCount > 0
-                ) {
-                    2
-                } else {
-                    1
+                return when {
+                    adapter != null && position == adapter.itemCount - 1 && footerAdapter.itemCount > 0 -> 2
+                    adapter != null && adapter.getItemViewType(position) == CategoryAdapter.VIEW_TYPE_GENRES -> 2
+                    else -> 1
                 }
             }
         }
@@ -85,6 +79,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                 binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
                 binding.recyclerMedia.adapter = allMediaAdapter
             }
+
             ViewMode.LIST -> {
                 binding.recyclerMedia.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerMedia.adapter = listAdapter
@@ -120,9 +115,11 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                     navigateToMovieDetails(event.movieID)
                 }
             }
+
             CategoryUIEvent.RetryEvent -> {
                 allMediaAdapter.retry()
             }
+
             is CategoryUIEvent.SelectedCategory -> {
                 viewModel.getMediaList(event.categoryID)
             }
@@ -130,7 +127,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
     private fun navigateToMovieDetails(movieId: Int) {
-        val action = ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(movieId)
+        val action =
+            ExploringFragmentDirections.actionExploringFragmentToMovieDetailFragment(movieId)
         findNavController().navigate(action)
     }
 

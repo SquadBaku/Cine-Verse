@@ -3,6 +3,7 @@ package com.karrar.movieapp.ui.tvShowDetails
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.adapters.*
@@ -18,14 +19,10 @@ class DetailUIStateAdapter(
     override val layoutID: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        return ItemViewHolder(
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                viewType,
-                parent,
-                false
-            )
-        )
+        val inflater = LayoutInflater.from(parent.context)
+        val binding: ViewDataBinding =
+            DataBindingUtil.inflate(inflater, viewType, parent, /* attachToParent = */ false)
+        return ItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -77,7 +74,16 @@ class DetailUIStateAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+            is DetailItemUIState.UserRating -> {
+                holder.binding.run {
+                    setVariable(BR.item, currentItem.data)
+                    setVariable(BR.listener, listener)
+                    executePendingBindings()
+
+                }
+            }
         }
+
     }
 
     override fun setItems(newItems: List<DetailItemUIState>) {
@@ -98,6 +104,7 @@ class DetailUIStateAdapter(
             is DetailItemUIState.Comment -> R.layout.item_tvshow_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
             DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.UserRating -> R.layout.item_tvshow_rating
         }
     }
 }

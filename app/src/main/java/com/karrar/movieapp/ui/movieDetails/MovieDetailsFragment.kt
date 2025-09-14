@@ -32,6 +32,7 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         collectEvents()
     }
 
+
     private fun collectMovieDetailsItems() {
         binding.recyclerView.adapter = detailAdapter
         lifecycleScope.launch {

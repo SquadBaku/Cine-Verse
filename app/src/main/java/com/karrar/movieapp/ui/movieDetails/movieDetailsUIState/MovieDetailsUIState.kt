@@ -12,4 +12,5 @@ data class MovieDetailsUIState(
     val minutes: Int = 0,
     val voteAverage: String = "",
     val overview: String = "",
+    val userRating: String = "",
 )

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:background="@color/background_card"
             android:minHeight="88dp"
-            android:padding="16dp"
+            android:paddingEnd="16dp"
             app:cardCornerRadius="@dimen/radius_lg">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -43,24 +43,38 @@
                 app:shapeAppearanceOverlay="@style/PosterCorners"
                 tools:src="@drawable/test" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_user_rating"
+                style="@style/Typography.body_sm_medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/additional_primary_yellow"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{item.userRating}'
+                android:textColor="@color/shade_primary"
+                app:layout_constraintEnd_toStartOf="@id/text_rate_movie"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/image_movie"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="You gave it 4.0 ★" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title_movie"
                 style="@style/Typography.body_md_medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:ellipsize="end"
-                android:maxLines="1"
                 android:text="@{item.title}"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintEnd_toEndOf="@+id/text_rate_movie"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintEnd_toStartOf="@id/text_rate_movie"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="The Mandalorian" />
+                app:layout_constraintTop_toBottomOf="@id/text_user_rating"
+                tools:text="The Flash" />
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_category"
@@ -68,16 +82,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{item.category}"
                 android:textColor="@color/shade_secondary"
                 android:textSize="12sp"
-                android:text="@{item.category}"
                 app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/text_title_movie"
                 app:layout_constraintTop_toBottomOf="@id/text_title_movie"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Drama, Action, Crime, Thriller"/>
+                tools:text="Drama, Action, Crime, Thriller" />
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -105,9 +119,10 @@
                 app:drawableStartCompat="@drawable/new_calendar"
                 app:drawableTint="@color/shade_secondary"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/image_movie"
+                app:layout_constraintTop_toBottomOf="@id/"
                 tools:text="2013, July" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

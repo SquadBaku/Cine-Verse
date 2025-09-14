@@ -4,219 +4,268 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.myratings.MyRatingsViewModel" />
     </data>
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/background_screen">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/info_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/background_card"
-            android:padding="12dp">
-
-            <ImageView
-                android:id="@+id/iv_info"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/info_circle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/tap"
-                android:textColor="@color/shade_primary"
-                android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@id/iv_info"
-                app:layout_constraintEnd_toStartOf="@id/btn_close"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <ImageButton
-                android:id="@+id/btn_close"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="0dp"
-                android:src="@drawable/ic_close"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <!-- Header with back button -->
         <LinearLayout
-            android:id="@+id/tabs_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_screen"
-            android:layout_marginTop="8dp"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:background="@color/background_screen">
 
-            <LinearLayout
-                android:id="@+id/tab_movies"
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/arrow_left"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:tint="@color/button_onSecondary" />
+
+            <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingTop="12dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:onClick="@{() -> viewModel.onTabMovies()}"
-                android:layout_marginEnd="4dp">
-
-                <TextView
-                    android:id="@+id/tv_movies"
-                    style="@style/Typography.body_md_regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="@string/movies"
-                    android:textColor="@{viewModel.isMoviesTab ? @color/brand_primary : @color/shade_tertiary}"
-                    android:transitionName="tabTextTransition"
-                    android:letterSpacing="0.02"/>
-
-                <View
-                    android:id="@+id/indicator_movies"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_tab_indicator"
-                    android:visibility="@{viewModel.isMoviesTab ? View.VISIBLE : View.INVISIBLE}"
-                    android:transitionName="tabIndicatorTransition"
-                    android:elevation="2dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/tab_series"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingTop="12dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:onClick="@{() -> viewModel.onTabSeries()}"
-                android:layout_marginStart="4dp">
-
-                <TextView
-                    android:id="@+id/tv_series"
-                    style="@style/Typography.body_md_regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="@string/series"
-                    android:textColor="@{viewModel.isSeriesTab ? @color/brand_primary : @color/shade_tertiary}"
-                    android:transitionName="tabTextTransition"
-                    android:letterSpacing="0.02"/>
-
-                <View
-                    android:id="@+id/indicator_series"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_tab_indicator"
-                    android:visibility="@{viewModel.isSeriesTab ? View.VISIBLE : View.INVISIBLE}"
-                    android:transitionName="tabIndicatorTransition"
-                    android:elevation="2dp"/>
-            </LinearLayout>
+                android:text="@string/my_ratings"
+                android:textColor="@color/button_onSecondary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:gravity="start|center_vertical" />
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_rated_movies"
+        <!-- Divider line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/shade_tertiary"
+            android:alpha="0.2" />
+
+        <!-- Main content with tabs and list -->
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingStart="@dimen/spacing_small"
-            android:paddingEnd="@dimen/spacing_small"
-            android:paddingTop="@dimen/spacing_small"
-            android:paddingBottom="@dimen/spacing_medium"
-            android:scrollbars="none"
-            app:items='@{viewModel.ratedUiState.ratedList}'
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_rated_movie" />
+            android:background="@color/background_screen">
 
-        <TextView
-            style="@style/SemiBold.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/this_list_has_no_movies"
-            android:visibility="gone"
-            app:doneLoad='@{viewModel.ratedUiState.loading}'
-            app:emptyData='@{viewModel.ratedUiState.ratedList}'
-            app:noError='@{viewModel.ratedUiState.error}' />
+            <!-- Info Card -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/info_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/background_card"
+                android:padding="12dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_info"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/info_circle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/tap"
+                    android:textColor="@color/shade_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/iv_info"
+                    app:layout_constraintEnd_toStartOf="@id/btn_close"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="0dp"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Tabs container -->
+            <TableLayout
+                android:id="@+id/tabs_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_screen"
+                android:layout_marginTop="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Movies tab -->
+                    <LinearLayout
+                        android:id="@+id/tab_movies"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{() -> viewModel.onTabMovies()}">
+
+                        <TextView
+                            android:id="@+id/tv_movies"
+                            style="@style/Typography.body_md_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center"
+                            android:text="@string/movies"
+                            android:textColor="@{viewModel.isMoviesTab ? @color/brand_primary : @color/shade_tertiary}"
+                            android:transitionName="tabTextTransition"/>
+
+                        <View
+                            android:id="@+id/indicator_movies"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@drawable/bg_tab_indicator"
+                            android:visibility="@{viewModel.isMoviesTab ? View.VISIBLE : View.INVISIBLE}"
+                            android:transitionName="tabIndicatorTransition"/>
+                    </LinearLayout>
+
+                    <!-- Series tab -->
+                    <LinearLayout
+                        android:id="@+id/tab_series"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{() -> viewModel.onTabSeries()}">
+
+                        <TextView
+                            android:id="@+id/tv_series"
+                            style="@style/Typography.body_md_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center"
+                            android:text="@string/series"
+                            android:textColor="@{viewModel.getIsSeriesTab() ? @color/brand_primary : @color/shade_tertiary}"
+                            android:transitionName="tabTextTransition"/>
+
+                        <View
+                            android:id="@+id/indicator_series"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@drawable/bg_tab_indicator"
+                            android:visibility="@{viewModel.getIsSeriesTab() ? View.VISIBLE : View.INVISIBLE}"
+                            android:transitionName="tabIndicatorTransition"/>
+                    </LinearLayout>
+
+                </TableRow>
+            </TableLayout>
+
+            <!-- RecyclerView for movies/series list -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_rated_movies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingEnd="@dimen/spacing_small"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_medium"
+                android:scrollbars="none"
+                app:items='@{viewModel.ratedUiState.ratedList}'
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_rated_movie" />
+
+            <!-- Empty state message -->
             <TextView
-                android:id="@+id/title_lost_connection"
-                style="@style/SemiBold.Large"
+                style="@style/SemiBold.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_extra_large"
-                android:text="@string/oops"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="@string/this_list_has_no_movies"
+                android:visibility="gone"
+                app:doneLoad='@{viewModel.ratedUiState.loading}'
+                app:emptyData='@{viewModel.ratedUiState.ratedList}'
+                app:noError='@{viewModel.ratedUiState.error}' />
 
-            <TextView
-                android:id="@+id/description_lost_connection"
-                style="@style/Regular.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:gravity="center"
-                android:text="@string/description"
-                android:textColor="@color/brand_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
+            <!-- Error state -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/button_retry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:onClick='@{() -> viewModel.retryConnect()}'
-                android:text="@string/retry"
-                android:textColor="@color/white_primary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_lost_connection" />
+                <TextView
+                    android:id="@+id/title_lost_connection"
+                    style="@style/SemiBold.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_extra_large"
+                    android:text="@string/oops"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/description_lost_connection"
+                    style="@style/Regular.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:gravity="center"
+                    android:text="@string/description"
+                    android:textColor="@color/brand_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
 
-    </TableLayout>
+                <Button
+                    android:id="@+id/button_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:onClick='@{() -> viewModel.retryConnect()}'
+                    android:text="@string/retry"
+                    android:textColor="@color/white_primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_lost_connection" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </TableLayout>
+
+    </LinearLayout>
 </layout>

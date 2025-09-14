@@ -8,5 +8,6 @@ data class Rated(
     val releaseDate: String,
     var mediaType:String,
     val categoryIdList: List<Int>,
-    val duration: String
+    val duration: String,
+    val userRating: String
 )

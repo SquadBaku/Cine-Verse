@@ -19,7 +19,8 @@ class RatedUIStateMapper @Inject constructor()
             mediaType = input.mediaType,
             releaseDate = TimeFormatters.formatDate(input.releaseDate),
             category = categoryNames.joinToString(", "),
-            duration = input.duration
+            duration = input.duration,
+
         )
     }
 }

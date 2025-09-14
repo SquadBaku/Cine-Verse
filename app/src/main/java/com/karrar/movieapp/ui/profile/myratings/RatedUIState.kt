@@ -9,5 +9,6 @@ data class RatedUIState(
     val releaseDate: String,
     val duration: String,
     val category: String,
+    val userRating: String = ""
 
 )

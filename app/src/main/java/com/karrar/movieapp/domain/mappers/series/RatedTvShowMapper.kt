@@ -18,7 +18,8 @@ class RatedTvShowMapper @Inject constructor() : Mapper<RatedTvShowDto, Rated> {
             releaseDate = "",
             mediaType = Constants.TV_SHOWS,
             categoryIdList = input.genreIds?.filterNotNull() ?: emptyList(),
-            duration = ""
+            duration = "",
+            userRating = ""
         )
     }
 }

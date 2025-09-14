@@ -16,7 +16,8 @@ class RatedMoviesMapper @Inject constructor() : Mapper<RatedMoviesDto, Rated> {
             releaseDate = input.releaseDate ?: "",
             mediaType = Constants.MOVIE,
             categoryIdList = input.genreIds?.mapNotNull { it } ?: emptyList(),
-            duration = ""
+            duration = "",
+            userRating = ""
         )
     }
 }

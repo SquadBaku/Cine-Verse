@@ -6,11 +6,11 @@ import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
+
     override val layoutIdFragment: Int = R.layout.fragment_my_ratings
     override val viewModel: MyRatingsViewModel by viewModels()
 
@@ -31,17 +32,16 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(false, getString(R.string.my_ratings))
 
-        val adapter = RatedMoviesAdapter(emptyList(), viewModel)
+
+        val adapter = RatedMoviesAdapter(items = emptyList(), listener = viewModel)
         binding.recyclerViewRatedMovies.adapter = adapter
 
         setupTabAnimations()
-
         initializeTabs()
 
-        collectLast(viewModel.myRatingUIEvent) {
-            it.getContentIfNotHandled()?.let { onEvent(it) }
+        collectLast(flow = viewModel.myRatingUIEvent) {
+            it.getContentIfNotHandled()?.let { event -> onEvent(event) }
         }
 
         lifecycleScope.launch {
@@ -51,8 +51,37 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         }
     }
 
-    private fun initializeTabs() {
+    override fun onResume() {
+        super.onResume()
 
+        try {
+            val activity = requireActivity() as AppCompatActivity
+            activity.supportActionBar?.title = getString(R.string.my_ratings)
+
+            view?.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)?.title = getString(R.string.my_ratings)
+        } catch (e: Exception) {
+
+        }
+    }
+
+//    private fun setupToolbar() {
+//        val activity = requireActivity() as AppCompatActivity
+//
+//        val toolbar = binding.toolbar
+//
+//        activity.setSupportActionBar(include)
+//        activity.supportActionBar?.apply {
+//            title = getString(R.string.my_ratings)
+//            setDisplayHomeAsUpEnabled(true)
+//            setHomeButtonEnabled(true)
+//        }
+//
+//        toolbar.setNavigationOnClickListener {
+//            findNavController().navigateUp()
+//        }
+//    }
+
+    private fun initializeTabs() {
         val primaryColor = ContextCompat.getColor(requireContext(), R.color.brand_primary)
         val tertiaryColor = ContextCompat.getColor(requireContext(), R.color.shade_tertiary)
 
@@ -142,12 +171,10 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
         animatorSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-
                 activeIndicator.visibility = View.VISIBLE
             }
 
             override fun onAnimationEnd(animation: Animator) {
-
                 inactiveIndicator.visibility = View.INVISIBLE
                 isAnimating = false
 

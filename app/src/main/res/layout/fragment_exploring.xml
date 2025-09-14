@@ -107,6 +107,7 @@
             app:tabSelectedTextColor="@color/brand_primary"
             android:layout_marginStart="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
+            android:background="@color/background_screen"
             app:tabTextColor="@color/shade_tertiary"
             app:layout_constraintTop_toBottomOf="@id/input_search"
             app:layout_constraintStart_toStartOf="parent"

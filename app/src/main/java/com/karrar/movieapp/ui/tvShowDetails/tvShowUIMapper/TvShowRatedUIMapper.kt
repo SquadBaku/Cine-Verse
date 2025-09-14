@@ -10,6 +10,7 @@ class TvShowRatedUIMapper @Inject constructor() : Mapper<Rated, RatedUIState> {
         return RatedUIState(
             id = input.id,
             rating = input.rating,
+            userRating = input.userRating
         )
     }
 }

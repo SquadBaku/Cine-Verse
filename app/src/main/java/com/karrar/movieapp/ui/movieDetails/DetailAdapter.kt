@@ -36,6 +36,12 @@ class DetailAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+//            is DetailItemUIState.MediaInfo ->{
+//                holder.binding.run {
+//                    setVariable(BR.item, currentItem.data)
+//                    setVariable(BR.listener, listener as DetailInteractionListener)
+//                }
+//            }
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
                     setVariable(
@@ -70,7 +76,7 @@ class DetailAdapter(
             is DetailItemUIState.ReviewText -> {}
             DetailItemUIState.SeeAllReviewsButton -> {
                 holder.binding.run {
-                    setVariable(BR.listener, listener as DetailInteractionListener)
+                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
         }
@@ -87,7 +93,7 @@ class DetailAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is DetailItemUIState.Header -> R.layout.item_movie_detail_header
+            is DetailItemUIState.Header -> R.layout.media_card
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
             is DetailItemUIState.Rating -> R.layout.item_rating

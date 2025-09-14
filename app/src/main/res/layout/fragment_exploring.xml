@@ -14,7 +14,7 @@
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_color"
+        android:background="@color/background_screen"
         app:layoutDescription="@xml/fragment_exploring_scene">
 
         <com.airbnb.lottie.LottieAnimationView
@@ -70,22 +70,30 @@
             app:showWhenListNotEmpty="@{viewModel.uiState.error}" />
 
         <!--        layout-->
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_search"
-            style="@style/Regular.Medium"
+            style="@style/Typography.body_md_regular"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_marginStart="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginEnd="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_small"
             android:background="@drawable/edit_text_background"
-            android:drawableStart="@drawable/ic_search"
+            android:drawableStart="@drawable/new_search_icon_tinted"
+            android:drawableEnd="@drawable/new_microphone_icon_tinted"
             android:drawablePadding="@dimen/spacing_small"
+            android:focusable="true"
             android:focusableInTouchMode="false"
             android:hint="@string/search_hint"
-            android:onClick="@{() -> viewModel.onClickSearch()}"
-            android:textColorHint="@color/shade_ternary_color"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="@dimen/spacing_medium"
+            android:paddingEnd="@dimen/spacing_medium"
+            android:textColor="@color/shade_primary_color"
+            android:textColorHint="@color/shade_tertiary"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:transitionName="search_box"
+            android:onClick="@{() -> viewModel.onClickSearch()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

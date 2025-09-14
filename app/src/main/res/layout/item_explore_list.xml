@@ -99,7 +99,7 @@
                 android:id="@+id/textReleaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2025-09-12"
+                android:text="@{String.valueOf(item.mediaReleaseDate)}"
                 style="@style/Typography.body_sm_regular"
                 android:textColor="@color/shade_secondary"
                 android:layout_marginStart="4dp"/>
@@ -125,8 +125,7 @@
                 android:id="@+id/textRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="7.8"
-                android:textColor="@android:color/black"
+                android:text="@{String.valueOf(item.mediaVoteAverage)}"                android:textColor="@android:color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 

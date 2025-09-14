@@ -29,7 +29,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override val layoutIdFragment = R.layout.fragment_category
     override val viewModel: CategoryViewModel by viewModels()
-    private val allMediaAdapter by lazy { CategoryAdapter(viewModel) }
+    private val allMediaAdapter by lazy { CategoryAdapter(viewModel, viewModel) }
     private val listAdapter by lazy { ExploreListAdapter(viewModel) }
 
     private var currentMode = ViewMode.GRID
@@ -43,27 +43,32 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
     private fun setMediaAdapter() {
-//        val footerAdapter = LoadUIStateAdapter(allMediaAdapter::retry)
-//        binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
-//
-//        val mManager = binding.recyclerMedia.layoutManager as GridLayoutManager
-//        mManager.setSpanSize(footerAdapter, allMediaAdapter, mManager.spanCount)
-//
-//        collect(flow = allMediaAdapter.loadStateFlow,
-//            action = { viewModel.setErrorUiState(it) })
         val footerAdapter = LoadUIStateAdapter(allMediaAdapter::retry)
         binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
 
-        // Default: Grid Layout
-        binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
-        (binding.recyclerMedia.layoutManager as GridLayoutManager)
-            .setSpanSize(footerAdapter, allMediaAdapter, 2)
+        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val adapter = binding.recyclerMedia.adapter
+                return if (adapter != null &&
+                    position == adapter.itemCount - 1 &&
+                    footerAdapter.itemCount > 0
+                ) {
+                    2
+                } else {
+                    1
+                }
+            }
+        }
+
+        binding.recyclerMedia.layoutManager = gridLayoutManager
 
         collect(
             flow = allMediaAdapter.loadStateFlow,
             action = { viewModel.setErrorUiState(it) }
         )
     }
+
 
     private fun setupToggleButton() {
         val toggleRoot = binding.viewModeToggle
@@ -89,11 +94,13 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private fun collectData() {
         lifecycleScope.launch {
-            viewModel.uiState.collect {
-                collectLast(viewModel.uiState.value.media) { pagingData ->
+            viewModel.uiState.collect { state ->
+                collectLast(state.media) { pagingData ->
                     allMediaAdapter.submitData(pagingData)
                     listAdapter.submitData(pagingData)
                 }
+
+                allMediaAdapter.setGenres(state.genre, state.selectedCategoryID)
             }
         }
     }

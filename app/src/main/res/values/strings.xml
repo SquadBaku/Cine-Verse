@@ -106,4 +106,7 @@
     <string name="clear_all">Clear all</string>
     <string name="you_recently_viewed">You Recent viewed</string>
     <string name="search_suggestion">Search Suggestion</string>
+    <string name="oops_no_internet">Oops! No Internet</string>
+    <string name="looks_like_you_re_offline_let_s_reconnect_so_nyou_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect so \nyou don\'t miss out!</string>
+    <string name="try_again">Try Again</string>
 </resources>

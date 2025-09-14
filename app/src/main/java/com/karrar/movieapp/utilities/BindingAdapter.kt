@@ -13,6 +13,8 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.ui.category.GenreAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -288,4 +290,20 @@ fun setRating(view: RatingBar?, rating: Float) {
 @BindingAdapter("showWhenTextNotEmpty")
 fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
+}
+
+@BindingAdapter("setGenres", "selectedChip", "listener", requireAll = true)
+fun RecyclerView.setGenres(
+    genres: List<GenreUIState>?,
+    selectedChip: Int?,
+    listener: CategoryInteractionListener?
+) {
+    if (adapter == null && listener != null) {
+        adapter = GenreAdapter(listener)
+    }
+
+    val genreAdapter = adapter as? GenreAdapter
+    if (genres != null && listener != null) {
+        genreAdapter?.submitList(genres, selectedChip ?: -1)
+    }
 }

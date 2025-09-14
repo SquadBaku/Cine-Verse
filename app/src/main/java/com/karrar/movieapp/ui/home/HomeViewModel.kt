@@ -3,6 +3,7 @@ package com.karrar.movieapp.ui.home
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
+import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
 import com.karrar.movieapp.domain.usecase.home.HomeUseCasesContainer
 import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
@@ -15,6 +16,9 @@ import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.ui.mappers.ActorUiMapper
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
+import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
+import com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryInteractionListener
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.ui.profile.ProfileUIState
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,8 +40,9 @@ class HomeViewModel @Inject constructor(
     private val mediaUiMapper: MediaUiMapper,
     private val actorUiMapper: ActorUiMapper,
     private val popularUiMapper: PopularUiMapper,
+    private val watchHistoryMapper: WatchHistoryMapper
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
-    MediaInteractionListener, TVShowInteractionListener {
+    MediaInteractionListener, TVShowInteractionListener, WatchHistoryInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
@@ -66,6 +71,7 @@ class HomeViewModel @Inject constructor(
         getMystery()
         getAdventure()
         getActors()
+        getRecentlyViewed()
     }
 
     override fun getData() {
@@ -243,7 +249,8 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                 }
-            } catch (t: Throwable) {
+            } catch (th: Throwable) {
+                onError(th.message.toString())
             }
         }
     }
@@ -333,6 +340,26 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    private fun getRecentlyViewed() {
+        viewModelScope.launch {
+            try {
+                homeUseCasesContainer.getWatchHistoryUseCase().collect { list ->
+                    if (list.isNotEmpty()) {
+                        val items = list.map(watchHistoryMapper::map)
+                        _homeUiState.update {
+                            it.copy(
+                                recentlyViewed = HomeItem.RecentlyViewed(items),
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
+    }
+
     override fun onClickMovie(movieId: Int) {
         _homeUIEvent.update { Event(HomeUIEvent.ClickMovieEvent(movieId)) }
     }
@@ -349,6 +376,10 @@ class HomeViewModel @Inject constructor(
             HomeItemsType.UPCOMING -> AllMediaType.UPCOMING
             HomeItemsType.MYSTERY -> AllMediaType.MYSTERY
             HomeItemsType.ADVENTURE -> AllMediaType.ADVENTURE
+            HomeItemsType.RECENTLY_VIEWED -> {
+                onClickSeeAllRecentlyViewed()
+                return
+            }
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
@@ -357,6 +388,10 @@ class HomeViewModel @Inject constructor(
     override fun onClickSeeAllActors() {
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllActorEvent) }
 
+    }
+
+    override fun onClickSeeAllRecentlyViewed() {
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllRecentlyViewed) }
     }
 
     override fun onClickMedia(mediaId: Int) {
@@ -371,5 +406,12 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllTVShowsEvent(type)) }
     }
 
+    override fun onClickMovie(item: MediaHistoryUiState) {
+        if (item.mediaType.equals(Constants.MOVIE, true)) {
+            _homeUIEvent.update { Event(HomeUIEvent.ClickMovieEvent(item.id)) }
+        } else {
+            _homeUIEvent.update { Event(HomeUIEvent.ClickSeriesEvent(item.id)) }
+        }
+    }
 
 }

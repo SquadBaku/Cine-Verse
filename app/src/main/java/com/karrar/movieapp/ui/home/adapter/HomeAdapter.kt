@@ -6,12 +6,18 @@ import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.HomeItemsType
-import com.karrar.movieapp.ui.adapters.*
+import com.karrar.movieapp.ui.adapters.ActorAdapter
+import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
+import com.karrar.movieapp.ui.adapters.MediaAdapter
+import com.karrar.movieapp.ui.adapters.MediaInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieAdapter
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.models.MediaUiState
+import com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Constants
 
 class HomeAdapter(
@@ -119,6 +125,18 @@ class HomeAdapter(
                 is HomeItem.Upcoming -> {
                     bindMovie(holder, currentItem.items, currentItem.type)
                 }
+
+                is HomeItem.RecentlyViewed -> {
+                    holder.binding.run {
+                        setVariable(
+                            BR.adapterRecycler, RecentlyViewedAdapter(
+                                currentItem.items,
+                                listener as WatchHistoryInteractionListener
+                            )
+                        )
+                        setVariable(BR.listener, listener as HomeInteractionListener)
+                    }
+                }
             }
     }
 
@@ -156,12 +174,13 @@ class HomeAdapter(
                 is HomeItem.Slider -> R.layout.list_popular
                 is HomeItem.AiringToday -> R.layout.list_airing_today
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow
+                is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
                 is HomeItem.Adventure,
                 is HomeItem.Mystery,
                 is HomeItem.NowStreaming,
                 is HomeItem.Trending,
                 is HomeItem.Upcoming,
-                -> R.layout.list_movie
+                    -> R.layout.list_movie
             }
         }
         return -1

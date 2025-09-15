@@ -17,6 +17,8 @@ import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
 import com.karrar.movieapp.ui.home.HomeItem
 import com.karrar.movieapp.ui.models.MediaUiState
+import com.karrar.movieapp.ui.myList.CreatedListAdapter
+import com.karrar.movieapp.ui.myList.CreatedListInteractionListener
 import com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryInteractionListener
 import com.karrar.movieapp.utilities.Constants
 
@@ -135,6 +137,21 @@ class HomeAdapter(
                             )
                         )
                         setVariable(BR.listener, listener as HomeInteractionListener)
+                        setVariable(BR.isVisible, currentItem.items.isNotEmpty())
+                    }
+                }
+
+                is HomeItem.Collections -> {
+                    holder.binding.run {
+                        setVariable(
+                            BR.adapterRecycler, CreatedListAdapter(
+                                currentItem.items,
+                                listener as CreatedListInteractionListener,
+                                isFullWidth = true
+                            )
+                        )
+                        setVariable(BR.listener, listener as HomeInteractionListener)
+                        setVariable(BR.isVisible, currentItem.items.isNotEmpty())
                     }
                 }
             }
@@ -181,6 +198,8 @@ class HomeAdapter(
                 is HomeItem.Trending,
                 is HomeItem.Upcoming,
                     -> R.layout.list_movie
+
+                is HomeItem.Collections -> R.layout.list_home_collections
             }
         }
         return -1

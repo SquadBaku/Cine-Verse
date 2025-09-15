@@ -124,4 +124,7 @@
     <string name="try_again">Try Again</string>
     <string name="welcome">Welcome</string>
     <string name="title_recently_viewed">You Recently Viewed</string>
+    <string name="your_collections">Your Collections</string>
+    <string name="my_collections">my collections</string>
+    <string name="arrow">arrow</string>
 </resources>

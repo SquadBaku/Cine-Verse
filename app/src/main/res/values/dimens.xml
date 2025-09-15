@@ -13,6 +13,7 @@
     <dimen name="radius_4xl">28dp</dimen>
     <dimen name="radius_5xl">32dp</dimen>
     <dimen name="radius_full">1000dp</dimen>
+    <dimen name="card_width_small">280dp</dimen>
 
     <!-- old  -->
     <!-- spacing -->

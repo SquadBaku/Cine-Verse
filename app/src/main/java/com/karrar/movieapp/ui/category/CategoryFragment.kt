@@ -27,7 +27,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override val layoutIdFragment = R.layout.fragment_category
     override val viewModel: CategoryViewModel by viewModels()
     private val allMediaAdapter by lazy { CategoryAdapter(viewModel, viewModel) }
-    private val listAdapter by lazy { ExploreListAdapter(viewModel) }
+    private val listAdapter by lazy { ExploreListAdapter(viewModel, viewModel) }
 
     private var currentMode = ViewMode.GRID
 
@@ -96,6 +96,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                 }
 
                 allMediaAdapter.setGenres(state.genre, state.selectedCategoryID)
+                listAdapter.setGenres(state.genre, state.selectedCategoryID)
             }
         }
     }

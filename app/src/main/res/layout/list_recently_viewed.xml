@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="adapterRecycler"
@@ -12,6 +13,10 @@
         <variable
             name="listener"
             type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
+
+        <variable
+            name="isVisible"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,14 +27,15 @@
         <TextView
             android:id="@+id/text_recently_viewed"
             style="@style/Typography.title_sm"
-            android:text="@string/title_recently_viewed"
-            tools:text="@string/title_recently_viewed"
-            android:textColor="@color/shade_primary"
-            android:layout_marginStart="@dimen/radius_xl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:text="@string/title_recently_viewed"
+            android:textColor="@color/shade_primary"
+            android:visibility="@{isVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/title_recently_viewed" />
 
         <TextView
             style="@style/Typography.body_md_medium"
@@ -39,6 +45,7 @@
             android:onClick="@{() -> listener.onClickSeeAllRecentlyViewed()}"
             android:text="@string/show_more"
             android:textColor="@color/brand_primary"
+            android:visibility="@{isVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_recently_viewed"
             app:layout_constraintEnd_toEndOf="parent" />
 

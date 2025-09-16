@@ -4,7 +4,7 @@
 
     <string name="tap">Tap a movie to see details or update your rating</string>
     <string name="title_empty_ratings">No Ratings Yet</string>
-    <string name="description_empty_ratings">Rate movies and series you\'ve watched to\ntrack what you love, and what you don\';t.</string>
+    <string name="description_empty_ratings">Rate movies and series you\'ve watched to\ntrack what you love, and what you don\'t.</string>
     <string name="cta_start_rating">Start Rating</string>
     <string name="known_for">Known For</string>
     <string name="see_all">See all</string>

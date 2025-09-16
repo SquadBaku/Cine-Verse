@@ -12,12 +12,12 @@ class RatedMoviesMapper @Inject constructor() : Mapper<RatedMoviesDto, Rated> {
             id = input.id ?: 0,
             title = input.title ?: "",
             posterPath = Constants.IMAGE_BASE_PATH + input.backdropPath,
-            rating = input.rating ?: 0F,
+            userRating = input.rating?.toInt() ?: 0,
             releaseDate = input.releaseDate ?: "",
             mediaType = Constants.MOVIE,
             categoryIdList = input.genreIds?.mapNotNull { it } ?: emptyList(),
             duration = "",
-            userRating = ""
+            rating = input.voteAverage?.toFloat() ?: 0f
         )
     }
 }

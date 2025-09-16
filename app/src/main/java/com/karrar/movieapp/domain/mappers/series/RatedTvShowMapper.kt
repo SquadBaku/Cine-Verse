@@ -15,11 +15,11 @@ class RatedTvShowMapper @Inject constructor() : Mapper<RatedTvShowDto, Rated> {
             title = input.title ?: "",
             posterPath = Constants.IMAGE_BASE_PATH + (input.backdropPath ?: ""),
             rating = input.rating ?: 0f,
-            releaseDate = "",
+            releaseDate = input.firstAirDate ?: "",
             mediaType = Constants.TV_SHOWS,
             categoryIdList = input.genreIds?.filterNotNull() ?: emptyList(),
             duration = "",
-            userRating = ""
+            userRating = input.rating?.toInt()?:0
         )
     }
 }

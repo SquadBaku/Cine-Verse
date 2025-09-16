@@ -9,5 +9,5 @@ data class Rated(
     var mediaType:String,
     val categoryIdList: List<Int>,
     val duration: String,
-    val userRating: String
+    val userRating: Int,
 )

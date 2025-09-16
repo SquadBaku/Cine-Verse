@@ -73,5 +73,8 @@ data class TvShowDetailsDto(
     @SerializedName("vote_count")
     val voteCount: Int? = null,
     @SerializedName("user_rating")
-    val userRating: String? = null
+    val userRating: String? = null,
+
+
+
 )

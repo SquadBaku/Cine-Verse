@@ -29,6 +29,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         collectHomeData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshHomeData()
+    }
+
     private fun collectHomeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.homeUiState.collect {
@@ -44,6 +49,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         it.adventureMovies,
                         it.trendingMovies,
                         it.actors,
+                        it.recentlyViewed,
+                        it.collections
                     )
                 )
             }
@@ -92,6 +99,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     event.seriesID
                 )
             }
+            HomeUIEvent.ClickSeeAllRecentlyViewed -> HomeFragmentDirections.actionHomeFragmentToWatchHistoryFragment()
+            HomeUIEvent.ClickSeeAllCollections -> HomeFragmentDirections.actionHomeFragmentToSavedListFragment()
+
+            is HomeUIEvent.ClickListEvent -> HomeFragmentDirections.actionHomeFragmentToListDetailsFragment(
+                event.createdListUIState.listID,
+                event.createdListUIState.name
+            )
         }
         findNavController().navigate(action)
     }

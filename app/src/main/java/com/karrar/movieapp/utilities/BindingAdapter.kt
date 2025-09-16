@@ -4,11 +4,13 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
@@ -305,5 +307,30 @@ fun RecyclerView.setGenres(
     val genreAdapter = adapter as? GenreAdapter
     if (genres != null && listener != null) {
         genreAdapter?.submitList(genres, selectedChip ?: -1)
+    }
+}
+
+
+@BindingAdapter("icon")
+fun setButtonIcon(button: MaterialButton, icon: Int) {
+    if (icon != 0) {
+        button.icon = ContextCompat.getDrawable(button.context, icon)
+    } else {
+        button.icon = null
+    }
+}
+
+@BindingAdapter("adapterRecycler")
+fun bindRecyclerViewAdapter(
+    recyclerView: RecyclerView,
+    adapter: RecyclerView.Adapter<*>?
+) {
+    recyclerView.adapter = adapter
+}
+
+@BindingAdapter("app:adapterRecycler")
+fun bindRecyclerAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
+    adapter?.let {
+        recyclerView.adapter = it
     }
 }

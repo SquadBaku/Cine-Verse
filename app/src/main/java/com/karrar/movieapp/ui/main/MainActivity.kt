@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.homeFragment,
                 R.id.exploringFragment,
-                R.id.myListFragment,
+                R.id.matchFragment,
                 R.id.profileFragment,
             )
         )
@@ -51,7 +51,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBottomNavigationVisibility(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNavigation.isVisible = destination.id != R.id.loginFragment
+            binding.bottomNavigation.isVisible = destination.id == R.id.homeFragment ||
+                    destination.id == R.id.exploringFragment ||
+                    destination.id == R.id.matchFragment ||
+                    destination.id == R.id.profileFragment
         }
     }
 

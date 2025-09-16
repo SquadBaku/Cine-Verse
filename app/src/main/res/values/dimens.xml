@@ -3,6 +3,7 @@
 
     <dimen name="radius_2xs">2dp</dimen>
     <dimen name="radius_xs">4dp</dimen>
+    <dimen name="radius_ys">6dp</dimen>
     <dimen name="radius_s">8dp</dimen>
     <dimen name="radius_md">10dp</dimen>
     <dimen name="radius_lg">12dp</dimen>
@@ -12,6 +13,7 @@
     <dimen name="radius_4xl">28dp</dimen>
     <dimen name="radius_5xl">32dp</dimen>
     <dimen name="radius_full">1000dp</dimen>
+    <dimen name="card_width_small">280dp</dimen>
 
     <!-- old  -->
     <!-- spacing -->
@@ -50,5 +52,8 @@
     <dimen name="spacing_48">48dp</dimen>
     <dimen name="spacing_145">145dp</dimen>
     <dimen name="spacing_56">56dp</dimen>
+
+    <dimen name="pageMargin">16dp</dimen>
+    <dimen name="offset">32dp</dimen>
 
 </resources>

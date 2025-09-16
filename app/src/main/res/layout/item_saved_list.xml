@@ -16,44 +16,74 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="73dp"
-        android:layout_marginHorizontal="@dimen/spacing_medium"
-        android:layout_marginVertical="@dimen/spacing_small"
-        android:backgroundTint="@color/card_background_color"
+        android:layout_marginHorizontal="@dimen/radius_xl"
+        android:layout_marginVertical="@dimen/radius_s"
+        android:backgroundTint="@color/background_card"
         android:onClick="@{()->listener.onListClick(item)}"
-        app:cardCornerRadius="@dimen/radius_small"
+        app:cardCornerRadius="@dimen/radius_lg"
         app:cardElevation="0dp">
 
-
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="@color/background_card"
+            android:paddingHorizontal="@dimen/radius_lg">
 
-            <TextView
-                style="@style/Regular.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_medium"
-                android:text="@{item.name}"
-                tools:text="Action movies" />
+            <ImageView
+                android:id="@+id/icon_start"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/my_collections"
+                android:src="@drawable/folder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/brand_primary" />
 
-            <View
+            <LinearLayout
+                android:id="@+id/text_container"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <TextView
-                style="@style/Regular.Small"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_medium"
-                android:text="@{@string/items(item.mediaCounts)}"
-                tools:text="14 items" />
+                android:orientation="vertical"
+                android:layout_margin="@dimen/radius_s"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/icon_end"
+                app:layout_constraintStart_toEndOf="@id/icon_start"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView
+                    style="@style/Typography.body_md_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/radius_xs"
+                    android:text="@{item.name}"
+                    android:textColor="@color/shade_primary"
+                    tools:text="Action movies" />
 
+                <TextView
+                    style="@style/Typography.body_sm_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/items(item.mediaCounts)}"
+                    android:textColor="@color/shade_secondary"
+                    tools:text="14 items" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/icon_end"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/arrow"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/shade_tertiary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

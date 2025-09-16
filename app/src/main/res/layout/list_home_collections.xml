@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.myList.CreatedListAdapter" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
+
+        <variable
+            name="isVisible"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_screen">
+
+        <TextView
+            android:id="@+id/text_section_title"
+            style="@style/Typography.title_sm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/radius_xl"
+            android:text="@string/your_collections"
+            android:textColor="@color/shade_primary"
+            android:visibility="@{isVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/recycler_view_collections"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_show_more"
+            style="@style/Typography.body_md_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/radius_xl"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> listener.onClickSeeAllCollections()}"
+            android:paddingVertical="@dimen/radius_xs"
+            android:text="@string/show_more"
+            android:textColor="@color/brand_primary"
+            android:visibility="@{isVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_section_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_section_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_collections"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adapter="@{adapterRecycler}"
+            android:layout_marginTop="@dimen/radius_lg"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_section_title"
+            app:spanCount="2"
+            tools:listitem="@layout/item_saved_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

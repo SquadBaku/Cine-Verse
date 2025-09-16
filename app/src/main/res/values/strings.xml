@@ -109,6 +109,23 @@
     <string name="personalized_recommendations">Personalized Recommendations</string>
     <string name="answer_fun_questions_to_get_handpicked_recommendations">Answer fun questions to get handpicked \nrecommendations.</string>
     <string name="get_started">Get Started</string>
+    <string name="youtube">YouTube</string>
+    <string name="facebook">Facebook</string>
+    <string name="instagram">Instagram</string>
+    <string name="twitter">Twitter</string>
+    <string name="tiktok">Tiktok</string>
+    <string name="show_more">Show More</string>
+    <string name="gallery">Gallery</string>
+    <string name="in">In %1$s</string>
+    <string name="born_on">Born on %1$s</string>
+    <string name="best_of">Best of %1$s</string>
+    <string name="match">Match</string>
+    <string name="discover_your_match">Discover Your Match</string>
+    <string name="not_sure_what_to_watch">Not sure what to watch?</string>
+    <string name="answer_a_few_quick_questions_and_we_ll_match_you_with_the_perfect_picks">Answer a few quick questions and we’ll match you with the perfect picks.</string>
+    <string name="start_matching">Start Matching</string>
+    <string name="next">Next</string>
+    <string name="latest_seasons">Latest Seasons</string>
     <string name="oops_no_internet">Oops! No Internet</string>
     <string name="looks_like_you_re_offline_let_s_reconnect_so_nyou_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect so \nyou don\'t miss out!</string>
     <string name="try_again">Try Again</string>
@@ -118,4 +135,9 @@
     <string name="enter_your_email_or_username">Enter your email or username</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="forgot_password_underlined"><u>Forgot Password?</u></string>
+    <string name="welcome">Welcome</string>
+    <string name="title_recently_viewed">You Recently Viewed</string>
+    <string name="your_collections">Your Collections</string>
+    <string name="my_collections">my collections</string>
+    <string name="arrow">arrow</string>
 </resources>

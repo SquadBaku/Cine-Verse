@@ -20,6 +20,7 @@ import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.allMedia.Error
 import com.karrar.movieapp.ui.base.BaseViewModel
+import com.karrar.movieapp.ui.category.uiState.CategoryUIEvent
 import com.karrar.movieapp.ui.search.adapters.ActorSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.MediaSearchInteractionListener
 import com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener
@@ -54,7 +55,7 @@ class SearchViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
     private val getMovieRateUseCase: GetMovieRateUseCase
-) : BaseViewModel(), MediaSearchInteractionListener, ActorSearchInteractionListener,
+) : BaseViewModel(), ActorSearchInteractionListener,
     SearchHistoryInteractionListener, MediaInteractionListener, MovieInteractionListener {
 
     private val _uiState = MutableStateFlow(MediaSearchUIState())
@@ -214,12 +215,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-
-    override fun onClickMediaResult(media: MediaUIState) {
-        saveSearchResult(media.mediaID, media.mediaName, mediaType = media.mediaTypes)
-        _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }
-    }
-
     override fun onClickActorResult(personID: Int, name: String) {
         saveSearchResult(personID, name, mediaType = Constants.ACTOR)
         _searchUIEvent.update { Event(SearchUIEvent.ClickActorEvent(personID)) }
@@ -291,9 +286,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onClickMedia(mediaId: Int) {
-        // handle if needed
-    }
+        override fun onClickMedia(mediaId: Int) {
+            _searchUIEvent.update { Event(SearchUIEvent.ClickMovieEvent(mediaId)) }
+        }
+
 
     override fun onClickMediaCard(media: MediaUIState) {
         _searchUIEvent.update { Event(SearchUIEvent.ClickMediaEvent(media)) }

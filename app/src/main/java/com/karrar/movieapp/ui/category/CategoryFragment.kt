@@ -43,6 +43,15 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         val footerAdapter = LoadUIStateAdapter(allMediaAdapter::retry)
         binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
 
+        setupGridLayoutManager(footerAdapter)
+
+        collect(
+            flow = allMediaAdapter.loadStateFlow,
+            action = { viewModel.setErrorUiState(it) }
+        )
+    }
+
+    private fun setupGridLayoutManager(footerAdapter: LoadUIStateAdapter) {
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -54,15 +63,8 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                 }
             }
         }
-
         binding.recyclerMedia.layoutManager = gridLayoutManager
-
-        collect(
-            flow = allMediaAdapter.loadStateFlow,
-            action = { viewModel.setErrorUiState(it) }
-        )
     }
-
 
     private fun setupToggleButton() {
         val toggleRoot = binding.viewModeToggle
@@ -76,13 +78,48 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     private fun updateRecyclerLayout(mode: ViewMode) {
         when (mode) {
             ViewMode.GRID -> {
-                binding.recyclerMedia.layoutManager = GridLayoutManager(requireContext(), 2)
-                binding.recyclerMedia.adapter = allMediaAdapter
+                // Create new GridLayoutManager with proper span size lookup
+                val footerAdapter = LoadUIStateAdapter(allMediaAdapter::retry)
+                val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+                gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        val adapter = binding.recyclerMedia.adapter
+                        return when {
+                            adapter != null && position == adapter.itemCount - 1 && footerAdapter.itemCount > 0 -> 2
+                            adapter != null && adapter.getItemViewType(position) == CategoryAdapter.VIEW_TYPE_GENRES -> 2
+                            else -> 1
+                        }
+                    }
+                }
+
+                binding.recyclerMedia.layoutManager = gridLayoutManager
+                binding.recyclerMedia.adapter = allMediaAdapter.withLoadStateFooter(footerAdapter)
+
+                // Refresh genres section after switching to grid
+                allMediaAdapter.refreshGenresSection()
             }
 
             ViewMode.LIST -> {
                 binding.recyclerMedia.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerMedia.adapter = listAdapter
+
+                // Refresh genres section after switching to list
+                listAdapter.refreshGenresSection()
+            }
+        }
+
+        // Ensure genres data is up to date after layout change
+        refreshGenresForCurrentAdapter()
+    }
+
+    private fun refreshGenresForCurrentAdapter() {
+        val currentState = viewModel.uiState.value
+        when (currentMode) {
+            ViewMode.GRID -> {
+                allMediaAdapter.setGenres(currentState.genre, currentState.selectedCategoryID)
+            }
+            ViewMode.LIST -> {
+                listAdapter.setGenres(currentState.genre, currentState.selectedCategoryID)
             }
         }
     }
@@ -95,8 +132,15 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
                     listAdapter.submitData(pagingData)
                 }
 
+                // Update genres for both adapters
                 allMediaAdapter.setGenres(state.genre, state.selectedCategoryID)
                 listAdapter.setGenres(state.genre, state.selectedCategoryID)
+
+                // Refresh the currently visible adapter's genres section
+                when (currentMode) {
+                    ViewMode.GRID -> allMediaAdapter.refreshGenresSection()
+                    ViewMode.LIST -> listAdapter.refreshGenresSection()
+                }
             }
         }
     }
@@ -118,7 +162,10 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             }
 
             CategoryUIEvent.RetryEvent -> {
-                allMediaAdapter.retry()
+                when (currentMode) {
+                    ViewMode.GRID -> allMediaAdapter.retry()
+                    ViewMode.LIST -> listAdapter.retry()
+                }
             }
 
             is CategoryUIEvent.SelectedCategory -> {

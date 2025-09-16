@@ -37,6 +37,11 @@ class ExploreListAdapter(
         return if (position == 0) CategoryAdapter.Companion.VIEW_TYPE_GENRES else CategoryAdapter.Companion.VIEW_TYPE_MEDIA
     }
 
+    fun refreshGenresSection() {
+        notifyItemChanged(0)
+    }
+
+
     override fun getItemCount(): Int {
         return super.getItemCount() + 1
     }

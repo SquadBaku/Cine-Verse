@@ -37,6 +37,10 @@ class CategoryAdapter(
         return if (position == 0) VIEW_TYPE_GENRES else VIEW_TYPE_MEDIA
     }
 
+    fun refreshGenresSection() {
+        notifyItemChanged(0)
+    }
+
     override fun getItemCount(): Int {
         return super.getItemCount() + 1
     }

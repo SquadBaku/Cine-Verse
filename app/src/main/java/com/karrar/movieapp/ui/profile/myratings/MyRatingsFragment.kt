@@ -39,6 +39,8 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
         setupTabAnimations()
         initializeTabs()
+        binding.btnClose.setOnClickListener { binding.infoCard.visibility = View.GONE }
+        binding.emptyLayout.btnStartRating.setOnClickListener { findNavController().navigate(R.id.exploringFragment) }
 
         collectLast(flow = viewModel.myRatingUIEvent) {
             it.getContentIfNotHandled()?.let { event -> onEvent(event) }
@@ -57,7 +59,12 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         try {
             val activity = requireActivity() as AppCompatActivity
             activity.supportActionBar?.title = getString(R.string.my_ratings)
-
+            activity.supportActionBar?.setBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.color.background_screen
+                )
+            )
             view?.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)?.title = getString(R.string.my_ratings)
         } catch (e: Exception) {
 

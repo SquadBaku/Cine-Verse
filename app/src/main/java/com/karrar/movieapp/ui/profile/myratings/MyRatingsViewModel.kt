@@ -33,22 +33,20 @@ class MyRatingsViewModel @Inject constructor(
         MutableStateFlow(Event(null))
     val myRatingUIEvent = _myRatingUIEvent.asStateFlow()
 
-    // إضافة متتبعات حالة التابات
     private val _isMoviesTab = MutableStateFlow(true)
     val isMoviesTab: StateFlow<Boolean> = _isMoviesTab.asStateFlow()
 
     private val _isSeriesTab = MutableStateFlow(false)
     val isSeriesTab: StateFlow<Boolean> = _isSeriesTab.asStateFlow()
 
-    // إضافة متتبعات للانيميشن
     private val _isTabAnimating = MutableStateFlow(false)
     val isTabAnimating: StateFlow<Boolean> = _isTabAnimating.asStateFlow()
 
-    // دوال getter للاستخدام في Data Binding
+
     fun getIsMoviesTab(): Boolean = _isMoviesTab.value
     fun getIsSeriesTab(): Boolean = _isSeriesTab.value
 
-    // قائمة كاملة للبيانات المحفوظة
+
     private var allRatedList: List<RatedUIState> = emptyList()
 
     init {
@@ -93,14 +91,14 @@ class MyRatingsViewModel @Inject constructor(
                     item.copy(duration = pretty)
                 }
 
-                // حفظ القائمة الكاملة
+
                 allRatedList = listWithDurations
 
-                // تطبيق الفلترة بناءً على التاب المحدد
+
                 filterData()
 
                 _ratedUiState.update {
-                    it.copy(isLoading = false, error = emptyList())
+                    it.copy(isLoading = false, error = emptyList(), isListEmpty = allRatedList.isEmpty())
                 }
             } catch (t: Throwable) {
                 _ratedUiState.update {
@@ -110,7 +108,6 @@ class MyRatingsViewModel @Inject constructor(
         }
     }
 
-    // دالة لفلترة البيانات بناءً على التاب المحدد
     private fun filterData() {
         val filteredList = if (_isMoviesTab.value) {
             allRatedList.filter { it.mediaType == Constants.MOVIE }
@@ -121,7 +118,6 @@ class MyRatingsViewModel @Inject constructor(
         _ratedUiState.update { it.copy(ratedList = filteredList) }
     }
 
-    // دالة للتبديل إلى تاب الأفلام مع الانيميشن
     fun onTabMovies() {
         if (!_isMoviesTab.value && !_isTabAnimating.value) {
             _isTabAnimating.update { true }
@@ -129,14 +125,13 @@ class MyRatingsViewModel @Inject constructor(
                 _isMoviesTab.update { true }
                 _isSeriesTab.update { false }
                 filterData()
-                // إنهاء الانيميشن بعد فترة قصيرة
+
                 kotlinx.coroutines.delay(300)
                 _isTabAnimating.update { false }
             }
         }
     }
 
-    // دالة للتبديل إلى تاب المسلسلات مع الانيميشن
     fun onTabSeries() {
         if (!_isSeriesTab.value && !_isTabAnimating.value) {
             _isTabAnimating.update { true }
@@ -144,7 +139,7 @@ class MyRatingsViewModel @Inject constructor(
                 _isMoviesTab.update { false }
                 _isSeriesTab.update { true }
                 filterData()
-                // إنهاء الانيميشن بعد فترة قصيرة
+
                 kotlinx.coroutines.delay(300)
                 _isTabAnimating.update { false }
             }

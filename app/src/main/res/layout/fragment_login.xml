@@ -4,144 +4,185 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.login.LoginViewModel" />
-
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_color"
+        android:background="@color/background_screen"
         tools:context=".ui.login.LoginFragment">
 
-
+        <!-- Logo -->
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:shadowColor="@color/shade_secondary_color"
-            android:src="@drawable/login_movie"
-            app:layout_constraintHeight_percent="0.35"
+            android:id="@+id/logo"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
+            android:layout_marginTop="64dp"
+            android:src="@drawable/cineverse_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <!-- Welcome text -->
         <TextView
-            android:id="@+id/textView"
-            style="@style/SemiBold.Large"
+            android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:text="@string/login_to_your_account"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/welcome_back_to_cineverse"
+            android:textAppearance="@style/SemiBold.Large"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@id/logo" />
 
+        <!-- Username label -->
+        <TextView
+            android:id="@+id/user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="8dp"
+            android:text="Username"
+            android:textAppearance="@style/Regular.Small"
+            android:textColor="@color/shade_secondary_color"
+            app:layout_constraintStart_toStartOf="@id/password"
+            app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- Username field -->
+        <EditText
             android:id="@+id/user_name"
             android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:afterTextChanged="@{(text) -> viewModel.onUserNameInputChange(text)}"
+            android:background="@drawable/bg_edittext"
+            android:drawableStart="@drawable/ic_profile"
+            android:drawableTint="@color/shade_tertiary"
+            android:drawablePadding="8dp"
+            android:hint="@string/enter_your_email_or_username"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="12dp"
+            android:textColorHint="@color/shade_tertiary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_name_tv" />
+
+        <!-- Password label -->
+        <TextView
+            android:id="@+id/password_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:hint="@string/username"
-            app:helperText="@{viewModel.loginUIState.userNameHelperText}"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:startIconDrawable="@drawable/ic_profile">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Password"
+            android:textAppearance="@style/Regular.Small"
+            android:textColor="@color/shade_secondary_color"
+            app:layout_constraintStart_toStartOf="@id/password"
+            app:layout_constraintTop_toBottomOf="@id/user_name" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:afterTextChanged="@{(text) -> viewModel.onUserNameInputChange(text)}"
-                android:textColor="@color/shade_secondary_color"
-
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- Password field -->
+        <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:afterTextChanged="@{(text) -> viewModel.onPasswordInputChange(text)}"
+            android:background="@drawable/bg_edittext"
+            android:drawableStart="@drawable/lock"
+            android:drawableEnd='@{viewModel.loginUIState.isPasswordVisible ? @drawable/eye_opened : @drawable/eye_closed}'
+            android:drawableTint="@color/shade_tertiary"
+            android:drawablePadding="8dp"
+            android:hint="@string/enter_your_password"
+            android:inputType='@{viewModel.loginUIState.isPasswordVisible ? android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD : android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD}'
+            android:paddingHorizontal="12dp"
+            android:textColorHint="@color/shade_tertiary"
+            app:endDrawableClick='@{() -> viewModel.onTogglePasswordVisibility()}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+        <!-- Forgot Password -->
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:hint="@string/password"
-            app:helperText="@{viewModel.loginUIState.passwordHelperText}"
-            app:layout_constraintTop_toBottomOf="@+id/user_name"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/shade_secondary_color"
-            app:startIconDrawable="@drawable/ic_key">
+            android:layout_marginTop="8dp"
+            android:text="@string/forgot_password_underlined"
+            android:textAppearance="@style/Regular.Small"
+            android:textColor="@color/shade_secondary_color"
+            app:layout_constraintEnd_toEndOf="@+id/password"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:afterTextChanged="@{(text) -> viewModel.onPasswordInputChange(text)}"
-                android:textColor="@color/shade_secondary_color" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+        <!-- Login Button -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/containedButton"
-            android:layout_width="match_parent"
+            android:id="@+id/loginButton"
+            android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_marginHorizontal="@dimen/spacing_medium"
-            android:layout_marginTop="@dimen/spacing_extra_large"
-            android:enabled="@{viewModel.loginUIState.validForm}"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:enabled="@{viewModel.loginUIState.isValidForm}"
             android:onClick="@{()->viewModel.onClickLogin()}"
             android:text="@string/login"
             android:textAppearance="@style/SemiBold.Medium"
-            android:textColor="@color/white_primary"
-            app:backgroundTint="@color/color_states_material_button"
+            android:textColor="@color/login_button_text"
+            app:backgroundTint="@color/login_button_bg"
+            app:cornerRadius="@dimen/radius_small"
+            app:hideIfTrue="@{viewModel.loginUIState.isLoading}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/forgotPassword" />
+
+        <!-- Progress Indicator -->
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/brand_primary"
+            app:isVisible="@{viewModel.loginUIState.isLoading}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/forgotPassword" />
+
+        <!-- Join as Guest -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/joinAsGuest"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{()->viewModel.onClickGuestJoin()}"
+            android:text="@string/join_as_guest"
+            android:textAppearance="@style/SemiBold.Medium"
+            android:textColor="@color/button_onSecondary"
+            app:backgroundTint="@color/button_secondary"
             app:cornerRadius="@dimen/radius_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            app:hideIfTrue="@{viewModel.loginUIState.loading}" />
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
+        <!-- Create New Account -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/createAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_extra_large"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:indicatorColor="@color/brand_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            app:isVisible="@{viewModel.loginUIState.loading}"
-            app:trackColor="@color/shade_secondary_color" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/don_t_have_an_account"
-            android:textAppearance="@style/Regular.Medium.Primary"
+            android:layout_marginBottom="24dp"
+            android:onClick="@{()->viewModel.onClickSignUp()}"
+            android:text="@string/create_a_new_account"
+            android:textAppearance="@style/Regular.Medium"
+            android:textColor="@color/button_onSecondary"
+            app:backgroundTint="@color/button_secondary"
+            app:cornerRadius="@dimen/radius_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.42"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:onClick="@{()->viewModel.onClickSignUp()}"
-            android:text="@string/sign_up"
-            android:textAppearance="@style/Regular.Medium.Primary"
-            android:textColor="@color/brand_color"
-            app:layout_constraintBottom_toBottomOf="@+id/materialTextView"
-            app:layout_constraintStart_toEndOf="@+id/materialTextView"
-            app:layout_constraintTop_toTopOf="@+id/materialTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -187,7 +187,7 @@ class HomeAdapter(
         if (homeItems.isNotEmpty()) {
             return when (homeItems[position]) {
                 is HomeItem.Actor -> R.layout.list_actor
-                is HomeItem.TvShows -> R.layout.list_tv_shows
+                is HomeItem.TvShows -> R.layout.list_movie //R.layout.list_tv_shows
                 is HomeItem.Slider -> R.layout.list_popular
                 is HomeItem.AiringToday -> R.layout.list_airing_today
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow

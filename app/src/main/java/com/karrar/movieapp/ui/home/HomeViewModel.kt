@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
@@ -227,7 +228,10 @@ class HomeViewModel @Inject constructor(
             try {
                 homeUseCasesContainer.getNowStreamingMoviesUseCase().collect { list ->
                     if (list.isNotEmpty()) {
+                        Log.e("MY_TAG", "getNowStreaming: $list")
                         val items = list.map(mediaUiMapper::map)
+                        Log.e("MY_TAG", "mapper getNowStreaming: $items")
+
                         _homeUiState.update {
                             it.copy(
                                 nowStreamingMovies = HomeItem.NowStreaming(items),

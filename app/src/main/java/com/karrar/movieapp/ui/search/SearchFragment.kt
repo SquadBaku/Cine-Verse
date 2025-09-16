@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.transition.ChangeTransform
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageButton
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentSearchBinding
@@ -68,6 +66,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setupViewModeToggle(binding.viewModeToggle, currentViewMode) { mode ->
             currentViewMode = mode
             updateRecyclerLayout(mode)
+            mediaSearchAdapter.setViewMode(mode)
         }
     }
 

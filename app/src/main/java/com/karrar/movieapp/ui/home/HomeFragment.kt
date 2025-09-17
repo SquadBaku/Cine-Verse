@@ -41,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     mutableListOf(
                         it.popularMovies,
                         HomeItem.WhatShouldIWatch(position = 1),
+                        HomeItem.NeedMoreToWatch(position = 12),
                         it.tvShowsSeries,
                         it.onTheAiringSeries,
                         it.airingTodaySeries,
@@ -116,6 +117,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             HomeUIEvent.ClickWhatShouldIWatch ->
                 HomeFragmentDirections.actionHomeFragmentToMatchFragment()
+
+            HomeUIEvent.ClickNeedMoreToWatch ->
+                HomeFragmentDirections.actionHomeFragmentToExploringFragment()
         }
         findNavController().navigate(action)
     }

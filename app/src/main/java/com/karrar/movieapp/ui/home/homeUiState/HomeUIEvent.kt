@@ -7,6 +7,7 @@ sealed interface HomeUIEvent {
     object ClickSeeAllActorEvent : HomeUIEvent
     object ClickSeeAllRecentlyViewed : HomeUIEvent
     object ClickSeeAllCollections : HomeUIEvent
+    object ClickWhatShouldIWatch : HomeUIEvent
     data class ClickMovieEvent(val movieID: Int) : HomeUIEvent
     data class ClickActorEvent(val actorID: Int) : HomeUIEvent
     data class ClickSeriesEvent(val seriesID: Int) : HomeUIEvent

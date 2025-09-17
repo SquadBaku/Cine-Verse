@@ -12,6 +12,8 @@ import com.karrar.movieapp.ui.adapters.MediaAdapter
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.SeriesAdapter
+import com.karrar.movieapp.ui.adapters.SeriesInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
@@ -154,10 +156,16 @@ class HomeAdapter(
                         setVariable(BR.isVisible, currentItem.items.isNotEmpty())
                     }
                 }
+
+                is HomeItem.TopRatedMovie -> {
+                    bindSeries(holder , currentItem.items,currentItem.type)
+//                    bindMovie(holder, currentItem.items, currentItem.type)
+                }
             }
     }
 
     private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
+
         holder.binding.run {
             setVariable(
                 BR.adapterRecycler,
@@ -165,6 +173,19 @@ class HomeAdapter(
             )
             setVariable(BR.movieType, type)
         }
+
+
+    }
+
+    private fun bindSeries(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
+
+        holder.binding.setVariable(
+            BR.adapterRecycler,
+            SeriesAdapter(items, listener as SeriesInteractionListener)
+        )
+        holder.binding.setVariable(BR.movieType, type)
+
+
     }
 
     override fun setItems(newItems: List<HomeItem>) {
@@ -187,7 +208,7 @@ class HomeAdapter(
         if (homeItems.isNotEmpty()) {
             return when (homeItems[position]) {
                 is HomeItem.Actor -> R.layout.list_actor
-                is HomeItem.TvShows -> R.layout.list_movie //R.layout.list_tv_shows
+                is HomeItem.TvShows -> R.layout.list_tv_shows
                 is HomeItem.Slider -> R.layout.list_popular
                 is HomeItem.AiringToday -> R.layout.list_airing_today
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow
@@ -200,6 +221,7 @@ class HomeAdapter(
                     -> R.layout.list_movie
 
                 is HomeItem.Collections -> R.layout.list_home_collections
+                is HomeItem.TopRatedMovie -> R.layout.list_series
             }
         }
         return -1

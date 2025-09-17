@@ -12,6 +12,7 @@ import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.SeriesInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
@@ -50,6 +51,7 @@ class HomeViewModel @Inject constructor(
     private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
     MediaInteractionListener, TVShowInteractionListener, WatchHistoryInteractionListener,
+    SeriesInteractionListener,
     CreatedListInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -256,6 +258,7 @@ class HomeViewModel @Inject constructor(
                         _homeUiState.update {
                             it.copy(
                                 tvShowsSeries = HomeItem.TvShows(items),
+                                topRatedMovie = HomeItem.TopRatedMovie(items),
                                 isLoading = false
                             )
                         }
@@ -406,6 +409,10 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickActorEvent(actorID)) }
     }
 
+    override fun onClickSeries(seriesId: Int) {
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeriesEvent(seriesId)) }
+    }
+
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         val type = when (homeItemsType) {
             HomeItemsType.ON_THE_AIR -> AllMediaType.ON_THE_AIR
@@ -425,6 +432,8 @@ class HomeViewModel @Inject constructor(
             }
 
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
+            HomeItemsType.TOP_RATED_MOVIE -> AllMediaType.TOP_RATED
+
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }

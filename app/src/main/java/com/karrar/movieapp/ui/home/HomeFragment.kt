@@ -42,9 +42,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         it.nowStreamingMovies,
                         it.upcomingMovies,
                         //match genery
-                        //top rated movie
+                        it.topRatedMovie,
                         it.recentlyViewed,
-
                         it.popularMovies,
                         it.tvShowsSeries,
                         it.onTheAiringSeries,

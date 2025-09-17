@@ -8,7 +8,6 @@ import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
 import com.karrar.movieapp.domain.usecase.home.HomeUseCasesContainer
 import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
-import com.karrar.movieapp.domain.usecases.GetMatchMovieListUseCase
 import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -76,7 +75,7 @@ class HomeViewModel @Inject constructor(
         getTrending()
         getNowStreaming()
         getUpcoming()
-        getTopRatedTvShow()
+        getTopRatedMovie()
         getOnTheAir()
         getAiringToday()
         getPopularMovies()
@@ -87,6 +86,32 @@ class HomeViewModel @Inject constructor(
         getCollections()
         getMatchesYourVibe()
 
+    }
+
+    private fun getTopRatedMovie() {
+        _homeUiState.update {
+            it.copy(
+                isLoading = true
+            )
+        }
+        viewModelScope.launch {
+            try {
+                homeUseCasesContainer.getTopRatedTvShowUseCase().collect { list ->
+                    if (list.isNotEmpty()) {
+                        Log.e("MY_TAG" , "data here in view model $list")
+                        val items = list.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(
+                                topRatedMovie = HomeItem.TopRatedMovie(items),
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
     }
 
     private fun getMatchesYourVibe() {
@@ -279,27 +304,6 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    }
-
-    private fun getTopRatedTvShow() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getTopRatedTvShowUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-//                                tvShowsSeries = HomeItem.TvShows(items),
-                                topRatedMovie = HomeItem.TopRatedMovie(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
     }
 
     private fun getOnTheAir() {

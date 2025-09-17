@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.adapters.MediaInteractionListener" />
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.MediaUIState" />
+    </data>
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Poster -->
+        <ImageView
+            android:id="@+id/imagePoster"
+            android:layout_width="64dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{()->listener.onClickMedia(item.mediaID)}"
+            app:posterImage="@{item.mediaImage}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Movie Title"
+            android:textColor="@color/shade_primary"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            style="@style/Typography.body_md_medium"
+            app:layout_constraintStart_toEndOf="@id/imagePoster"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ratingContainer"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Genres -->
+        <TextView
+            android:id="@+id/textGenres"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Action, Drama"
+            android:textColor="@color/shade_secondary"
+            style="@style/Typography.body_sm_regular"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="@id/textTitle"
+            app:layout_constraintTop_toBottomOf="@id/textTitle"
+            app:layout_constraintEnd_toStartOf="@id/ratingContainer"
+            android:layout_marginTop="4dp"/>
+
+        <!-- Release Date -->
+        <LinearLayout
+            android:id="@+id/releaseDateContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="@id/textTitle"
+            app:layout_constraintTop_toBottomOf="@id/textGenres"
+            app:layout_constraintEnd_toStartOf="@id/ratingContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:id="@+id/iconCalendar"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/calendar"
+                app:tint="@color/shade_secondary" />
+
+            <TextView
+                android:id="@+id/textReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(item.mediaReleaseDate)}"
+                style="@style/Typography.body_sm_regular"
+                android:textColor="@color/shade_secondary"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
+
+
+        <!-- Rating Badge -->
+        <LinearLayout
+            android:id="@+id/ratingContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:id="@+id/textRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(item.mediaVoteAverage)}"                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iconStar"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/star"
+                app:tint="@color/additional_primary_yellow" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+</layout>

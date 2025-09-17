@@ -103,6 +103,13 @@
     <string name="this_list_has_no_lists">No lists found</string>
     <string name="episode_title">%1$d. %2$s</string>
     <string name="season_number">(%1$s Seasons)</string>
+    <string name="welcome_to_your_movie_universe">Welcome to Your Movie Universe</string>
+    <string name="discover_track_and_rate_your_favorite_nmovies_amp_series"><![CDATA[Discover, track, and rate your favorite \nmovies & series.]]></string>
+    <string name="track_everything">Track Everything</string>
+    <string name="your_watchlist_your_ratings_all_in_one_place">Your Watchlist. Your Ratings. All in One /nPlace.</string>
+    <string name="personalized_recommendations">Personalized Recommendations</string>
+    <string name="answer_fun_questions_to_get_handpicked_recommendations">Answer fun questions to get handpicked \nrecommendations.</string>
+    <string name="get_started">Get Started</string>
     <string name="clear_all">Clear all</string>
     <string name="you_recently_viewed">You Recent viewed</string>
     <string name="search_suggestion">Search Suggestion</string>
@@ -126,9 +133,18 @@
     <string name="oops_no_internet">Oops! No Internet</string>
     <string name="looks_like_you_re_offline_let_s_reconnect_so_nyou_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect so \nyou don\'t miss out!</string>
     <string name="try_again">Try Again</string>
+    <string name="welcome_back_to_cineverse">Welcome back to CineVerse!</string>
+    <string name="join_as_guest">Join as Guest</string>
+    <string name="create_a_new_account">Create a New Account</string>
+    <string name="enter_your_email_or_username">Enter your email or username</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="forgot_password_underlined"><u>Forgot Password?</u></string>
     <string name="welcome">Welcome</string>
     <string name="title_recently_viewed">You Recently Viewed</string>
     <string name="your_collections">Your Collections</string>
     <string name="my_collections">my collections</string>
     <string name="arrow">arrow</string>
+    <string name="join_cineverse">Join CineVerse</string>
+    <string name="let_s_get_you_set_up_we_ll_take_you_to_the_website_to_create_your_account">Let\'s get you set up! We\'ll take you to the website to create your account.</string>
+    <string name="go_to_website">Go to Website</string>
 </resources>

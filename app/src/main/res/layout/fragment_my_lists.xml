@@ -52,10 +52,25 @@
             tools:listitem="@layout/item_saved_list" />
 
 
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateDrawable="@drawable/loading"
+            android:indeterminateDuration="1000"
+            android:rotationX="180"
+            app:isVisible="@{viewModel.createdListUIState.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/floating_action_button"
             android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_height="65dp"
             android:layout_margin="@dimen/radius_3xl"
             android:backgroundTint="@color/brand_primary"
             android:contentDescription="@string/add_collection"
@@ -132,8 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            app:isListEmpty="@{viewModel.createdListUIState.isEmpty}"
-            app:isVisible="@{viewModel.createdListUIState.isRealUser}"
+            app:isVisible="@{viewModel.createdListUIState.shouldShowEmptyState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -34,9 +34,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
             }
             LoginUIEvent.SignUpEvent -> {
-                val browserIntent =
-                    Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
-                startActivity(browserIntent)
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinCineVerseBottomSheet())
             }
         }
     }

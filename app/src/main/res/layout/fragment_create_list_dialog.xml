@@ -9,16 +9,12 @@
             type="com.karrar.movieapp.ui.myList.MyListsViewModel" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/radius_xl"
-        app:cardCornerRadius="@dimen/radius_xl">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_bottom_sheet"
+        android:layout_margin="@dimen/radius_xl"
+        android:background="@drawable/background_create_list_dialog"
         android:paddingTop="@dimen/radius_3xl">
 
         <TextView
@@ -127,5 +123,4 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 </layout>

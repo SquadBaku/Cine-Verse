@@ -13,5 +13,8 @@ interface AccountRepository {
     suspend fun logout()
 
     suspend fun getAccountDetails(): AccountDto?
+
+    fun isGuestUser(): Boolean
+    suspend fun loginAsGuest(): Boolean
 }
 

@@ -40,6 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 homeAdapter.setItems(
                     mutableListOf(
                         it.popularMovies,
+                        HomeItem.WhatShouldIWatch(position = 1),
                         it.tvShowsSeries,
                         it.onTheAiringSeries,
                         it.airingTodaySeries,
@@ -75,30 +76,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     event.actorID
                 )
             }
+
             is HomeUIEvent.ClickMovieEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToMovieDetailFragment(
                     event.movieID
                 )
             }
+
             HomeUIEvent.ClickSeeAllActorEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToActorsFragment()
             }
+
             is HomeUIEvent.ClickSeeAllMovieEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
                     -1, event.mediaType
                 )
             }
+
             is HomeUIEvent.ClickSeeAllTVShowsEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToAllMovieFragment(
                     -1,
                     event.mediaType
                 )
             }
+
             is HomeUIEvent.ClickSeriesEvent -> {
                 HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(
                     event.seriesID
                 )
             }
+
             HomeUIEvent.ClickSeeAllRecentlyViewed -> HomeFragmentDirections.actionHomeFragmentToWatchHistoryFragment()
             HomeUIEvent.ClickSeeAllCollections -> HomeFragmentDirections.actionHomeFragmentToSavedListFragment()
 
@@ -106,6 +113,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 event.createdListUIState.listID,
                 event.createdListUIState.name
             )
+
+            HomeUIEvent.ClickWhatShouldIWatch ->
+                HomeFragmentDirections.actionHomeFragmentToMatchFragment()
         }
         findNavController().navigate(action)
     }

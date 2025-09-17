@@ -462,4 +462,8 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickListEvent(item)) }
     }
 
+    override fun onClickWhatShouldIWatch() {
+        _homeUIEvent.update { Event(HomeUIEvent.ClickWhatShouldIWatch) }
+    }
+
 }

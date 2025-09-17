@@ -466,4 +466,8 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickWhatShouldIWatch) }
     }
 
+    override fun onClickNeedMoretoWatch() {
+        _homeUIEvent.update { Event(HomeUIEvent.ClickNeedMoreToWatch) }
+    }
+
 }

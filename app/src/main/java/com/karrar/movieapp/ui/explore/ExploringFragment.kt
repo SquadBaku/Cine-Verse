@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.tabs.TabLayoutMediator
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentExploringBinding
 import com.karrar.movieapp.ui.base.BaseFragment
@@ -30,9 +31,22 @@ class ExploringFragment : BaseFragment<FragmentExploringBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(true, resources.getString(R.string.explore_label))
+        setTitle(false)
+        setupViewPagerWithTabs()
         collectEvent()
-        binding.recyclerTrend.adapter = TrendAdapter(mutableListOf(), viewModel)
+    }
+
+    private fun setupViewPagerWithTabs() {
+        val adapter = ExplorePagerAdapter(this)
+        binding.viewPager.adapter = adapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.movies)
+                1 -> getString(R.string.tv_shows)
+                else -> ""
+            }
+        }.attach()
     }
 
     private fun collectEvent() {

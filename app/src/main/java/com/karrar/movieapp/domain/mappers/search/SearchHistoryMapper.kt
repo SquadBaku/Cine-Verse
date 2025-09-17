@@ -9,7 +9,8 @@ class SearchHistoryMapper @Inject constructor() : Mapper<SearchHistoryEntity, Se
     override fun map(input: SearchHistoryEntity): SearchHistory {
         return SearchHistory(
             id = input.id,
-            name = input.search
+            name = input.search,
+            mediaType = input.mediaType
         )
     }
 }

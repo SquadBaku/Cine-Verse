@@ -8,4 +8,6 @@ interface HomeInteractionListener : BaseInteractionListener {
     fun onClickSeeAllCollections()
 
     fun onClickWhatShouldIWatch()
+
+    fun onClickNeedMoretoWatch()
 }

@@ -8,6 +8,7 @@ import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
 import com.karrar.movieapp.domain.usecase.home.HomeUseCasesContainer
 import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetAccountDetailsUseCase
+import com.karrar.movieapp.domain.usecases.GetMatchMovieListUseCase
 import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
@@ -18,6 +19,7 @@ import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.ui.mappers.ActorUiMapper
+import com.karrar.movieapp.ui.mappers.MatchUiMapper
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.ui.myList.CreatedListInteractionListener
 import com.karrar.movieapp.ui.myList.CreatedListUIMapper
@@ -43,6 +45,7 @@ class HomeViewModel @Inject constructor(
     private val homeUseCasesContainer: HomeUseCasesContainer,
     private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
     private val mediaUiMapper: MediaUiMapper,
+    private val matchUiMapper: MatchUiMapper,
     private val actorUiMapper: ActorUiMapper,
     private val popularUiMapper: PopularUiMapper,
     private val watchHistoryMapper: WatchHistoryMapper,
@@ -82,6 +85,35 @@ class HomeViewModel @Inject constructor(
         getActors()
         getRecentlyViewed()
         getCollections()
+        getMatchesYourVibe()
+
+    }
+
+    private fun getMatchesYourVibe() {
+        viewModelScope.launch {
+            try {
+                val list = homeUseCasesContainer.getMatchMovieListUseCase(
+                    genres = listOf("Action"),
+                    withRuntimeGte = null,
+                    withRuntimeLte = null,
+                    primaryReleaseDateGte = null,
+                    primaryReleaseDateLte = null
+                )
+
+                val items = list.map(matchUiMapper::map)
+
+                if (list.isNotEmpty()) {
+                    _homeUiState.update {
+                        it.copy(
+                            matchVibeMovie = HomeItem.MatchYourVibe(items),
+                            isLoading = false
+                        )
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
     }
 
     override fun getData() {
@@ -257,7 +289,7 @@ class HomeViewModel @Inject constructor(
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
                             it.copy(
-                                tvShowsSeries = HomeItem.TvShows(items),
+//                                tvShowsSeries = HomeItem.TvShows(items),
                                 topRatedMovie = HomeItem.TopRatedMovie(items),
                                 isLoading = false
                             )
@@ -433,7 +465,7 @@ class HomeViewModel @Inject constructor(
 
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
             HomeItemsType.TOP_RATED_MOVIE -> AllMediaType.TOP_RATED
-
+            HomeItemsType.MATCH_YOUR_VIBE -> AllMediaType.MATCH_YOUR_VIBE
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }

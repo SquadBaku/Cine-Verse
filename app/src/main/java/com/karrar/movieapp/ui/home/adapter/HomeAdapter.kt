@@ -159,7 +159,10 @@ class HomeAdapter(
 
                 is HomeItem.TopRatedMovie -> {
                     bindSeries(holder , currentItem.items,currentItem.type)
-//                    bindMovie(holder, currentItem.items, currentItem.type)
+                }
+
+                is HomeItem.MatchYourVibe -> {
+                    bindMovie(holder, currentItem.items , currentItem.type)
                 }
             }
     }
@@ -222,6 +225,7 @@ class HomeAdapter(
 
                 is HomeItem.Collections -> R.layout.list_home_collections
                 is HomeItem.TopRatedMovie -> R.layout.list_series
+                is HomeItem.MatchYourVibe -> R.layout.list_movie
             }
         }
         return -1

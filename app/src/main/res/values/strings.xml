@@ -7,6 +7,7 @@
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="match_your_vibe">Match Your Vibe</string>
     <string name="search_hint">Search for a movie, tv show, person…</string>
     <string name="movies_chip">Movies</string>
     <string name="tv_shows_chip">TV Shows</string>
@@ -28,6 +29,7 @@
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
     <string name="all_movies_of_actor">All Movies Of Actor</string>
+
     <!--   Titles -->
     <string name="title_on_air">On The Air</string>
     <string name="title_tv_shows">TV Shows</string>

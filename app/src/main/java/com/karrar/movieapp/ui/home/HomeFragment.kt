@@ -39,20 +39,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewModel.homeUiState.collect {
                 homeAdapter.setItems(
                     mutableListOf(
+                        it.popularMovies,
                         it.nowStreamingMovies,
                         it.upcomingMovies,
-                        //match genery
+                        it.matchVibeMovie,
                         it.topRatedMovie,
                         it.recentlyViewed,
-                        it.popularMovies,
-                        it.tvShowsSeries,
-                        it.onTheAiringSeries,
-                        it.airingTodaySeries,
-                        it.mysteryMovies,
-                        it.adventureMovies,
-                        it.trendingMovies,
-                        it.actors,
-                        it.collections
+                        it.collections,
+//                        it.tvShowsSeries,
+//                        it.onTheAiringSeries,
+//                        it.airingTodaySeries,
+//                        it.mysteryMovies,
+//                        it.adventureMovies,
+//                        it.trendingMovies,
+//                        it.actors,
                     )
                 )
             }

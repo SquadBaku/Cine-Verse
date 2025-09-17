@@ -22,6 +22,8 @@ object Constants {
     const val INTERNET_STATUS = 400
 
     const val PROFILE = 1
+
+    const val ACTION_ID = 28
 }
 
 object ErrorUI {

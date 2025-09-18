@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="isLoading"
             type="Boolean" />
@@ -16,15 +17,15 @@
             android:id="@+id/loading"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:rotation="90"
+            android:src="@drawable/circle_loader"
+            app:isVisible="@{isLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            android:src="@drawable/circle_loader"
-            android:rotation="90"
-            app:isVisible="@{isLoading}" />
+            app:lottie_loop="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -232,6 +232,7 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                 child.visibility = View.GONE
             } else {
                 child.alpha = 0.30f
+                child.isClickable = false
             }
         }
     }
@@ -251,6 +252,7 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
             val child = chipGroup.getChildAt(i)
             child.visibility = View.VISIBLE
             child.alpha = 1f
+            child.isClickable = true
 
         }
     }
@@ -319,14 +321,17 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                         binding.classic.visibility = View.GONE
                         binding.both.visibility = View.GONE
                         binding.recent.alpha = 0.30f
+                        binding.recent.isClickable = false
 
                     } else if (binding.classic.isSelected) {
                         binding.classic.alpha = 0.30f
+                        binding.classic.isClickable = false
                         binding.both.visibility = View.GONE
                         binding.recent.visibility = View.GONE
                     } else {
                         binding.classic.visibility = View.GONE
                         binding.both.alpha = 0.30f
+                        binding.both.isClickable = false
                         binding.recent.visibility = View.GONE
                     }
 
@@ -415,6 +420,9 @@ class MatchChoicesFragment : BaseFragment<FragmentMatchChoicesBinding>() {
                     binding.recent.alpha = 1f
                     binding.classic.alpha = 1f
                     binding.both.alpha = 1f
+                    binding.recent.isClickable = false
+                    binding.classic.isClickable = false
+                    binding.both.isClickable = false
                     viewModel.stopLoadingData()
 
                     binding.buttonText.visibility = View.VISIBLE

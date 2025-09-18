@@ -36,6 +36,10 @@ class LoginViewModel @Inject constructor(
         _loginEvent.update { Event(LoginUIEvent.SignUpEvent) }
     }
 
+    fun onClickGuestJoin() {
+        _loginEvent.update { Event(LoginUIEvent.GuestJoin) }
+    }
+
     fun onClickLogin() {
         login()
     }
@@ -108,6 +112,10 @@ class LoginViewModel @Inject constructor(
 
     private fun resetForm() {
         _loginUIState.update { it.copy(userName = "", password = "") }
+    }
+
+    fun onTogglePasswordVisibility() {
+        _loginUIState.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
     }
 
 }

@@ -15,6 +15,8 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.ui.category.GenreAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -116,6 +118,37 @@ fun showWhenSearch(view: View, text: String) {
 @BindingAdapter(value = ["app:hideWhenSearch"])
 fun hideWhenSearch(view: View, text: String) {
     view.isVisible = text.isBlank()
+}
+
+
+@BindingAdapter("app:hideWhileTyping")
+fun hideWhileTyping(view: View, text: String?) {
+    (view.getTag() as? Runnable)?.let { view.removeCallbacks(it) }
+
+    if (!text.isNullOrBlank()) {
+        view.isVisible = false
+
+        val showRunnable = Runnable { view.isVisible = true }
+        view.postDelayed(showRunnable, 1500)
+
+        view.setTag(showRunnable)
+    } else {
+        view.isVisible = false
+    }
+}
+
+
+@BindingAdapter(value = ["app:showWhileTyping"])
+fun showWhileTyping(view: View, text: String?) {
+    (view.getTag() as? Runnable)?.let { view.removeCallbacks(it) }
+    if (!text.isNullOrBlank()) {
+        view.isVisible = true
+        val hideRunnable = Runnable { view.isVisible = false }
+        view.postDelayed(hideRunnable, 1500)
+        view.setTag(hideRunnable)
+    } else {
+        view.isVisible = false
+    }
 }
 
 @BindingAdapter(value = ["app:hideWhenBlankSearch"])
@@ -260,6 +293,23 @@ fun setRating(view: RatingBar?, rating: Float) {
 fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
 }
+
+@BindingAdapter("setGenres", "selectedChip", "listener", requireAll = true)
+fun RecyclerView.setGenres(
+    genres: List<GenreUIState>?,
+    selectedChip: Int?,
+    listener: CategoryInteractionListener?
+) {
+    if (adapter == null && listener != null) {
+        adapter = GenreAdapter(listener)
+    }
+
+    val genreAdapter = adapter as? GenreAdapter
+    if (genres != null && listener != null) {
+        genreAdapter?.submitList(genres, selectedChip ?: -1)
+    }
+}
+
 
 @BindingAdapter("icon")
 fun setButtonIcon(button: MaterialButton, icon: Int) {

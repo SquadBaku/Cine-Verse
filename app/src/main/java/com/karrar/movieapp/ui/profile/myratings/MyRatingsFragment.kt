@@ -12,8 +12,6 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -70,9 +68,6 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
     override fun onResume() {
         super.onResume()
 
-        try {
-            val activity = requireActivity() as AppCompatActivity
-            activity.supportActionBar?.title = getString(R.string.my_ratings)
             binding.toolbar.toolbar.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
             binding.toolbar.toolbar.navigationIcon
             binding.toolbar.toolbar.setTitleTextColor(
@@ -83,17 +78,6 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
             )
             binding.toolbar.toolbar.title = getString(R.string.my_ratings)
 
-            activity.supportActionBar?.setBackgroundDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.color.background_screen
-                )
-            )
-            view?.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)?.title =
-                getString(R.string.my_ratings)
-        } catch (e: Exception) {
-
-        }
     }
 
 //    private fun setupToolbar() {

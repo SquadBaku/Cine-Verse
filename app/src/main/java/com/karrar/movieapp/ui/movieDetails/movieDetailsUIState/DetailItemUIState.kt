@@ -12,6 +12,7 @@ sealed class DetailItemUIState(val priority: Int) {
     class Cast(val data: List<ActorUiState>) : DetailItemUIState(1)
 
     class SimilarMovies(val data: List<MediaUiState>) : DetailItemUIState(2)
+    object Promotion : DetailItemUIState(3)
 
     class Comment(val data: ReviewUIState) : DetailItemUIState(6)
 

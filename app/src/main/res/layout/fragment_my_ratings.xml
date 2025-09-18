@@ -24,6 +24,11 @@
             android:visibility="gone"
             app:showWhenListEmpty="@{viewModel.ratedUiState.ratedList}"/>
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/include_toolbar"/>
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/info_card"
             android:layout_width="match_parent"

@@ -86,6 +86,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/text_title_movie"
                     style="@style/Typography.body_md_medium"
+                    android:textColor="@color/button_onSecondary"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -135,7 +136,7 @@
 
                 <TextView
                     android:id="@+id/text_release"
-                    style="@style/Regular.Small.ternary"
+                    style="@style/Typography.label_md_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

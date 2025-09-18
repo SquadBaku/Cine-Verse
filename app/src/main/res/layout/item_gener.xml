@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="genre"
+            type="com.karrar.movieapp.ui.category.uiState.GenreUIState" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.category.CategoryInteractionListener" />
+    </data>
+
+    <TextView
+        android:id="@+id/tv_genre"
+        android:layout_width="wrap_content"
+        style="@style/Typography.label_md_medium"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:textColor="@color/brand_primary"
+        android:background="@drawable/bg_genre_selector"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:text="@{genre.genreName}"
+        android:onClick="@{() -> listener.onClickCategory(genre.genreID)}"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginBottom="20dp"
+        tools:text="Action" />
+
+</layout>

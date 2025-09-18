@@ -9,6 +9,8 @@ import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,35 +24,36 @@ class WatchHistoryViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _watchHistoryUIEvent: MutableStateFlow<Event<WatchHistoryUIEvent?>> =
-        MutableStateFlow(Event(null))
-    val watchHistoryUIEvent = _watchHistoryUIEvent.asStateFlow()
+    private val _events = MutableStateFlow(Event<WatchHistoryUIEvent?>(null))
+    val watchHistoryUIEvent = _events.asStateFlow()
 
-    init {
-        getWatchHistoryData()
-    }
+    init { getWatchHistoryData() }
+    fun retryConnect() = getWatchHistoryData()
 
     private fun getWatchHistoryData() {
         viewModelScope.launch {
-            try {
-                getWatchHistoryUseCase().collect { list ->
-                    _uiState.update { watchHistoryUiState ->
-                        watchHistoryUiState.copy(allMedia = list.map { watchHistoryMapper.map(it) })
+            getWatchHistoryUseCase()
+                .onStart { _uiState.update { it.copy(loading = true, error = emptyList()) } }
+                .catch { t ->
+                    _uiState.update {
+                        it.copy(
+                            loading = false,
+                            error = listOf(Error(code = 400, message = t.message.orEmpty()))
+                        )
                     }
                 }
-            } catch (t: Throwable) {
-                _uiState.update { it.copy(error = listOf(Error(400, t.message.toString()))) }
-            }
-
+                .collect { list ->
+                    val mapped = list.map(watchHistoryMapper::map)
+                    _uiState.update { it.copy(loading = false, error = emptyList(), allMedia = mapped) }
+                }
         }
     }
 
     override fun onClickMovie(item: MediaHistoryUiState) {
         if (item.mediaType.equals(Constants.MOVIE, true)) {
-            _watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.MovieEvent(item.id)) }
+            _events.update { Event(WatchHistoryUIEvent.MovieEvent(item.id)) }
         } else {
-            _watchHistoryUIEvent.update { Event(WatchHistoryUIEvent.TVShowEvent(item.id)) }
+            _events.update { Event(WatchHistoryUIEvent.TVShowEvent(item.id)) }
         }
     }
-
 }

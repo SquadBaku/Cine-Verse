@@ -15,10 +15,26 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_watch_history
     override val viewModel: WatchHistoryViewModel by viewModels()
 
+    private lateinit var adapter: WatchHistoryAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getString(R.string.watch_history))
-        binding.recyclerViewWatchHistory.adapter = WatchHistoryAdapter(emptyList(), viewModel)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        val adapter = WatchHistoryAdapter(items = emptyList(), listener = viewModel)
+        binding.recyclerViewWatchHistory.layoutManager =
+            androidx.recyclerview.widget.LinearLayoutManager(requireContext())
+        binding.recyclerViewWatchHistory.adapter = adapter
+
+
+        binding.emptyLayout.btnFindSomething.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_watchHistoryFragment_to_exploringFragment
+            )
+        }
+
         collectEvent()
     }
 
@@ -30,18 +46,14 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
 
     private fun onEvent(event: WatchHistoryUIEvent) {
         val action = when (event) {
-            is WatchHistoryUIEvent.MovieEvent -> {
-                WatchHistoryFragmentDirections.actionWatchHistoryFragmentToMovieDetailFragment(
-                    event.movieID
-                )
-            }
-            is WatchHistoryUIEvent.TVShowEvent -> {
-                WatchHistoryFragmentDirections.actionWatchHistoryFragmentToTvShowDetailsFragment(
-                    event.tvShowID
-                )
-            }
+            is WatchHistoryUIEvent.MovieEvent ->
+                WatchHistoryFragmentDirections
+                    .actionWatchHistoryFragmentToMovieDetailFragment(event.movieID)
+
+            is WatchHistoryUIEvent.TVShowEvent ->
+                WatchHistoryFragmentDirections
+                    .actionWatchHistoryFragmentToTvShowDetailsFragment(event.tvShowID)
         }
         findNavController().navigate(action)
     }
-
 }

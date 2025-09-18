@@ -4,8 +4,11 @@
 
     <string name="tap">Tap a movie to see details or update your rating</string>
     <string name="title_empty_ratings">No Ratings Yet</string>
+    <string name="title_empty_history">No History Yet</string>
     <string name="description_empty_ratings">Rate movies and series you\'ve watched to\ntrack what you love, and what you don\'t.</string>
+    <string name="description_empty_history">It\'s quiet in here…Start watching and we\'ll \n keep track for you</string>
     <string name="cta_start_rating">Start Rating</string>
+    <string name="cta_start_history">Find Something for You</string>
     <string name="known_for">Known For</string>
     <string name="see_all">See all</string>
     <string name="top_rated">Top Rated</string>
@@ -117,9 +120,6 @@
     <string name="personalized_recommendations">Personalized Recommendations</string>
     <string name="answer_fun_questions_to_get_handpicked_recommendations">Answer fun questions to get handpicked \nrecommendations.</string>
     <string name="get_started">Get Started</string>
-    <string name="clear_all">Clear all</string>
-    <string name="you_recently_viewed">You Recent viewed</string>
-    <string name="search_suggestion">Search Suggestion</string>
     <string name="youtube">YouTube</string>
     <string name="facebook">Facebook</string>
     <string name="instagram">Instagram</string>

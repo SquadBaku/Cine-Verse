@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.movieDetails
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
@@ -18,6 +19,7 @@ import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieUIState
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
+import com.karrar.movieapp.utilities.SingleActionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,7 +41,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val sessionIDUseCase: GetSessionIDUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
-    DetailInteractionListener {
+    DetailInteractionListener, SingleActionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -51,7 +53,11 @@ class MovieDetailsViewModel @Inject constructor(
 
     init {
         getData()
-    }
+        viewModelScope.launch{
+            _uiState.collect {
+                Log.e("TAG", "MovieDetailsViewModel: ${it.errorUIStates}", )
+            }
+        }    }
 
     override fun getData() {
         _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
@@ -60,6 +66,7 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieCast(args.movieId)
         getSimilarMovie(args.movieId)
         getMovieReviews(args.movieId)
+        onAddMovieDetailsItemOfNestedView(DetailItemUIState.Promotion)
     }
 
     private fun getMovieDetails(movieId: Int) {
@@ -216,6 +223,10 @@ class MovieDetailsViewModel @Inject constructor(
 
     override fun onClickActor(actorID: Int) {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }
+    }
+
+    override fun onClick() {
+        //TODO click promotion
     }
 
 }

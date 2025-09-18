@@ -16,7 +16,8 @@
 
         <TextView
             android:id="@+id/rate_the_movie"
-            style="@style/SemiBold.Medium"
+            style="@style/Typography.body_sm_medium"
+            android:textColor="@color/button_onSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"

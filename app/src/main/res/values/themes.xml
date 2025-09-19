@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Typography"/>
+    <style name="Typography" />
 
     <style name="Typography.display_xl">
         <item name="fontFamily">@font/manrope_bold</item>
@@ -169,6 +169,10 @@
         <item name="android:textSize">@dimen/text_medium</item>
     </style>
 
+    <style name="SemiBold.Medium.Primary">
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
     <style name="SemiBold.Small">
         <item name="android:textSize">@dimen/text_small</item>
     </style>
@@ -207,6 +211,10 @@
 
     <style name="CardCorners.Small">
         <item name="cornerSize">@dimen/radius_small</item>
+    </style>
+
+    <style name="CardCorners.12">
+        <item name="cornerSize">@dimen/radius_lg</item>
     </style>
 
     <style name="CardCorners.Medium">
@@ -258,6 +266,11 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.ActorImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
 
     <style name="chipChip" parent="Widget.Material3.Chip.Suggestion">
         <item name="chipStrokeColor">@color/brand_color</item>
@@ -277,6 +290,11 @@
     <style name="Regular.Small.Primary">
         <item name="android:textColor">@color/shade_primary_color</item>
 
+    </style>
+
+    <style name="RoundedImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
 

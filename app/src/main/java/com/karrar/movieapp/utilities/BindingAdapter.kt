@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -15,6 +16,8 @@ import com.google.android.material.chip.ChipGroup
 import com.karrar.movieapp.R
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseAdapter
+import com.karrar.movieapp.ui.category.CategoryInteractionListener
+import com.karrar.movieapp.ui.category.GenreAdapter
 import com.karrar.movieapp.ui.category.uiState.ErrorUIState
 import com.karrar.movieapp.ui.category.uiState.GenreUIState
 import com.karrar.movieapp.utilities.Constants.FIRST_CATEGORY_ID
@@ -22,6 +25,51 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
+@BindingAdapter("app:handelHomeRecycler")
+fun handelHomeRecycler(view: RecyclerView, homeRecycler: String) {
+    val overlapOffset = 80
+
+    view.apply {
+        clipToPadding = false
+        clipChildren = false
+        overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        setPadding(overlapOffset, 0, overlapOffset, 0)
+    }
+
+    view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
+            val center = recyclerView.width / 2
+
+            for (i in 0 until recyclerView.childCount) {
+                val child = recyclerView.getChildAt(i) ?: continue
+                val childCenter = (child.left + child.right) / 2
+                val distanceFromCenter = (center - childCenter).toFloat()
+                val ratio = kotlin.math.abs(distanceFromCenter) / center
+
+                val scaleY = 1f + ratio * 0.1f
+                child.scaleY = scaleY
+                child.scaleX = 0.9f
+
+                val alpha = 0.6f + (1 - ratio) * 0.4f
+                child.alpha = alpha
+
+                child.translationX = distanceFromCenter * 0.2f
+
+                child.translationY = ratio * 60f
+
+                child.translationZ = 1 - ratio
+
+                val movieTitle = child.findViewById<TextView>(R.id.text_movie_title)
+                val movieCategory = child.findViewById<TextView>(R.id.text_category)
+
+                val textAlpha = 1 - ratio
+                movieTitle?.alpha = textAlpha
+                movieCategory?.alpha = textAlpha
+            }
+        }
+    })
+}
 
 @BindingAdapter("app:showWhenListNotEmpty")
 fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
@@ -116,6 +164,37 @@ fun showWhenSearch(view: View, text: String) {
 @BindingAdapter(value = ["app:hideWhenSearch"])
 fun hideWhenSearch(view: View, text: String) {
     view.isVisible = text.isBlank()
+}
+
+
+@BindingAdapter("app:hideWhileTyping")
+fun hideWhileTyping(view: View, text: String?) {
+    (view.getTag() as? Runnable)?.let { view.removeCallbacks(it) }
+
+    if (!text.isNullOrBlank()) {
+        view.isVisible = false
+
+        val showRunnable = Runnable { view.isVisible = true }
+        view.postDelayed(showRunnable, 1500)
+
+        view.setTag(showRunnable)
+    } else {
+        view.isVisible = false
+    }
+}
+
+
+@BindingAdapter(value = ["app:showWhileTyping"])
+fun showWhileTyping(view: View, text: String?) {
+    (view.getTag() as? Runnable)?.let { view.removeCallbacks(it) }
+    if (!text.isNullOrBlank()) {
+        view.isVisible = true
+        val hideRunnable = Runnable { view.isVisible = false }
+        view.postDelayed(hideRunnable, 1500)
+        view.setTag(hideRunnable)
+    } else {
+        view.isVisible = false
+    }
 }
 
 @BindingAdapter(value = ["app:hideWhenBlankSearch"])
@@ -260,6 +339,23 @@ fun setRating(view: RatingBar?, rating: Float) {
 fun <T> showWhenTextNotEmpty(view: View, text: String) {
     view.isVisible = text.isNotEmpty()
 }
+
+@BindingAdapter("setGenres", "selectedChip", "listener", requireAll = true)
+fun RecyclerView.setGenres(
+    genres: List<GenreUIState>?,
+    selectedChip: Int?,
+    listener: CategoryInteractionListener?
+) {
+    if (adapter == null && listener != null) {
+        adapter = GenreAdapter(listener)
+    }
+
+    val genreAdapter = adapter as? GenreAdapter
+    if (genres != null && listener != null) {
+        genreAdapter?.submitList(genres, selectedChip ?: -1)
+    }
+}
+
 
 @BindingAdapter("icon")
 fun setButtonIcon(button: MaterialButton, icon: Int) {

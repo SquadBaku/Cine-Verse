@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Typography"/>
+    <style name="Typography" />
 
     <style name="Typography.display_xl">
         <item name="fontFamily">@font/manrope_bold</item>
@@ -290,6 +290,11 @@
     <style name="Regular.Small.Primary">
         <item name="android:textColor">@color/shade_primary_color</item>
 
+    </style>
+
+    <style name="RoundedImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
 

@@ -78,6 +78,7 @@
     <string name="this_list_has_no_movies">This list has no movies</string>
     <string name="zero">\.0</string>
     <string name="my_ratings">My Ratings</string>
+    <string name="rating_star">Rating Star</string>
     <string name="items">%1$s Items</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

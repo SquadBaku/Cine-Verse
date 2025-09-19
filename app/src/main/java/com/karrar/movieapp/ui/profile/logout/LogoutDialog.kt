@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.DialogLogoutBinding
 import com.karrar.movieapp.ui.base.BaseDialog
+import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.collectLast
 import com.karrar.movieapp.utilities.setWidthPercent
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +31,17 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
 
     private fun onEvent(event: LogoutUIEvent) {
         when (event) {
-            LogoutUIEvent.CloseDialogEvent -> {
-                dismiss()
-            }
+            LogoutUIEvent.CloseDialogEvent -> dismiss()
             LogoutUIEvent.LogoutEvent -> {
-                findNavController().navigate(R.id.action_logoutDialog_to_homeFragment)
+                val action = LogoutDialogDirections.actionLogoutDialogToLoginFragment(Constants.LOGOUT)
+                findNavController().navigate(
+                    action,
+                    navOptions {
+                        popUpTo(R.id.profileFragment) {
+                            inclusive = true
+                        }
+                    }
+                )
             }
         }
     }

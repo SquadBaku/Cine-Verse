@@ -153,6 +153,9 @@
         <action
             android:id="@+id/action_myListFragment_to_savedListFragment"
             app:destination="@id/listDetailsFragment" />
+        <action
+            android:id="@+id/action_myListFragment_to_exploringFragment"
+            app:destination="@id/exploringFragment" />
     </fragment>
 
     <fragment
@@ -276,6 +279,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_logoutDialog_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </dialog>
     <dialog
         android:id="@+id/createSavedList"
@@ -336,6 +342,9 @@
         <action
             android:id="@+id/action_listDetailsFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
+        <action
+            android:id="@+id/action_listDetailsFragment_to_exploringFragment"
+            app:destination="@id/exploringFragment" />
     </fragment>
 
     <fragment

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="image_id_one"
+            type="int" />
+
+        <variable
+            name="first_name"
+            type="String" />
+
+        <variable
+            name="image_id_two"
+            type="int" />
+
+        <variable
+            name="second_name"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="76dp"
+                android:background="@drawable/back_layer_container_shape" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/middle_layer_container_shape" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/late_night_thrills" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/overlay_secondary" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_gravity="bottom"
+                        android:background="@color/overlay_primary" />
+
+                    <TextView
+                        style="@style/Typography.body_sm_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_marginBottom="8dp"
+                        android:text="Late-Night Thrills"
+                        android:textColor="@color/shade_primary" />
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="76dp"
+                android:background="@drawable/back_layer_container_shape" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/middle_layer_container_shape" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/late_night_thrills" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/overlay_secondary" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_gravity="bottom"
+                        android:background="@color/overlay_primary" />
+
+                    <TextView
+                        style="@style/Typography.body_sm_medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_marginBottom="8dp"
+                        android:text="Late-Night Thrills"
+                        android:textColor="@color/shade_primary" />
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

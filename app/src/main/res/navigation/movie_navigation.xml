@@ -16,6 +16,9 @@
             android:id="@+id/action_homeFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
         <action
+            android:id="@+id/action_homeFragment_to_watchHistoryFragment"
+            app:destination="@id/watchHistoryFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
         <action
@@ -24,6 +27,18 @@
         <action
             android:id="@+id/action_homeFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_savedListFragment"
+            app:destination="@id/myListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_listDetailsFragment"
+            app:destination="@id/listDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_matchFragment"
+            app:destination="@id/matchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_exploringFragment"
+            app:destination="@id/exploringFragment" />
 
     </fragment>
 
@@ -45,6 +60,12 @@
             app:destination="@id/profileFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_joinCineVerseBottomSheet"
+            app:destination="@id/joinCineVerseBottomSheet" />
     </fragment>
 
     <fragment
@@ -400,8 +421,10 @@
         android:label="Seasons"
         tools:layout="@layout/fragment_season_list">
     </fragment>
-
-
+    <dialog
+        android:id="@+id/joinCineVerseBottomSheet"
+        android:name="com.karrar.movieapp.ui.login.JoinCineVerseBottomSheet"
+        android:label="JoinCineVerseBottomSheet" />
 
 
 </navigation>

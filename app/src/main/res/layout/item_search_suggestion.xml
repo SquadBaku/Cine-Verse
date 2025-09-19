@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.search.mediaSearchUIState.SearchHistoryUIState" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.search.adapters.SearchHistoryInteractionListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@drawable/new_history_item_background"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/new_history_icon"
+            android:padding="@dimen/spacing_small" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            style="@style/Typography.body_md_medium"
+            android:textColor="@color/shade_secondary"
+            android:text="@{item.name}"
+            tools:text="Star Wars"
+            android:onClick="@{() -> listener.onClickSearchHistory(item.name)}" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_up_left"
+            android:padding="@dimen/spacing_small"
+            app:tint="@color/shade_tertiary" />
+
+    </LinearLayout>
+
+
+</layout>

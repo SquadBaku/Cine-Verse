@@ -12,6 +12,8 @@ import com.karrar.movieapp.ui.adapters.MediaAdapter
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.SeriesAdapter
+import com.karrar.movieapp.ui.adapters.SeriesInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
@@ -162,10 +164,19 @@ class HomeAdapter(
                 is HomeItem.NeedMoreToWatch -> {
                     holder.binding.setVariable(BR.listener, listener as HomeInteractionListener)
                 }
+
+                is HomeItem.TopRatedMovie -> {
+                    bindSeries(holder , currentItem.items,currentItem.type)
+                }
+
+                is HomeItem.MatchYourVibe -> {
+                    bindMovie(holder, currentItem.items , currentItem.type)
+                }
             }
     }
 
     private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
+
         holder.binding.run {
             setVariable(
                 BR.adapterRecycler,
@@ -173,6 +184,19 @@ class HomeAdapter(
             )
             setVariable(BR.movieType, type)
         }
+
+
+    }
+
+    private fun bindSeries(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
+
+        holder.binding.setVariable(
+            BR.adapterRecycler,
+            SeriesAdapter(items, listener as SeriesInteractionListener)
+        )
+        holder.binding.setVariable(BR.movieType, type)
+
+
     }
 
     override fun setItems(newItems: List<HomeItem>) {
@@ -210,6 +234,8 @@ class HomeAdapter(
                     -> R.layout.list_movie
 
                 is HomeItem.Collections -> R.layout.list_home_collections
+                is HomeItem.TopRatedMovie -> R.layout.list_series
+                is HomeItem.MatchYourVibe -> R.layout.list_movie
             }
         }
         return -1

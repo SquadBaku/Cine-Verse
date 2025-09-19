@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.AllMediaType
 import com.karrar.movieapp.domain.enums.HomeItemsType
@@ -11,11 +12,13 @@ import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.SeriesInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.home.adapter.TVShowInteractionListener
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.ui.home.homeUiState.HomeUiState
 import com.karrar.movieapp.ui.mappers.ActorUiMapper
+import com.karrar.movieapp.ui.mappers.MatchUiMapper
 import com.karrar.movieapp.ui.mappers.MediaUiMapper
 import com.karrar.movieapp.ui.myList.CreatedListInteractionListener
 import com.karrar.movieapp.ui.myList.CreatedListUIMapper
@@ -42,6 +45,7 @@ class HomeViewModel @Inject constructor(
     private val homeUseCasesContainer: HomeUseCasesContainer,
     private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
     private val mediaUiMapper: MediaUiMapper,
+    private val matchUiMapper: MatchUiMapper,
     private val actorUiMapper: ActorUiMapper,
     private val popularUiMapper: PopularUiMapper,
     private val watchHistoryMapper: WatchHistoryMapper,
@@ -50,6 +54,7 @@ class HomeViewModel @Inject constructor(
     private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
 ) : BaseViewModel(), HomeInteractionListener, ActorsInteractionListener, MovieInteractionListener,
     MediaInteractionListener, TVShowInteractionListener, WatchHistoryInteractionListener,
+    SeriesInteractionListener,
     CreatedListInteractionListener {
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
@@ -71,7 +76,7 @@ class HomeViewModel @Inject constructor(
         getTrending()
         getNowStreaming()
         getUpcoming()
-        getTopRatedTvShow()
+        getTopRatedMovie()
         getOnTheAir()
         getAiringToday()
         getPopularMovies()
@@ -80,6 +85,61 @@ class HomeViewModel @Inject constructor(
         getActors()
         getRecentlyViewed()
         getCollections()
+        getMatchesYourVibe()
+
+    }
+
+    private fun getTopRatedMovie() {
+        _homeUiState.update {
+            it.copy(
+                isLoading = true
+            )
+        }
+        viewModelScope.launch {
+            try {
+                homeUseCasesContainer.getTopRatedTvShowUseCase().collect { list ->
+                    if (list.isNotEmpty()) {
+                        Log.e("MY_TAG" , "data here in view model $list")
+                        val items = list.map(mediaUiMapper::map)
+                        _homeUiState.update {
+                            it.copy(
+                                topRatedMovie = HomeItem.TopRatedMovie(items),
+                                isLoading = false
+                            )
+                        }
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
+    }
+
+    private fun getMatchesYourVibe() {
+        viewModelScope.launch {
+            try {
+                val list = homeUseCasesContainer.getMatchMovieListUseCase(
+                    genres = listOf("Action"),
+                    withRuntimeGte = null,
+                    withRuntimeLte = null,
+                    primaryReleaseDateGte = null,
+                    primaryReleaseDateLte = null
+                )
+
+                val items = list.map(matchUiMapper::map)
+
+                if (list.isNotEmpty()) {
+                    _homeUiState.update {
+                        it.copy(
+                            matchVibeMovie = HomeItem.MatchYourVibe(items),
+                            isLoading = false
+                        )
+                    }
+                }
+            } catch (th: Throwable) {
+                onError(th.message.toString())
+            }
+        }
     }
 
     override fun getData() {
@@ -228,7 +288,10 @@ class HomeViewModel @Inject constructor(
             try {
                 homeUseCasesContainer.getNowStreamingMoviesUseCase().collect { list ->
                     if (list.isNotEmpty()) {
+                        Log.e("MY_TAG", "getNowStreaming: $list")
                         val items = list.map(mediaUiMapper::map)
+                        Log.e("MY_TAG", "mapper getNowStreaming: $items")
+
                         _homeUiState.update {
                             it.copy(
                                 nowStreamingMovies = HomeItem.NowStreaming(items),
@@ -242,26 +305,6 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    }
-
-    private fun getTopRatedTvShow() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getTopRatedTvShowUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-                                tvShowsSeries = HomeItem.TvShows(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
     }
 
     private fun getOnTheAir() {
@@ -403,6 +446,10 @@ class HomeViewModel @Inject constructor(
         _homeUIEvent.update { Event(HomeUIEvent.ClickActorEvent(actorID)) }
     }
 
+    override fun onClickSeries(seriesId: Int) {
+        _homeUIEvent.update { Event(HomeUIEvent.ClickSeriesEvent(seriesId)) }
+    }
+
     override fun onClickSeeAllMovie(homeItemsType: HomeItemsType) {
         val type = when (homeItemsType) {
             HomeItemsType.ON_THE_AIR -> AllMediaType.ON_THE_AIR
@@ -422,6 +469,8 @@ class HomeViewModel @Inject constructor(
             }
 
             HomeItemsType.NON -> AllMediaType.ACTOR_MOVIES
+            HomeItemsType.TOP_RATED_MOVIE -> AllMediaType.TOP_RATED
+            HomeItemsType.MATCH_YOUR_VIBE -> AllMediaType.MATCH_YOUR_VIBE
         }
         _homeUIEvent.update { Event(HomeUIEvent.ClickSeeAllMovieEvent(type)) }
     }

@@ -42,17 +42,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         it.popularMovies,
                         HomeItem.WhatShouldIWatch(position = 1),
                         HomeItem.NeedMoreToWatch(position = 12),
-                        it.tvShowsSeries,
-                        it.onTheAiringSeries,
-                        it.airingTodaySeries,
-                        it.upcomingMovies,
                         it.nowStreamingMovies,
-                        it.mysteryMovies,
-                        it.adventureMovies,
-                        it.trendingMovies,
-                        it.actors,
+                        it.upcomingMovies,
+                        it.matchVibeMovie,
+                        it.topRatedMovie,
                         it.recentlyViewed,
-                        it.collections
+                        it.collections,
+
+//                        it.tvShowsSeries,
+//                        it.onTheAiringSeries,
+//                        it.airingTodaySeries,
+//                        it.mysteryMovies,
+//                        it.adventureMovies,
+//                        it.trendingMovies,
+//                        it.actors,
                     )
                 )
             }

@@ -10,7 +10,8 @@ class NowStreamingMovieMapper @Inject constructor() : Mapper<MovieDto, NowStream
         return NowStreamingMovieEntity(
             id = input.id ?: 0,
             name = input.originalTitle ?: "",
-            imageUrl = input.posterPath ?: ""
+            imageUrl = input.posterPath ?: "",
+            rate = input.voteAverage?.toFloat() ?: 0.0f
         )
     }
 }

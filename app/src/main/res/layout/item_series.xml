@@ -7,7 +7,7 @@
 
         <variable
             name="listener"
-            type="com.karrar.movieapp.ui.adapters.MovieInteractionListener" />
+            type="com.karrar.movieapp.ui.adapters.SeriesInteractionListener" />
 
         <variable
             name="item"
@@ -28,7 +28,7 @@
                 android:layout_width="136dp"
                 android:layout_height="182dp"
                 android:layout_marginHorizontal="6.dp"
-                android:onClick="@{() -> listener.onClickMovie(item.id)}"
+                android:onClick="@{() -> listener.onClickSeries(item.id)}"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

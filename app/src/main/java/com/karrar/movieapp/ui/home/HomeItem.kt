@@ -10,30 +10,29 @@ import com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState
 sealed class HomeItem(val priority: Int) {
 
     data class Slider(val items: List<PopularUiState>) : HomeItem(0)
+    data class NowStreaming(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.NOW_STREAMING) : HomeItem(1)
+    data class WhatShouldIWatch(val position: Int) : HomeItem(3)
 
-    data class TvShows(val items: List<MediaUiState>) : HomeItem(1)
+    data class Upcoming(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.UPCOMING) : HomeItem(4)
+    data class MatchYourVibe(val items : List<MediaUiState> ,  val type: HomeItemsType = HomeItemsType.MATCH_YOUR_VIBE) : HomeItem(5)
+    data class TopRatedMovie (val items : List<MediaUiState> , val type: HomeItemsType = HomeItemsType.TOP_RATED_MOVIE) : HomeItem(6)
+    data class RecentlyViewed(val items: List<MediaHistoryUiState>, val type: HomeItemsType = HomeItemsType.RECENTLY_VIEWED) : HomeItem(7)
 
-    data class OnTheAiring(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.ON_THE_AIR) : HomeItem(2)
+    data class TvShows(val items: List<MediaUiState>) : HomeItem(8)
 
-    data class Trending(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.TRENDING) : HomeItem(3)
+    data class OnTheAiring(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.ON_THE_AIR) : HomeItem(9)
 
-    data class AiringToday(val items: List<MediaUiState>) : HomeItem(4)
+    data class Trending(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.TRENDING) : HomeItem(10)
 
-    data class NowStreaming(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.NOW_STREAMING) : HomeItem(5)
+    data class AiringToday(val items: List<MediaUiState>) : HomeItem(11)
 
-    data class Upcoming(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.UPCOMING) : HomeItem(6)
+    data class Mystery(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.MYSTERY) : HomeItem(12)
 
-    data class Mystery(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.MYSTERY) : HomeItem(7)
+    data class Adventure(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.ADVENTURE) : HomeItem(13)
 
-    data class Adventure(val items: List<MediaUiState>, val type: HomeItemsType = HomeItemsType.ADVENTURE) : HomeItem(8)
+    data class Actor(val items: List<ActorUiState>) : HomeItem(14)
 
-    data class Actor(val items: List<ActorUiState>) : HomeItem(9)
+    data class Collections(val items: List<CreatedListUIState>, val type: HomeItemsType = HomeItemsType.COLLECTIONS) : HomeItem(15)
 
-    data class RecentlyViewed(val items: List<MediaHistoryUiState>, val type: HomeItemsType = HomeItemsType.RECENTLY_VIEWED) : HomeItem(10)
-
-    data class Collections(val items: List<CreatedListUIState>, val type: HomeItemsType = HomeItemsType.COLLECTIONS) : HomeItem(11)
-
-    data class WhatShouldIWatch(val position: Int) : HomeItem(position)
-
-    data class NeedMoreToWatch(val position: Int) : HomeItem(position)
+    data class NeedMoreToWatch(val position: Int) : HomeItem(16)
 }

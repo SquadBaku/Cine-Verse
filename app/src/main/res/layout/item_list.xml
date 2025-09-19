@@ -14,19 +14,20 @@
             type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveListInteractionListener" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_small"
-        android:layout_marginVertical="@dimen/spacing_too_small"
+        android:layout_marginHorizontal="@dimen/radius_medium"
+        android:layout_marginVertical="@dimen/radius_too_small"
         android:onClick="@{() -> listener.onClickSaveList(item.listID)}"
-        app:cardBackgroundColor="@color/background_color"
         app:cardCornerRadius="@dimen/radius_large"
+        android:background="@drawable/collection_item"
         app:cardElevation="0dp">
 
         <TextView
             android:id="@+id/list_name"
-            style="@style/Regular.Medium.Primary"
+            style="@style/Typography.body_md_medium"
+            android:textColor="@color/shade_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
@@ -35,8 +36,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:drawableStart="@drawable/folder"
+            android:drawableTint="@color/brand_primary"
+            android:drawablePadding="8dp"
             tools:text="list name" />
 
 
-    </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
 </layout>

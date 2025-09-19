@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.movieDetails.saveMovie
 
+import android.view.View
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
@@ -13,4 +14,8 @@ class SaveListAdapter(
 
 interface SaveListInteractionListener : BaseInteractionListener {
     fun onClickSaveList(listID: Int)
+    fun onClickCreateNewList(view: View)
+    fun onClickEscButton(view: View)
+    fun onClickAddButton(view: View)
+    fun onClickLogin(view: View)
 }

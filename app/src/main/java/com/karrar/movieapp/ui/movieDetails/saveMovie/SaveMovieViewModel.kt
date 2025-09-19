@@ -1,7 +1,10 @@
 package com.karrar.movieapp.ui.movieDetails.saveMovie
 
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.mylist.GetMyListUseCase
 import com.karrar.movieapp.domain.usecases.mylist.SaveMovieToMyListUseCase
 import com.karrar.movieapp.ui.base.BaseViewModel
@@ -21,6 +24,7 @@ class SaveMovieViewModel @Inject constructor(
     private val saveMovieToMyListUseCase: SaveMovieToMyListUseCase,
     private val getMyListUseCase: GetMyListUseCase,
     private val myListItemUIStateMapper: MyListItemUIStateMapper,
+    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), SaveListInteractionListener {
 
@@ -58,6 +62,7 @@ class SaveMovieViewModel @Inject constructor(
     }
 
     override fun onClickSaveList(listID: Int) {
+        Log.d("TAG bob", "onClickSaveList: movieId ${args.movieId} listID $listID")
         viewModelScope.launch {
             val message = try {
                 saveMovieToMyListUseCase(listID, args.movieId)
@@ -67,4 +72,21 @@ class SaveMovieViewModel @Inject constructor(
             _saveMovieUIEvent.update { Event(SaveMovieUIEvent.DisplayMessage(message ?: "")) }
         }
     }
+
+    override fun onClickCreateNewList(view: View) {
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.CreateNewList) }
+    }
+
+    override fun onClickEscButton(view: View) {
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.DismissSheet) }
+    }
+
+    override fun onClickAddButton(view: View) {
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToListsScreen) }
+    }
+
+    override fun onClickLogin(view: View) {
+        _saveMovieUIEvent.update { Event(SaveMovieUIEvent.NavigateToLoginScreen) }
+    }
+
 }

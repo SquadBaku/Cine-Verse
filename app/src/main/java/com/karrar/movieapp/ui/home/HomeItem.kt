@@ -32,4 +32,7 @@ sealed class HomeItem(val priority: Int) {
 
     data class Collections(val items: List<CreatedListUIState>, val type: HomeItemsType = HomeItemsType.COLLECTIONS) : HomeItem(13)
 
+    data class WhatShouldIWatch(val position: Int) : HomeItem(position)
+
+    data class NeedMoreToWatch(val position: Int) : HomeItem(position)
 }

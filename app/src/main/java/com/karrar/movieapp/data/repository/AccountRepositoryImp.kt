@@ -54,6 +54,39 @@ class AccountRepositoryImp @Inject constructor(
         return service.getAccountDetails().body()
     }
 
+    override fun isGuestUser(): Boolean {
+        return appConfiguration.isGuestUser()
+    }
+
+    override suspend fun loginAsGuest(): Boolean {
+        if (!isGuestUser() && getAccountDetails() != null) {
+            return false
+        }
+        return try {
+            val guestSessionResponse = service.createGuestSession()
+            if (guestSessionResponse.isSuccessful) {
+                val guestSessionId = guestSessionResponse.body()?.guestSessionId
+                if (guestSessionId != null) {
+                    saveSessionId(guestSessionId)
+                    appConfiguration.setIsGuest(true)
+                    true
+                } else {
+                    val errorResponse = dataClassParser.parseFromJson(
+                        guestSessionResponse.errorBody()?.string(), ErrorResponse::class.java
+                    )
+                    throw Throwable(errorResponse.statusMessage)
+                }
+            } else {
+                val errorResponse = dataClassParser.parseFromJson(
+                    guestSessionResponse.errorBody()?.string(), ErrorResponse::class.java
+                )
+                throw Throwable(errorResponse.statusMessage)
+            }
+        } catch (e: Exception) {
+            throw Throwable(e)
+        }
+    }
+
     private suspend fun getRequestToken(): String {
         val tokenResponse = service.getRequestToken()
         return tokenResponse.body()?.requestToken.toString()

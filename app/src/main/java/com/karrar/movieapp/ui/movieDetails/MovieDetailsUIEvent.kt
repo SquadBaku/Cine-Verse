@@ -3,7 +3,7 @@ package com.karrar.movieapp.ui.movieDetails
 sealed interface MovieDetailsUIEvent {
     object ClickBackEvent : MovieDetailsUIEvent
     object ClickPlayTrailerEvent : MovieDetailsUIEvent
-    object ClickSaveEvent : MovieDetailsUIEvent
+    data class ClickSaveEvent(val isLoggedIn: Boolean) : MovieDetailsUIEvent
     object MessageAppear : MovieDetailsUIEvent
     object ClickReviewsEvent : MovieDetailsUIEvent
     data class ClickMovieEvent(val movieID: Int) : MovieDetailsUIEvent

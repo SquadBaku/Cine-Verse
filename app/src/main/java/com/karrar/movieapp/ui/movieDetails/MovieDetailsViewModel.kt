@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
@@ -37,6 +38,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieRate: GetMovieRateUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
     private val sessionIDUseCase: GetSessionIDUseCase,
+    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -193,7 +195,8 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSave() {
-        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent) }
+        val isLoggedIn = checkIfLoggedInUseCase()
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent(isLoggedIn)) }
     }
 
     override fun onClickPlayTrailer() {

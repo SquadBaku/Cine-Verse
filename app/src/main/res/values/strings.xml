@@ -127,4 +127,11 @@
     <string name="your_collections">Your Collections</string>
     <string name="my_collections">my collections</string>
     <string name="arrow">arrow</string>
+    <string name="add_to_collection">Add to Collection</string>
+    <string name="new_collection">New Collection\n</string>
+    <string name="no_collections_yet">No Collections Yet</string>
+    <string name="create_a_new_collection_to_start_saving_your_favorite_movies_and_series">Create a new collection to start saving your favorite movies and series.</string>
+    <string name="create_collection">Create Collection</string>
+    <string name="you_re_almost_there">You\'re Almost There!</string>
+    <string name="not_now">Not Now</string>
 </resources>

@@ -9,9 +9,11 @@
     <string name="known_for">Known For</string>
     <string name="see_all">See all</string>
     <string name="top_rated">Top Rated</string>
+    <string name="top_rated_movie">Top Rated TV Shows</string>
     <string name="latest">Latest</string>
     <string name="popular">Popular</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="matches_your_vibe">Matches your Vibe</string>
     <string name="search_hint">Search…</string>
     <string name="movies_chip">Movies</string>
     <string name="tv_shows_chip">TV Shows</string>
@@ -34,14 +36,15 @@
     <string name="oops">Oops!</string>
     <string name="description">There is no internet connection\nPlease check it out</string>
     <string name="all_movies_of_actor">All Movies Of Actor</string>
+
     <!--   Titles -->
     <string name="title_on_air">On The Air</string>
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_mystery">Mystery</string>
     <string name="title_adventure">Adventure</string>
     <string name="title_trending">Trending</string>
-    <string name="title_streaming">Now Streaming</string>
-    <string name="title_upcoming">Upcoming</string>
+    <string name="title_recently_released">Recently Released</string>
+    <string name="title_upcoming">Upcoming Movies</string>
     <string name="title_celebrity">Celebrities</string>
     <string name="title_airing_today">Airing today</string>
     <string name="title_top_rated_tv_show">Top Rated Tv-Show</string>
@@ -53,7 +56,7 @@
     <string name="trending_today_label">Trending Today</string>
     <string name="home">Home</string>
     <string name="explore">Explore</string>
-    <string name="myList">My Lists</string>
+    <string name="myList">My Collections</string>
     <string name="profile">Profile</string>
     <string name="play_trailer">Play Trailer</string>
     <string name="duration">%1$d Minutes</string>
@@ -152,6 +155,14 @@
     <string name="your_collections">Your Collections</string>
     <string name="my_collections">my collections</string>
     <string name="arrow">arrow</string>
+    <string name="My_Collections">My Collections</string>
+    <string name="add">+</string>
+    <string name="start_collecting">Start Collecting</string>
+    <string name="start_building_your_personal_library_by_saving_movies_or_series_you_want_to_remember">Start building your personal library by saving movies or series you want to remember.</string>
+    <string name="no_collections_yet">No Collections Yet</string>
+    <string name="add_collection">add collection</string>
+    <string name="e_g_my_watchlist">e.g. My Watchlist</string>
+    <string name="collection_name">Collection Name</string>
     <string name="join_cineverse">Join CineVerse</string>
     <string name="let_s_get_you_set_up_we_ll_take_you_to_the_website_to_create_your_account">Let\'s get you set up! We\'ll take you to the website to create your account.</string>
     <string name="go_to_website">Go to Website</string>

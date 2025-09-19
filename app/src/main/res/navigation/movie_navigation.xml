@@ -101,6 +101,9 @@
             android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
             app:destination="@id/saveMovieDialog" />
         <action
+            android:id="@+id/action_movieDetailsFragment_to_loginDialog"
+            app:destination="@id/loginDialog" />
+        <action
             android:id="@+id/action_movieDetailFragment_to_actorDetailsFragment"
             app:destination="@id/actorDetailsFragment" />
         <action
@@ -253,6 +256,24 @@
         <argument
             android:name="movie_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_create_new_list"
+            app:destination="@id/createListDialog" />
+        <action
+            android:id="@+id/action_save_to_list_dialog_to_loginDialog"
+            app:destination="@id/loginDialog"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/loginDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.saveMovie.LoginDialog"
+        tools:layout="@layout/dialog_login">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_loginDialog_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </dialog>
 
     <dialog
@@ -264,6 +285,19 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/createListDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.saveMovie.CreateListDialog"
+        tools:layout="@layout/dialog_create_list">
+
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_homeFragment_to_savedListFragment"
+            app:destination="@id/myListFragment" />
     </dialog>
     <dialog
         android:id="@+id/createSavedList"
@@ -368,7 +402,7 @@
         android:id="@+id/matchResultFragment"
         android:name="com.karrar.movieapp.ui.match.matchPager.MatchResultFragment"
         android:label="fragment_match_result"
-        tools:layout="@layout/fragment_match_result" >
+        tools:layout="@layout/fragment_match_result">
         <argument
             android:name="movieNames"
             app:argType="string[]" />
@@ -407,10 +441,7 @@
         android:id="@+id/seasonListFragment"
         android:name="com.karrar.movieapp.ui.tvShowDetails.SeasonListFragment"
         android:label="Seasons"
-        tools:layout="@layout/fragment_season_list">
-    </fragment>
-
-
+        tools:layout="@layout/fragment_season_list"></fragment>
 
 
 </navigation>

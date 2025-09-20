@@ -12,5 +12,5 @@ class WatchHistoryEntity(
     var releaseDate: String,
     var movieDuration: Int,
     var mediaType:String,
-    var genres: List<String>? = null
+    var genres: List<String> = emptyList(),
 )

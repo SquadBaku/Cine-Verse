@@ -2,7 +2,9 @@ package com.karrar.movieapp.ui.profile.watchhistory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.domain.mappers.WatchHistoryMapper
+import com.karrar.movieapp.domain.usecases.DeleteWatchHistoryUseCase
 import com.karrar.movieapp.domain.usecases.GetWatchHistoryUseCase
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
@@ -18,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
-    private val watchHistoryMapper: WatchHistoryMapper
+    private val watchHistoryMapper: WatchHistoryMapper,
+    private val DeleteWatchHistoryUseCase: DeleteWatchHistoryUseCase
 ) : ViewModel(), WatchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
@@ -56,4 +59,24 @@ class WatchHistoryViewModel @Inject constructor(
             _events.update { Event(WatchHistoryUIEvent.TVShowEvent(item.id)) }
         }
     }
+
+    fun deleteHistory(item: MediaHistoryUiState) {
+        viewModelScope.launch {
+            runCatching {
+
+                val type = if (item.mediaType.equals(Constants.MOVIE, true)) {
+                    MediaType.MOVIE
+                } else {
+                    MediaType.TV_SHOW
+                }
+                DeleteWatchHistoryUseCase(
+                    id = item.id,
+                    type = type
+
+                )
+            }
+
+        }
+        }
+
 }

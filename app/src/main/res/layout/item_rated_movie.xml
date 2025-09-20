@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/you_gave_it"
-            android:textColor="@color/shade_primary"
+            android:textColor="@color/button_onSecondary"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

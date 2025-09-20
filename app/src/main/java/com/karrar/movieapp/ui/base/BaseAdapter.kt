@@ -34,16 +34,35 @@ abstract class BaseAdapter<T>(
             setVariable(BR.listener, listener)
         }
     }
-    fun getItems(): List<T> = items
-    class ItemViewHolder(val binding: ViewDataBinding) : BaseViewHolder(binding)
 
+    fun getItems(): List<T> = items
+
+    fun getItemAt(position: Int): T = items[position]
+
+    fun removeAt(position: Int): T {
+        val removed = items[position]
+        val newList = items.toMutableList().apply { removeAt(position) }
+        setItems(newList)
+        return removed
+    }
+
+    fun removeItem(item: T): Boolean {
+        val idx = items.indexOf(item)
+        if (idx == -1) return false
+        removeAt(idx)
+        return true
+    }
+
+    class ItemViewHolder(val binding: ViewDataBinding) : BaseViewHolder(binding)
     abstract class BaseViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun getItemCount() = items.size
 
     open fun setItems(newItems: List<T>) {
         val diffResult =
-            DiffUtil.calculateDiff(BaseDiffUtil(items, newItems, ::areItemsSame, ::areContentSame))
+            DiffUtil.calculateDiff(
+                BaseDiffUtil(items, newItems, ::areItemsSame, ::areContentSame)
+            )
         items = newItems
         diffResult.dispatchUpdatesTo(this)
     }
@@ -53,5 +72,4 @@ abstract class BaseAdapter<T>(
     }
 
     open fun areContentSame(oldPosition: T, newPosition: T) = true
-
 }

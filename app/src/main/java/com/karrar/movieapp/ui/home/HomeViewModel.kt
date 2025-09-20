@@ -73,16 +73,10 @@ class HomeViewModel @Inject constructor(
     private fun getHomeData() {
         _homeUiState.update { it.copy(isLoading = true) }
         getProfileDetails()
-        getTrending()
         getNowStreaming()
         getUpcoming()
         getTopRatedMovie()
-        getOnTheAir()
-        getAiringToday()
         getPopularMovies()
-        getMystery()
-        getAdventure()
-        getActors()
         getRecentlyViewed()
         getCollections()
         getMatchesYourVibe()
@@ -90,16 +84,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getTopRatedMovie() {
-        _homeUiState.update {
-            it.copy(
-                isLoading = true
-            )
-        }
         viewModelScope.launch {
             try {
                 homeUseCasesContainer.getTopRatedTvShowUseCase().collect { list ->
                     if (list.isNotEmpty()) {
-                        Log.e("MY_TAG" , "data here in view model $list")
                         val items = list.map(mediaUiMapper::map)
                         _homeUiState.update {
                             it.copy(
@@ -219,47 +207,7 @@ class HomeViewModel @Inject constructor(
         _homeUiState.update { it.copy(error = errors, isLoading = false) }
     }
 
-    private fun getTrending() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getTrendingMoviesUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-                                trendingMovies = HomeItem.Trending(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
 
-    }
-
-    private fun getActors() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getTrendingActorsUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(actorUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-                                actors = HomeItem.Actor(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
-
-    }
 
     private fun getUpcoming() {
         viewModelScope.launch {
@@ -307,90 +255,8 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private fun getOnTheAir() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getOnTheAirUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-                                onTheAiringSeries = HomeItem.OnTheAiring(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
-
-    }
-
-    private fun getAiringToday() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getAiringTodayUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-                                airingTodaySeries = HomeItem.AiringToday(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
 
 
-    }
-
-    private fun getMystery() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getMysteryMoviesUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-                                mysteryMovies = HomeItem.Mystery(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
-
-    }
-
-    private fun getAdventure() {
-        viewModelScope.launch {
-            try {
-                homeUseCasesContainer.getAdventureMoviesUseCase().collect { list ->
-                    if (list.isNotEmpty()) {
-                        val items = list.map(mediaUiMapper::map)
-                        _homeUiState.update {
-                            it.copy(
-                                adventureMovies = HomeItem.Adventure(items),
-                                isLoading = false
-                            )
-                        }
-                    }
-                }
-            } catch (th: Throwable) {
-                onError(th.message.toString())
-            }
-        }
-
-    }
 
     private fun getRecentlyViewed() {
         viewModelScope.launch {

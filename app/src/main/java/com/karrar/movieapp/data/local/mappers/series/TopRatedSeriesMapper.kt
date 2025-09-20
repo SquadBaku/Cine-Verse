@@ -11,7 +11,7 @@ class TopRatedSeriesMapper @Inject constructor() : Mapper<TVShowsDTO, TopRatedSe
             id = input.id ?:0,
             name = input.originalName?:"",
             imageUrl = input.posterPath ?:"",
-            duration = input.episodeRunTime?.get(0)?:0,
+            duration = 0 ,
             rate = input.voteAverage?.toFloat() ?:  0.0f
         )
     }

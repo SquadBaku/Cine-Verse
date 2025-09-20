@@ -8,9 +8,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.ActivityMainBinding
@@ -23,27 +21,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY)
+
         setTheme(R.style.Theme_MovieApp)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         installSplashScreen()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        supportActionBar?.hide()
     }
 
     override fun onResume() {
         super.onResume()
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.exploringFragment,
-                R.id.matchFragment,
-                R.id.profileFragment,
-            )
-        )
         val navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavigation.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
 
         setBottomNavigationVisibility(navController)
         setNavigationController(navController)

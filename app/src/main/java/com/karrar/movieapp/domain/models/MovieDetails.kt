@@ -10,4 +10,5 @@ data class MovieDetails(
     val movieReview: Int,
     val movieVoteAverage: String,
     val movieOverview: String,
+    val userRating: String,
 )

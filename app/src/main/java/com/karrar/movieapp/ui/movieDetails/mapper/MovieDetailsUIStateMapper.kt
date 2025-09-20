@@ -22,6 +22,8 @@ class MovieDetailsUIStateMapper @Inject constructor() : Mapper<MovieDetails, Mov
             review = input.movieReview,
             voteAverage = input.movieVoteAverage,
             overview = input.movieOverview,
+            userRating = input.userRating
+
         )
     }
 

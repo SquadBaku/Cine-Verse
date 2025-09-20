@@ -1,18 +1,26 @@
 package com.karrar.movieapp.ui.profile.myratings
 
-import com.karrar.movieapp.domain.mappers.Mapper
+import com.karrar.movieapp.domain.mappers.MapperWithGenreList
+import com.karrar.movieapp.domain.models.Genre
 import com.karrar.movieapp.domain.models.Rated
+import java.util.Locale
 import javax.inject.Inject
 
-class RatedUIStateMapper @Inject constructor() :Mapper<Rated,RatedUIState>  {
-    override fun map(input: Rated): RatedUIState {
+class RatedUIStateMapper @Inject constructor() : MapperWithGenreList<Rated, RatedUIState> {
+
+    override fun map(input: Rated, categoryIdList: List<Genre>): RatedUIState {
+        val categoryNames = input.categoryIdList
+            .mapNotNull { id -> categoryIdList.firstOrNull { it.genreID == id }?.genreName }
         return RatedUIState(
             id = input.id,
             title = input.title,
             posterPath = input.posterPath,
-            rating = input.rating,
+            rating = String.format(Locale.ENGLISH, "%.1f", input.rating),
             mediaType = input.mediaType,
-            releaseDate = input.releaseDate
+            releaseDate = TimeFormatters.formatDate(input.releaseDate),
+            category = categoryNames.joinToString(", "),
+            duration = input.duration,
+            userRating = input.userRating
         )
     }
 }

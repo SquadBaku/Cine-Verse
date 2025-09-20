@@ -23,7 +23,7 @@ internal class RatedMapperTest {
 
     @Test
     fun should_ReturnRatedMoviesMapper_when_EnterRatedMoviesDTO() {
-        // given a RatedMoviesDTO object with random values
+
         val ratedMoviesDto = RatedMoviesDto(
             adult = false,
             backdropPath = "backdropPath",
@@ -41,20 +41,21 @@ internal class RatedMapperTest {
             voteAverage = 1.0,
             voteCount = 1
         )
-        // when map is called
+
         val result = ratedMoviesMapper.map(ratedMoviesDto)
 
-        // expected
+
         val expectedRatedMovie = Rated(
             id = 1,
             title = "title",
             posterPath = BuildConfig.IMAGE_BASE_PATH + "posterPath",
             rating = 1f,
             releaseDate = "releaseDate",
-            mediaType = Constants.MOVIE
+            mediaType = Constants.MOVIE,
+            categoryIdList = listOf(1, 2, 3),
+            duration = ""
         )
 
-        // then the result should be a Movie rated object with the same values
         assertEquals(expectedRatedMovie, result)
 
     }

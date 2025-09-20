@@ -136,4 +136,7 @@ interface MovieRepository {
 
     suspend fun removeMovieFromCollection(sessionId: String, collectionId: String, movieId: Int): DefaultResponse?
 
-}
+
+    suspend fun getMovieDuration(movieId: Int): Int
+    }
+

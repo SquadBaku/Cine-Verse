@@ -21,7 +21,7 @@ import javax.inject.Inject
 class WatchHistoryViewModel @Inject constructor(
     private val getWatchHistoryUseCase: GetWatchHistoryUseCase,
     private val watchHistoryMapper: WatchHistoryMapper,
-    private val DeleteWatchHistoryUseCase: DeleteWatchHistoryUseCase
+    private val deleteWatchHistoryUseCase: DeleteWatchHistoryUseCase,
 ) : ViewModel(), WatchHistoryInteractionListener {
 
     private val _uiState = MutableStateFlow(WatchHistoryUiState())
@@ -29,6 +29,17 @@ class WatchHistoryViewModel @Inject constructor(
 
     private val _events = MutableStateFlow(Event<WatchHistoryUIEvent?>(null))
     val watchHistoryUIEvent = _events.asStateFlow()
+
+    private val _history = MutableStateFlow<List<MediaHistoryUiState>>(emptyList())
+    val history = _history.asStateFlow()
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
+
+    private fun onError(message: String) {
+        _errorMessage.value = message
+    }
+
 
     init { getWatchHistoryData() }
     fun retryConnect() = getWatchHistoryData()
@@ -60,23 +71,46 @@ class WatchHistoryViewModel @Inject constructor(
         }
     }
 
+    override fun onSwipeDelete(item: MediaHistoryUiState) {
+
+        val prev = _history.value
+
+        _history.value = prev.filterNot { it.id == item.id }
+
+        val type = if (item.mediaType.equals(Constants.MOVIE, true)) {
+            MediaType.MOVIE
+        } else {
+            MediaType.TV_SHOW
+        }
+        viewModelScope.launch {
+            runCatching { deleteWatchHistoryUseCase(item.id, type) }
+                .onFailure { err ->
+
+                    _history.value = prev
+                    onError(err.message ?: "Delete failed")
+                }
+        }
+    }
+
+
     fun deleteHistory(item: MediaHistoryUiState) {
+        val type = if (item.mediaType.equals(Constants.MOVIE, ignoreCase = true)) {
+            MediaType.MOVIE
+        } else {
+            MediaType.TV_SHOW
+        }
+
         viewModelScope.launch {
             runCatching {
-
-                val type = if (item.mediaType.equals(Constants.MOVIE, true)) {
-                    MediaType.MOVIE
-                } else {
-                    MediaType.TV_SHOW
-                }
-                DeleteWatchHistoryUseCase(
-                    id = item.id,
-                    type = type
-
-                )
+                deleteWatchHistoryUseCase(id = item.id, type = type)
+            }.onFailure { err ->
+                onError(err.message ?: "Delete failed")
             }
+        }
+    }
 
-        }
-        }
 
 }
+
+
+

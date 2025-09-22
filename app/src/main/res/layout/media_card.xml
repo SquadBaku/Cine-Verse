@@ -29,7 +29,8 @@
             android:text="@{item.mediaType}"
             android:textColor="@color/brand_primary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Movie" />
 
         <TextView
             android:id="@+id/title"
@@ -40,7 +41,8 @@
             android:text="@{item.title}"
             android:textColor="@color/shade_primary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/media_type" />
+            app:layout_constraintTop_toBottomOf="@id/media_type"
+            tools:text="Media Title" />
 
         <TextView
             android:id="@+id/categories"
@@ -51,7 +53,8 @@
             android:text="@{item.genres}"
             android:textColor="@color/shade_secondary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="Action, Drama" />
 
         <TextView
             android:id="@+id/rating"
@@ -65,7 +68,7 @@
             android:textColor="@color/shade_secondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/categories"
-            tools:text="hmm" />
+            tools:text="8.5" />
 
         <TextView
             android:id="@+id/duration"
@@ -75,10 +78,12 @@
             android:layout_marginStart="12dp"
             android:drawableStart="@drawable/clock"
             android:drawablePadding="@dimen/spacing_too_small"
+            android:gravity="center"
             android:text="@{item.formattedDuration}"
             android:textColor="@color/shade_secondary"
             app:layout_constraintStart_toEndOf="@id/rating"
-            app:layout_constraintTop_toTopOf="@id/rating" />
+            app:layout_constraintTop_toTopOf="@id/rating"
+            tools:text="2h 30m" />
 
         <TextView
             style="@style/Typography.label_md_regular"
@@ -87,10 +92,12 @@
             android:layout_marginStart="12dp"
             android:drawableStart="@drawable/calendar"
             android:drawablePadding="@dimen/spacing_too_small"
+            android:gravity="center"
             android:text="@{item.date}"
             android:textColor="@color/shade_secondary"
             app:layout_constraintStart_toEndOf="@id/duration"
-            app:layout_constraintTop_toTopOf="@id/rating" />
+            app:layout_constraintTop_toTopOf="@id/rating"
+            tools:text="2023-10-26" />
 
 
         <androidx.cardview.widget.CardView

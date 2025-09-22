@@ -9,6 +9,7 @@ import com.karrar.movieapp.ui.adapters.*
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.DetailItemUIState
+import com.karrar.movieapp.utilities.SingleActionListener
 
 class DetailAdapter(
     private var items: List<DetailItemUIState>,
@@ -47,13 +48,29 @@ class DetailAdapter(
                     setVariable(
                         BR.adapterRecycler,
                         ActorAdapter(
-                            currentItem.data,
-                            R.layout.item_cast,
+                            currentItem.data.take(currentItem.data.size / 2),
+                            R.layout.new_cast_item,
                             listener as ActorsInteractionListener
+                        )
+                    )
+                    setVariable(
+                        BR.secondListAdapter,
+                        ActorAdapter(
+                            currentItem.data.drop(currentItem.data.size / 2),
+                            R.layout.new_cast_item,
+                            listener
                         )
                     )
                 }
             }
+
+            is DetailItemUIState.Promotion -> {
+                holder.binding.setVariable(
+                    BR.listener,
+                    listener as SingleActionListener
+                )
+            }
+
             is DetailItemUIState.SimilarMovies -> {
                 holder.binding.run {
                     setVariable(
@@ -62,21 +79,24 @@ class DetailAdapter(
                     )
                 }
             }
+
             is DetailItemUIState.Rating -> {
                 holder.binding.run {
                     setVariable(BR.viewModel, currentItem.viewModel)
                 }
             }
+
             is DetailItemUIState.Comment -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener)
                 }
             }
+
             is DetailItemUIState.ReviewText -> {}
             DetailItemUIState.SeeAllReviewsButton -> {
                 holder.binding.run {
-                     setVariable(BR.listener, listener as DetailInteractionListener)
+                    setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
         }
@@ -96,6 +116,7 @@ class DetailAdapter(
             is DetailItemUIState.Header -> R.layout.media_card
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
+            is DetailItemUIState.Promotion -> R.layout.promotion_card
             is DetailItemUIState.Rating -> R.layout.item_rating
             is DetailItemUIState.Comment -> R.layout.item_movie_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text

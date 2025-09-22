@@ -106,4 +106,9 @@
     <string name="looks_like_you_re_offline_let_s_reconnect_so_nyou_don_t_miss_out">Looks like you\'re offline. Let\'s reconnect so \nyou don\'t miss out!</string>
     <string name="try_again">Try Again</string>
     <string name="behind_the_scenes">Behind the Scenes</string>
+    <string name="you_might_also_like">You Might Also Like</string>
+    <string name="show_more">Show More</string>
+    <string name="did_you_watch_it">Did You Watch it?</string>
+    <string name="give_it_stars">Give it Stars!</string>
+    <string name="let_the_world_know_how_you_felt">Let the world know how you felt.</string>
 </resources>

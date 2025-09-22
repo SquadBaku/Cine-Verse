@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.karrar.movieapp.ui.profile.watchhistory.MediaHistoryUiState" />
@@ -19,35 +20,26 @@
         android:clipToPadding="false"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:layout_marginBottom="16dp"
+        >
 
-        <FrameLayout
-            android:id="@+id/bg_delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="88dp">
 
-            <FrameLayout
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_gravity="end|center_vertical"
-                android:background="@drawable/bg_swipe_delete">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_trash"
-                    android:contentDescription="@string/delete" />
-            </FrameLayout>
-        </FrameLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:background="@color/additional_primary_red"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:contentPadding="14dp"
+            android:tint="@color/button_onPrimary"
+            app:shapeAppearanceOverlay="@style/ImageRadiusLarge"
+            android:layout_gravity="end|center"
+            android:contentDescription="@string/delete"
+            android:src="@drawable/ic_trash" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/foreground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:onClick="@{() -> listener.onClickMovie(item)}"
             app:cardCornerRadius="@dimen/radius_small"
             app:cardElevation="0dp">
@@ -57,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/background_card"
                 android:minHeight="88dp"
-                android:paddingStart="16dp"
+                android:paddingStart="0dp"
                 android:paddingEnd="16dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -65,9 +57,9 @@
                     android:layout_width="64dp"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:mediaPoster="@{item.posterPath}"
                     app:shapeAppearanceOverlay="@style/PosterCorners"
                     tools:src="@drawable/test" />
@@ -84,9 +76,9 @@
                     android:maxLines="1"
                     android:text="@{item.movieTitle}"
                     app:layout_constrainedWidth="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/image_movie"
                     app:layout_constraintEnd_toStartOf="@id/text_rate_movie"
+                    app:layout_constraintStart_toEndOf="@id/image_movie"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="The Flash" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -101,9 +93,9 @@
                     android:textColor="@color/shade_secondary"
                     android:textSize="12sp"
                     app:layout_constrainedWidth="true"
-                    app:layout_constraintTop_toBottomOf="@id/text_title_movie"
-                    app:layout_constraintStart_toStartOf="@id/text_title_movie"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/text_title_movie"
+                    app:layout_constraintTop_toBottomOf="@id/text_title_movie"
                     tools:text="Drama, Action, Crime, Thriller" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -116,9 +108,9 @@
                     android:text="@{item.voteAverage}"
                     android:textColor="@color/shade_primary"
                     app:drawableTint="@color/additional_primary_yellow"
-                    app:layout_constraintTop_toTopOf="@id/text_title_movie"
                     app:layout_constraintBottom_toBottomOf="@id/text_title_movie"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_title_movie" />
 
                 <TextView
                     android:id="@+id/text_release"
@@ -133,9 +125,9 @@
                     android:textColor="@color/shade_secondary"
                     app:drawableStartCompat="@drawable/new_calendar"
                     app:drawableTint="@color/shade_secondary"
-                    app:layout_constraintTop_toBottomOf="@id/text_category"
-                    app:layout_constraintStart_toEndOf="@id/image_movie"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/image_movie"
+                    app:layout_constraintTop_toBottomOf="@id/text_category"
                     tools:text="2013, July" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

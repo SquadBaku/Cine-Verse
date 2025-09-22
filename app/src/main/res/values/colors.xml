@@ -5,7 +5,7 @@
     <color name="background_card">#FFFFFF</color>
     <color name="background_bottom_sheet">#FFFFFF</color>
     <color name="background_bottom_sheet_card">#F6F6F6</color>
-    <color name="shade_primary">#E1E1E3</color>
+    <color name="shade_primary">#313131</color>
     <color name="shade_secondary">#717171</color>
     <color name="shade_tertiary">#A5A5A5</color>
     <color name="shade_quaternary">#ECECEC</color>

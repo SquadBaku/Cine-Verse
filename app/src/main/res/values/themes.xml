@@ -140,6 +140,11 @@
     <style name="SemiBold.Small">
         <item name="android:textSize">@dimen/text_small</item>
     </style>
+    <style name="ShapeAppearance.Poster.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
 
 
     <style name="Regular">

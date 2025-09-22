@@ -1,7 +1,6 @@
 package com.karrar.movieapp.ui.main
 
 import android.os.Bundle
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible

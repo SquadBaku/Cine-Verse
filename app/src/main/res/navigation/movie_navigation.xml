@@ -465,7 +465,7 @@
         <action
             android:id="@+id/action_onboarding3Fragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/movie_navigation"
+            app:popUpTo="@id/onboarding1Fragment"
             app:popUpToInclusive="true" />
 
     </fragment>

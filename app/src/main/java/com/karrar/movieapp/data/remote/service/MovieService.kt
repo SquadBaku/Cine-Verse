@@ -6,6 +6,7 @@ import com.karrar.movieapp.data.remote.response.BaseListResponse
 import com.karrar.movieapp.data.remote.response.CreatedListDto
 import com.karrar.movieapp.data.remote.response.CreditsDto
 import com.karrar.movieapp.data.remote.response.DailyTrendingDto
+import com.karrar.movieapp.data.remote.response.DefaultResponse
 import com.karrar.movieapp.data.remote.response.LogoutResponse
 import com.karrar.movieapp.data.remote.response.MovieDto
 import com.karrar.movieapp.data.remote.response.MyListsDto
@@ -19,6 +20,7 @@ import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
 import com.karrar.movieapp.data.remote.response.actor.ActorProfileResponse
 import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaResponse
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
+import com.karrar.movieapp.data.remote.response.login.GuestSessionResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
@@ -33,6 +35,7 @@ import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -162,6 +165,8 @@ interface MovieService {
         @Path("movie_id") movieId: Int,
     ): Response<RatingDto>
 
+    @GET("authentication/guest_session/new")
+    suspend fun createGuestSession(): Response<GuestSessionResponse>
     @FormUrlEncoded
     @POST("tv/{tv_id}/rating")
     suspend fun postTvShowRating(
@@ -280,4 +285,12 @@ interface MovieService {
         @Path("tv_id") tvId: Int,
     ): Response<RatingDto>
 
+    @FormUrlEncoded
+    @POST("list/{collection_id}/remove_item")
+    @Headers("need_session_id: true")
+    suspend fun removeMovieFromCollection(
+        @Path("collection_id") collectionId: String,
+        @Query("session_id") sessionId: String,
+        @Field("media_id") movieId: Int
+    ): Response<DefaultResponse>
 }

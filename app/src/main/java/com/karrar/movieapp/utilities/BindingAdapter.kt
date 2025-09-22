@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -24,6 +25,51 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
+@BindingAdapter("app:handelHomeRecycler")
+fun handelHomeRecycler(view: RecyclerView, homeRecycler: String) {
+    val overlapOffset = 80
+
+    view.apply {
+        clipToPadding = false
+        clipChildren = false
+        overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        setPadding(overlapOffset, 0, overlapOffset, 0)
+    }
+
+    view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
+            val center = recyclerView.width / 2
+
+            for (i in 0 until recyclerView.childCount) {
+                val child = recyclerView.getChildAt(i) ?: continue
+                val childCenter = (child.left + child.right) / 2
+                val distanceFromCenter = (center - childCenter).toFloat()
+                val ratio = kotlin.math.abs(distanceFromCenter) / center
+
+                val scaleY = 1f + ratio * 0.1f
+                child.scaleY = scaleY
+                child.scaleX = 0.9f
+
+                val alpha = 0.6f + (1 - ratio) * 0.4f
+                child.alpha = alpha
+
+                child.translationX = distanceFromCenter * 0.2f
+
+                child.translationY = ratio * 60f
+
+                child.translationZ = 1 - ratio
+
+                val movieTitle = child.findViewById<TextView>(R.id.text_movie_title)
+                val movieCategory = child.findViewById<TextView>(R.id.text_category)
+
+                val textAlpha = 1 - ratio
+                movieTitle?.alpha = textAlpha
+                movieCategory?.alpha = textAlpha
+            }
+        }
+    })
+}
 
 @BindingAdapter("app:showWhenListNotEmpty")
 fun <T> showWhenListNotEmpty(view: View, list: List<T>) {
@@ -332,5 +378,17 @@ fun bindRecyclerViewAdapter(
 fun bindRecyclerAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
     adapter?.let {
         recyclerView.adapter = it
+    }
+}
+
+@BindingAdapter("genresText")
+fun TextView.setGenresText(genres: List<String>?) {
+    text = genres?.joinToString(", ") ?: ""
+}
+
+@BindingAdapter("app:oneDecimal")
+fun setOneDecimal(textView: TextView, number: Double?) {
+    number?.let {
+        textView.text = String.format("%.1f", it)
     }
 }

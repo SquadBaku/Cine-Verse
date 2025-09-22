@@ -1,5 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+
     <style name="Theme.CineVerse" parent="Theme.Material3.DayNight.NoActionBar"/>
     <style name="AppToolbarStyle">
         <item name="android:background">@color/background_screen</item>
@@ -14,7 +15,8 @@
         <item name="android:fontFamily">@font/manrope_medium</item>
     </style>
 
-    <style name="Typography"/>
+
+    <style name="Typography" />
 
     <style name="Typography.display_xl">
         <item name="fontFamily">@font/manrope_bold</item>
@@ -106,21 +108,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="PosterCorners" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
-        <item name="cornerSizeTopRight">@dimen/radius_lg</item>
-        <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
-        <item name="cornerSizeBottomRight">0dp</item>
-    </style>
-
     <style name="RoundedImage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">@dimen/radius_xl</item>
         <item name="cornerSizeTopRight">@dimen/spacing_medium</item>
         <item name="cornerSizeBottomLeft">@dimen/spacing_medium</item>
         <item name="cornerSizeBottomRight">@dimen/radius_xl</item>
-
     </style>
 
     <style name="GalleryRounded">
@@ -143,8 +136,23 @@
         <item name="cornerFamily">rounded</item>
     </style>
 
+    <style name="PosterCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeTopRight">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
     <style name="CardCorners.Large">
         <item name="cornerSize">@dimen/radius_lg</item>
+    </style>
+
+    <style name="CardCorners.ImageCard">
+        <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeTopRight">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
     <!--  old App Theme -->
@@ -313,6 +321,11 @@
     <style name="Regular.Small.Primary">
         <item name="android:textColor">@color/shade_primary_color</item>
 
+    </style>
+
+    <style name="RoundedImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
 

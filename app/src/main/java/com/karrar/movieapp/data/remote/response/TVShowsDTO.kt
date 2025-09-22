@@ -29,9 +29,5 @@ class TVShowsDTO(
     val voteAverage: Double? = null,
     @SerializedName("vote_count")
     val voteCount: Int? = null,
-    @SerializedName("episode_run_time")
-    val episodeRunTime: List<Int?>? = null,
-    @SerializedName("genre_ids")
-    val genres: List<Int?>? = null
 
 )

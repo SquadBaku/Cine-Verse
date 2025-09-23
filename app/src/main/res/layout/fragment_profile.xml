@@ -123,6 +123,7 @@
                     android:layout_marginHorizontal="8dp"
                     android:text="@string/my_collections"
                     android:textAllCaps="false"
+                    android:onClick="@{() -> viewModel.onClickMyCollections()}"
                     app:icon="@drawable/video_library"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp"

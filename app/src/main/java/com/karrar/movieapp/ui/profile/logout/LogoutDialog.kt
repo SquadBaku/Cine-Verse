@@ -1,9 +1,9 @@
 package com.karrar.movieapp.ui.profile.logout
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -22,7 +22,7 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         setWidthPercent(90)
         collectLast(viewModel.logoutUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }

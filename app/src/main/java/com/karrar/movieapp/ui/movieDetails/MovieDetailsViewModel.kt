@@ -150,12 +150,19 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun onChangeRating(value: Float) {
+        _uiState.update { it.copy(ratingValue = value) }
+    }
+
+    fun submitRating() {
+        val rating = _uiState.value.ratingValue
+        if (rating <= 0f) return
+
         viewModelScope.launch {
             try {
-                setRatingUseCase(args.movieId, value)
-                _uiState.update { it.copy(ratingValue = value) }
+                setRatingUseCase(args.movieId, rating)
                 _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.MessageAppear) }
             } catch (e: Throwable) {
+
             }
         }
     }

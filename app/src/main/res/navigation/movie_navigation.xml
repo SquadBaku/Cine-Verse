@@ -139,6 +139,12 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_myListFragment"
+            app:destination="@id/myListFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileBottomSheet"
+            app:destination="@id/editProfileBottomSheet" />
 
 
     </fragment>
@@ -431,6 +437,7 @@
         tools:layout="@layout/fragment_season_list"></fragment>
     <dialog
         android:id="@+id/joinCineVerseBottomSheet"
+        tools:layout="@layout/bottom_sheet_join_cineverse"
         android:name="com.karrar.movieapp.ui.login.JoinCineVerseBottomSheet"
         android:label="JoinCineVerseBottomSheet" />
     <fragment
@@ -469,6 +476,11 @@
             app:popUpToInclusive="true" />
 
     </fragment>
+    <dialog
+        android:id="@+id/editProfileBottomSheet"
+        tools:layout="@layout/edit_profile_bottom_sheet"
+        android:name="com.karrar.movieapp.ui.login.EditProfileBottomSheet"
+        android:label="EditProfileBottomSheet" />
 
 
 </navigation>

@@ -175,9 +175,11 @@
     <string name="language">language</string>
     <string name="content_preferences">Content Preferences</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="history">History</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
     <string name="you_can_always_sign_back_in_with_your_account">You can always sign back in with your account.</string>
-    <string name="history">History</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="you_ll_be_taken_to_the_website_to_update_your_name_username_or_profile_picture">You’ll be taken to the website to update your name, username, or profile picture.</string>
     <string name="need_more_to_watch">Need More to Watch?</string>
     <string name="browse_everything">Browse Everything</string>
     <string name="what_should_i_watch">What Should I Watch?</string>

@@ -12,12 +12,12 @@ import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.R
 import androidx.core.net.toUri
 
-class JoinCineVerseBottomSheet : BottomSheetDialogFragment() {
+class EditProfileBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.bottom_sheet_join_cineverse, container, false)
+        return inflater.inflate(R.layout.edit_profile_bottom_sheet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

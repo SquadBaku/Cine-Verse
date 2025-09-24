@@ -2,7 +2,10 @@ package com.karrar.movieapp.ui.movieDetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import coil.load
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
 import com.karrar.movieapp.ui.adapters.*
@@ -16,6 +19,18 @@ class DetailAdapter(
     private val listener: BaseInteractionListener,
 ) : BaseAdapter<DetailItemUIState>(items, listener) {
     override val layoutID: Int = 0
+    companion object {
+        @JvmStatic
+        @BindingAdapter("imageUrl")
+        fun setImageUrl(view: ImageView, url: String?) {
+            view.load(url) {
+                placeholder(R.drawable.image)
+                error(R.drawable.image)
+                crossfade(true)
+            }
+        }
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ItemViewHolder(
@@ -31,6 +46,12 @@ class DetailAdapter(
 
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
+            is DetailItemUIState.Poster -> {
+                holder.binding.run {
+                    setVariable(BR.item, currentItem.data)
+                    setVariable(BR.listener, listener as DetailInteractionListener)
+                }
+            }
             is DetailItemUIState.Header -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
@@ -113,6 +134,8 @@ class DetailAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
+
+           is DetailItemUIState.Poster -> R.layout.poster
             is DetailItemUIState.Header -> R.layout.media_card
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie

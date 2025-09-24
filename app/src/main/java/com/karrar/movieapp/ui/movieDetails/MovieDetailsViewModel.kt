@@ -79,7 +79,12 @@ class MovieDetailsViewModel @Inject constructor(
                         isLoading = false,
                     )
                 }
-                onAddMovieDetailsItemOfNestedView(DetailItemUIState.Header(_uiState.value.movieDetailsResult))
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Poster(_uiState.value.movieDetailsResult)
+                )
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Header(_uiState.value.movieDetailsResult)
+                )
                 addToWatchHistory(result)
             } catch (e: Exception) {
                 _uiState.update {

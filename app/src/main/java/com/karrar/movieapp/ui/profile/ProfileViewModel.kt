@@ -22,8 +22,9 @@ class ProfileViewModel @Inject constructor(
     private val _profileDetailsUIState = MutableStateFlow(ProfileUIState())
     val profileDetailsUIState = _profileDetailsUIState.asStateFlow()
 
-    private val _profileUIEvent: MutableStateFlow<Event<ProfileUIEvent?>> = MutableStateFlow(Event(null))
-    val profileUIEvent= _profileUIEvent.asStateFlow()
+    private val _profileUIEvent: MutableStateFlow<Event<ProfileUIEvent?>> =
+        MutableStateFlow(Event(null))
+    val profileUIEvent = _profileUIEvent.asStateFlow()
 
     init {
         getData()
@@ -75,11 +76,15 @@ class ProfileViewModel @Inject constructor(
         _profileUIEvent.update { Event(ProfileUIEvent.WatchHistoryEvent) }
     }
 
+    fun onClickMyCollections() {
+        _profileUIEvent.update { Event(ProfileUIEvent.MyCollectionsEvent) }
+    }
+
     fun onClickProfileCard() {
         _profileUIEvent.update {
             Event(
                 if (profileDetailsUIState.value.isLoggedIn)
-                    ProfileUIEvent.LoginEvent
+                    ProfileUIEvent.EditProfileEvent
                 else
                     ProfileUIEvent.LoginEvent
             )

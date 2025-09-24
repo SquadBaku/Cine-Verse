@@ -22,7 +22,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setTitle(true, getString(R.string.profile))
 
-        val prefs = requireContext().getSharedPreferences("settings", android.content.Context.MODE_PRIVATE)
+        val prefs =
+            requireContext().getSharedPreferences("settings", android.content.Context.MODE_PRIVATE)
         val darkMode = prefs.getBoolean("dark_mode", false)
         binding.switchDarkMode.isChecked = darkMode
 
@@ -45,14 +46,25 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ProfileUIEvent.DialogLogoutEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToLogoutDialog()
             }
+
             ProfileUIEvent.LoginEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToLoginFragment(Constants.PROFILE)
             }
+
             ProfileUIEvent.RatedMoviesEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToRatedMoviesFragment()
             }
+
             ProfileUIEvent.WatchHistoryEvent -> {
                 ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
+            }
+
+            ProfileUIEvent.MyCollectionsEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToMyListFragment()
+            }
+
+            ProfileUIEvent.EditProfileEvent -> {
+                ProfileFragmentDirections.actionProfileFragmentToEditProfileBottomSheet()
             }
         }
         findNavController().navigate(action)

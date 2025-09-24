@@ -121,6 +121,9 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_ratingDialog"
+            app:destination="@id/ratingDialog" />
     </fragment>
 
     <fragment
@@ -409,6 +412,9 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_ratingDialog"
+            app:destination="@id/ratingDialog" />
     </fragment>
     <fragment
         android:id="@+id/matchResultFragment"
@@ -459,6 +465,22 @@
         android:id="@+id/joinCineVerseBottomSheet"
         android:name="com.karrar.movieapp.ui.login.JoinCineVerseBottomSheet"
         android:label="JoinCineVerseBottomSheet" />
+    <dialog
+        android:id="@+id/ratingDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.rateTheMovie.RatingDialog"
+        android:label="RatingDialog" >
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_ratingDialog_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment"
+            app:popUpTo="@id/movieDetailFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_ratingDialog_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </dialog>
 
 
 </navigation>

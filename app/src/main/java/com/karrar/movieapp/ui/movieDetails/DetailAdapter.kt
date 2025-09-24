@@ -59,6 +59,7 @@ class DetailAdapter(
             is DetailItemUIState.Rating -> {
                 holder.binding.run {
                     setVariable(BR.viewModel, currentItem.viewModel)
+                    setVariable(BR.listener,currentItem.viewModel)
                 }
             }
             is DetailItemUIState.Comment -> {

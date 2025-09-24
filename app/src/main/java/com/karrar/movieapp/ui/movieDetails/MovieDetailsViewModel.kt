@@ -1,5 +1,8 @@
 package com.karrar.movieapp.ui.movieDetails
 
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
@@ -17,6 +20,7 @@ import com.karrar.movieapp.ui.movieDetails.mapper.ReviewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.DetailItemUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieUIState
+import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.SaveMovieUIEvent
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -167,6 +171,10 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    override fun onClickEscButton(view: View) {
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.DismissSheet) }
+    }
+
     private fun getMovieReviews(movieId: Int) {
         viewModelScope.launch {
             try {
@@ -204,6 +212,12 @@ class MovieDetailsViewModel @Inject constructor(
     override fun onClickSave() {
         val isLoggedIn = checkIfLoggedInUseCase()
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent(isLoggedIn)) }
+    }
+
+    override fun onClickRate() {
+        Log.d("testRating","clicked")
+        val isLoggedIn = checkIfLoggedInUseCase()
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.RateTheMovie(isLoggedIn)) }
     }
 
     override fun onClickPlayTrailer() {

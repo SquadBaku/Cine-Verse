@@ -90,6 +90,16 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
             MovieDetailsUIEvent.MessageAppear -> {
                 Toast.makeText(context, getString(R.string.submit_toast), Toast.LENGTH_SHORT).show()
             }
+
+            MovieDetailsUIEvent.DismissSheet -> TODO()
+
+            is MovieDetailsUIEvent.RateTheMovie -> {
+                action = if (event.isLoggedIn)
+                    MovieDetailsFragmentDirections.actionMovieDetailFragmentToRatingDialog(args.movieId)
+                else
+                    MovieDetailsFragmentDirections.actionMovieDetailsFragmentToLoginDialog(-1)
+            }
+
         }
         action?.let { findNavController().navigate(it) }
 

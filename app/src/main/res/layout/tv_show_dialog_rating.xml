@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.karrar.movieapp.ui.movieDetails.MovieDetailsViewModel" />
+            type="com.karrar.movieapp.ui.tvShowDetails.TvShowDetailsViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -69,8 +69,8 @@
                     android:id="@+id/face_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layoutWidth="@{viewModel.uiState.ratingValue == 1 ? @dimen/spacing_large : @dimen/spacing_medium}"
-                    app:layoutHeight="@{viewModel.uiState.ratingValue == 1 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutWidth="@{viewModel.stateFlow.ratingValue == 1 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutHeight="@{viewModel.stateFlow.ratingValue == 1 ? @dimen/spacing_large : @dimen/spacing_medium}"
                     android:src="@drawable/frowning_face"
                     android:onClick="@{() -> viewModel.onChangeRating(1f)}"
                     tools:ignore="ContentDescription" />
@@ -81,8 +81,8 @@
                     android:id="@+id/face_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layoutWidth="@{viewModel.uiState.ratingValue == 2 ? @dimen/spacing_large : @dimen/spacing_medium}"
-                    app:layoutHeight="@{viewModel.uiState.ratingValue == 2 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutWidth="@{viewModel.stateFlow.ratingValue == 2 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutHeight="@{viewModel.stateFlow.ratingValue == 2 ? @dimen/spacing_large : @dimen/spacing_medium}"
                     android:src="@drawable/confused_face"
                     android:onClick="@{() -> viewModel.onChangeRating(2f)}"
                     tools:ignore="ContentDescription" />
@@ -93,8 +93,8 @@
                     android:id="@+id/face_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layoutWidth="@{viewModel.uiState.ratingValue == 3 ? @dimen/spacing_large : @dimen/spacing_medium}"
-                    app:layoutHeight="@{viewModel.uiState.ratingValue == 3 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutWidth="@{viewModel.stateFlow.ratingValue == 3 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutHeight="@{viewModel.stateFlow.ratingValue == 3 ? @dimen/spacing_large : @dimen/spacing_medium}"
                     android:src="@drawable/neutral_face"
                     android:onClick="@{() -> viewModel.onChangeRating(3f)}"
                     tools:ignore="ContentDescription" />
@@ -105,8 +105,8 @@
                     android:id="@+id/face_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layoutWidth="@{viewModel.uiState.ratingValue == 4 ? @dimen/spacing_large : @dimen/spacing_medium}"
-                    app:layoutHeight="@{viewModel.uiState.ratingValue == 4 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutWidth="@{viewModel.stateFlow.ratingValue == 4 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutHeight="@{viewModel.stateFlow.ratingValue == 4 ? @dimen/spacing_large : @dimen/spacing_medium}"
                     android:src="@drawable/smiling_face"
                     android:onClick="@{() -> viewModel.onChangeRating(4f)}"
                     tools:ignore="ContentDescription" />
@@ -117,8 +117,8 @@
                     android:id="@+id/face_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layoutWidth="@{viewModel.uiState.ratingValue == 5 ? @dimen/spacing_large : @dimen/spacing_medium}"
-                    app:layoutHeight="@{viewModel.uiState.ratingValue == 5 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutWidth="@{viewModel.stateFlow.ratingValue == 5 ? @dimen/spacing_large : @dimen/spacing_medium}"
+                    app:layoutHeight="@{viewModel.stateFlow.ratingValue == 5 ? @dimen/spacing_large : @dimen/spacing_medium}"
                     android:src="@drawable/star_struck"
                     android:onClick="@{() -> viewModel.onChangeRating(5f)}"
                     tools:ignore="ContentDescription" />
@@ -134,7 +134,7 @@
                 android:numStars="5"
                 android:stepSize="1"
                 android:progressDrawable="@drawable/rating_custom"
-                android:rating="@{viewModel.uiState.ratingValue}"
+                android:rating="@{viewModel.stateFlow.ratingValue}"
                 android:onRatingChanged="@{(rb, rating, fromUser) -> viewModel.onChangeRating(rating)}"
                 app:layout_constraintTop_toBottomOf="@id/faces_row"
                 app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +152,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/btn_add_rating_text_color"
                 android:background="@drawable/btn_add_rating_background"
-                android:enabled="@{viewModel.uiState.ratingValue > 0}"
+                android:enabled="@{viewModel.stateFlow.ratingValue > 0}"
                 android:onClick="@{() -> viewModel.submitRating()}"
                 app:layout_constraintTop_toBottomOf="@id/rating_bar"
                 app:layout_constraintStart_toStartOf="parent"

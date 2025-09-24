@@ -380,3 +380,11 @@ fun bindRecyclerAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapte
         recyclerView.adapter = it
     }
 }
+
+@BindingAdapter("layoutWidth", "layoutHeight", requireAll = false)
+fun setLayoutSize(view: View, width: Float?, height: Float?) {
+    val params = view.layoutParams
+    width?.let { params.width = it.toInt() }
+    height?.let { params.height = it.toInt() }
+    view.layoutParams = params
+}

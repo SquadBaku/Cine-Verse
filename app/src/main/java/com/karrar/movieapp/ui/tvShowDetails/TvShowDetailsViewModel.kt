@@ -1,15 +1,20 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.models.TvShowDetails
+import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
+import com.karrar.movieapp.domain.usecases.movieDetails.SetRatingUseCase
 import com.karrar.movieapp.domain.usecases.tvShowDetails.GetTvShowDetailsUseCase
 import com.karrar.movieapp.domain.usecases.tvShowDetails.InsertTvShowUserCase
 import com.karrar.movieapp.domain.usecases.tvShowDetails.SetRatingUesCase
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.DetailInteractionListener
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsUIEvent
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIMapper.TvShowMapperContainer
 import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.DetailItemUIState
@@ -33,6 +38,8 @@ class TvShowDetailsViewModel @Inject constructor(
     private val sessionIDUseCase: GetSessionIDUseCase,
     private val tvShowMapperContainer: TvShowMapperContainer,
     private val actorUIStateMapper: ActorUIStateMapper,
+    private val setRatingUseCase: SetRatingUseCase,
+    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, SeasonInteractionListener,
     DetailInteractionListener {
@@ -147,12 +154,19 @@ class TvShowDetailsViewModel @Inject constructor(
     }
 
     fun onChangeRating(value: Float) {
+        _stateUI.update { it.copy(ratingValue = value) }
+    }
+
+    fun submitRating() {
+        val rating = _stateUI.value.ratingValue
+        if (rating <= 0f) return
+
         viewModelScope.launch {
             try {
-                setRatingUesCase(args.tvShowId, value)
-                _stateUI.update { it.copy(ratingValue = value) }
+                setRatingUseCase(args.tvShowId, rating)
                 _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.MessageAppear) }
             } catch (e: Throwable) {
+
             }
         }
     }
@@ -208,6 +222,16 @@ class TvShowDetailsViewModel @Inject constructor(
 
     override fun onclickViewReviews() {
         _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.ClickReviewsEvent) }
+    }
+
+    override fun onClickRate() {
+        Log.d("testRating","clicked")
+        val isLoggedIn = checkIfLoggedInUseCase()
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.RateTheMovie(isLoggedIn)) }
+    }
+
+    override fun onClickEscButton(view: View) {
+        _tvShowDetailsUIEvent.update { Event(TvShowDetailsUIEvent.DismissSheet) }
     }
 
     override fun onClickActor(actorID: Int) {

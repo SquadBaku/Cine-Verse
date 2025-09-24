@@ -10,6 +10,8 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.Constants
+import com.karrar.movieapp.utilities.LanguageManager
+import com.karrar.movieapp.utilities.PrefsManager
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +36,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
+
+        binding.language.setOnClickListener {
+            val newLang = if (PrefsManager.getLanguage(requireContext()) == "en") "ar" else "en"
+            PrefsManager.saveLanguage(requireContext(), newLang)
+            LanguageManager.setLocale(requireContext(), newLang)
+            requireActivity().recreate()
+        }
+
 
         collectLast(viewModel.profileUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }

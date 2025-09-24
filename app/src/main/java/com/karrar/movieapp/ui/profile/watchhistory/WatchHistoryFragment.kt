@@ -16,6 +16,7 @@ import com.karrar.movieapp.ui.base.BaseFragment
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.math.min
 
 @AndroidEntryPoint
@@ -98,10 +99,20 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
                     val currentTranslation = fg.translationX
                     val maxSwipe = -fg.width * 0.3f
                     if (isCurrentlyActive) {
-                        Log.d("Swipe", "onChildDrawDX: $dX,deviceWidth:${resources.displayMetrics.widthPixels}")
+                        Log.d(
+                            "Swipe",
+                            "onChildDrawDX: $dX,deviceWidth:${resources.displayMetrics.widthPixels}"
+                        )
                         Log.d("currentTranslation", "onChildDraw: $currentTranslation")
                         val limitedDx = min(0f, dX)
-                        fg.translationX = limitedDx
+                        if (isDragged.not())
+                            fg.translationX = limitedDx
+                        else if (dX < maxSwipe) {
+                            val adjustedDx = abs(dX / resources.displayMetrics.widthPixels) * maxSwipe
+                            Log.d("adjustedDx","dx divided by device width: ${abs(dX / resources.displayMetrics.widthPixels)}")
+                            Log.d("adjustedDx", "onChildDrawDX: $adjustedDx")
+                            fg.translationX = min(0f, adjustedDx)
+                        }
                     } else
                         if (dX < -fg.width * 0.3f) {
                             fg.animate()
@@ -109,7 +120,7 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
                                 .withEndAction {
                                     Log.d("Swipe", "onChildDraw: $dX")
                                     fg.translationX = -fg.width * 0.3f
-                                   isDragged = true
+                                    isDragged = true
                                 }
                                 .start()
 

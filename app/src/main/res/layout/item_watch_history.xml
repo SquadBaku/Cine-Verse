@@ -33,6 +33,7 @@
             android:tint="@color/button_onPrimary"
             app:shapeAppearanceOverlay="@style/ImageRadiusLarge"
             android:layout_gravity="end|center"
+            android:onClick="@{() -> listener.onSwipeDelete(item)}"
             android:contentDescription="@string/delete"
             android:src="@drawable/ic_trash" />
 

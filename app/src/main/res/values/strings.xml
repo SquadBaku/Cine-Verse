@@ -184,7 +184,7 @@
     <string name="browse_everything">Browse Everything</string>
     <string name="what_should_i_watch">What Should I Watch?</string>
     <string name="let_us_choose_for_you">Let Us Choose For You!</string>
-    <string name="title_non">لا يوجد عنوان</string>
+    <string name="title_non">No title</string>
     <string name="we_will_help_you_skip_the_scroll_and_go_straight_to_the_good_stuff.">We’ll help you skip the scroll and go straight to the good stuff.</string>
     <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like.">Explore all movies and series by genre or search for anything you like.</string>
 </resources>

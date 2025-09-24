@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="Need More to Watch?"
+            android:text="@string/need_more_to_watch"
             android:textColor="@color/shade_primary" />
 
         <androidx.cardview.widget.CardView
@@ -61,20 +61,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:text="Browse Everything"
+                        android:text="@string/browse_everything"
                         android:textColor="@color/shade_primary" />
 
                     <TextView
                         style="@style/Typography.body_sm_medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Explore all movies and series by genre or search for anything you like."
+                        android:text="@string/explore_all_movies_and_series_by_genre_or_search_for_anything_you_like."
                         android:textColor="@color/shade_secondary" />
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:autoMirrored="true"
                     android:src="@drawable/alt_arrow_right"
                     app:tint="@color/shade_tertiary" />
             </LinearLayout>

@@ -1,9 +1,10 @@
 package com.karrar.movieapp.ui.profile.logout
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -22,8 +23,7 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        setWidthPercent(90)
+        dialog?.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         collectLast(viewModel.logoutUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
         }
@@ -45,5 +45,23 @@ class LogoutDialog : BaseDialog<DialogLogoutBinding>() {
             }
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.apply {
+            val params = attributes
+            val marginInPx = (16 * resources.displayMetrics.density).toInt()
+            val bottomMarginPx = (30 * resources.displayMetrics.density).toInt()
+
+            params.width = resources.displayMetrics.widthPixels - marginInPx * 2
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT
+            params.gravity = android.view.Gravity.CENTER
+
+            attributes = params
+
+            decorView.setPadding(0, 0, 0, bottomMarginPx)
+        }
+    }
+
 
 }

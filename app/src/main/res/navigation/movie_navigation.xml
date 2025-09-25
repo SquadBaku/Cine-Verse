@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/onboarding1Fragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -139,6 +139,12 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_myListFragment"
+            app:destination="@id/myListFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileBottomSheet"
+            app:destination="@id/editProfileBottomSheet" />
 
 
     </fragment>
@@ -394,7 +400,7 @@
         android:id="@+id/matchResultFragment"
         android:name="com.karrar.movieapp.ui.match.matchPager.MatchResultFragment"
         android:label="fragment_match_result"
-        tools:layout="@layout/fragment_match_result" >
+        tools:layout="@layout/fragment_match_result">
         <argument
             android:name="movieNames"
             app:argType="string[]" />
@@ -433,12 +439,53 @@
         android:id="@+id/seasonListFragment"
         android:name="com.karrar.movieapp.ui.tvShowDetails.SeasonListFragment"
         android:label="Seasons"
-        tools:layout="@layout/fragment_season_list">
-    </fragment>
+        tools:layout="@layout/fragment_season_list"></fragment>
     <dialog
         android:id="@+id/joinCineVerseBottomSheet"
+        tools:layout="@layout/bottom_sheet_join_cineverse"
         android:name="com.karrar.movieapp.ui.login.JoinCineVerseBottomSheet"
         android:label="JoinCineVerseBottomSheet" />
+    <fragment
+        android:id="@+id/onboarding1Fragment"
+        android:name="com.karrar.movieapp.ui.onboarding.Onboarding1Fragment"
+        android:label="Onboarding1Fragment"
+        tools:layout="@layout/fragment_onboarding1">
+        <action
+            android:id="@+id/action_onboarding1Fragment_to_onboarding2Fragment"
+            app:destination="@id/onboarding2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboarding2Fragment"
+        android:name="com.karrar.movieapp.ui.onboarding.Onboarding2Fragment"
+        android:label="Onboarding2Fragment"
+        tools:layout="@layout/fragment_onboarding2">
+        <action
+            android:id="@+id/action_onboarding2Fragment_to_onboarding3Fragment"
+            app:destination="@id/onboarding3Fragment" />
+        <action
+            android:id="@+id/action_onboarding2Fragment_to_onboarding1Fragment"
+            app:destination="@id/onboarding1Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboarding3Fragment"
+        android:name="com.karrar.movieapp.ui.onboarding.Onboarding3Fragment"
+        android:label="Onboarding3Fragment"
+        tools:layout="@layout/fragment_onboarding3">
+        <action
+            android:id="@+id/action_onboarding3Fragment_to_onboarding2Fragment"
+            app:destination="@id/onboarding2Fragment" />
+        <action
+            android:id="@+id/action_onboarding3Fragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/onboarding1Fragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+    <dialog
+        android:id="@+id/editProfileBottomSheet"
+        tools:layout="@layout/edit_profile_bottom_sheet"
+        android:name="com.karrar.movieapp.ui.login.EditProfileBottomSheet"
+        android:label="EditProfileBottomSheet" />
 
 
 </navigation>

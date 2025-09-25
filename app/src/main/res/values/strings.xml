@@ -169,5 +169,48 @@
     <string name="join_cineverse">Join CineVerse</string>
     <string name="let_s_get_you_set_up_we_ll_take_you_to_the_website_to_create_your_account">Let\'s get you set up! We\'ll take you to the website to create your account.</string>
     <string name="go_to_website">Go to Website</string>
+    <string name="logout_dialog_title">Are you sure you want to sign out?</string>
+    <string name="logout_dialog_caption">You can always come back and sign out at any time.</string>
+    <string name="login_or_signup">Log in or sign up</string>
+
+    <!-- Personalization -->
+    <string name="tap_to_add_name">Tap to add a name</string>
+    <string name="to_personalize">to personalize</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="content_preferences">Content preferences</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="history">History</string>
+
+    <!-- Extra texts -->
+    <string name="are_you_sure_you_want_to_logout">Are you sure you want to log out?</string>
+    <string name="you_can_always_sign_back_in_with_your_account">You can always sign back in with your account</string>
+    <string name="need_more_to_watch">Need more to watch?</string>
+
+
+    <!-- Profile / Edit -->
+    <string name="edit_profile">Edit profile</string>
+    <string name="you_ll_be_taken_to_the_website_to_update_your_name_username_or_profile_picture">
+    You’ll be taken to the website to update your name, username, or profile picture
+</string>
+
+    <!-- Discovery -->
+    <string name="what_should_i_watch">What should I watch?</string>
+    <string name="let_us_choose_for_you">Let us choose for you</string>
+    <string name="title_non">no title</string>
+
+    <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like.">
+    Explore all movies and series by genre, or search for anything you like
+</string>
+
+    <string name="we_will_help_you_skip_the_scroll_and_go_straight_to_the_good_stuff.">
+    We’ll help you skip the scroll and go straight to the good stuff
+</string>
+    <string name="browse_everything">Browse Everything</string>
+
     <string name="delete">delete\n</string>
+    <string name="error_message">error</string>
+    <string name="loading">loading\n</string>
 </resources>

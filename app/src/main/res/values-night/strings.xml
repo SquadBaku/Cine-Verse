@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="behind_the_scenes">Behind the Scenes</string>
+    <string name="top_reviews">Top Reviews</string>
+    <string name="storyline">Storyline</string>
+    <string name="characters">Characters</string>
+    <string name="director">Director, Screenplay, Story</string>
+    <string name="producer">Producer</string>
+    <string name="writer">Writer</string>
 </resources>

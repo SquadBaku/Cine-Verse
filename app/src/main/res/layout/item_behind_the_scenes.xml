@@ -1,33 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/title"
-        style=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/behind_the_scenes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+
+        <variable
+            name="item"
+            type="com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.BehindTheScenesState" />
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/media_card_background"
-        app:layout_constraintTop_toBottomOf="@id/title">
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/character"
-
+            android:id="@+id/title"
+            style="@style/Typography.title_sm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/behind_the_scenes"
+            android:textColor="@color/shade_primary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/media_card_background"
+            app:layout_constraintTop_toBottomOf="@id/title">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/character"
+                style="@style/Typography.body_md_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/characters"
+                android:textColor="@color/shade_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:text="@{item.characters}"
+                style="@style/Typography.body_md_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/character_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                app:dividerColor="@color/shade_quinary"
+                app:layout_constraintTop_toBottomOf="@id/character" />
+
+
+            <TextView
+                android:id="@+id/director"
+                style="@style/Typography.body_md_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/director"
+                android:textColor="@color/shade_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/character_divider" />
+
+            <TextView
+                android:text="@{item.director}"
+                android:id="@+id/director_value"
+                style="@style/Typography.body_md_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/director" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/director_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                app:dividerColor="@color/shade_quinary"
+                app:layout_constraintTop_toBottomOf="@id/director" />
+
+
+            <TextView
+                android:id="@+id/producer"
+                style="@style/Typography.body_md_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/producer"
+                android:textColor="@color/shade_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/director_divider" />
+
+            <TextView
+                android:text="@{item.producer}"
+                android:id="@+id/producer_value"
+                style="@style/Typography.body_md_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/producer" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/producer_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                app:dividerColor="@color/shade_quinary"
+                app:layout_constraintTop_toBottomOf="@id/producer" />
+
+
+            <TextView
+                android:id="@+id/writer"
+                style="@style/Typography.body_md_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/writer"
+                android:textColor="@color/shade_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/producer_divider" />
+
+            <TextView
+                android:text="@{item.writer}"
+                android:id="@+id/writer_value"
+                style="@style/Typography.body_md_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/writer" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

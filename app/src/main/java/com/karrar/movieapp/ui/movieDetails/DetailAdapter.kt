@@ -19,6 +19,7 @@ class DetailAdapter(
     private val listener: BaseInteractionListener,
 ) : BaseAdapter<DetailItemUIState>(items, listener) {
     override val layoutID: Int = 0
+
     companion object {
         @JvmStatic
         @BindingAdapter("imageUrl")
@@ -52,6 +53,7 @@ class DetailAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+
             is DetailItemUIState.Header -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
@@ -101,10 +103,9 @@ class DetailAdapter(
                 }
             }
 
-            is DetailItemUIState.Rating -> {
-                holder.binding.run {
-                    setVariable(BR.viewModel, currentItem.viewModel)
-                }
+
+            is DetailItemUIState.ReviewText -> {
+                holder.binding.setVariable(BR.listener, listener as DetailInteractionListener)
             }
 
             is DetailItemUIState.Comment -> {
@@ -113,13 +114,12 @@ class DetailAdapter(
                     setVariable(BR.listener, listener)
                 }
             }
-
-            is DetailItemUIState.ReviewText -> {}
-            DetailItemUIState.SeeAllReviewsButton -> {
+            is DetailItemUIState.BehindScenes->{
                 holder.binding.run {
-                    setVariable(BR.listener, listener as DetailInteractionListener)
+                    setVariable(BR.item,currentItem.data)
                 }
             }
+
         }
     }
 
@@ -135,15 +135,14 @@ class DetailAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
 
-           is DetailItemUIState.Poster -> R.layout.poster
+            is DetailItemUIState.Poster -> R.layout.poster
             is DetailItemUIState.Header -> R.layout.media_card
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
             is DetailItemUIState.Promotion -> R.layout.promotion_card
-            is DetailItemUIState.Rating -> R.layout.item_rating
-            is DetailItemUIState.Comment -> R.layout.item_movie_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
-            DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.Comment -> R.layout.item_movie_review
+            is DetailItemUIState.BehindScenes -> R.layout.item_behind_the_scenes
         }
     }
 

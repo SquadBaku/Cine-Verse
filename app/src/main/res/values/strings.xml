@@ -111,4 +111,10 @@
     <string name="did_you_watch_it">Did You Watch it?</string>
     <string name="give_it_stars">Give it Stars!</string>
     <string name="let_the_world_know_how_you_felt">Let the world know how you felt.</string>
+    <string name="top_reviews">Top Reviews</string>
+    <string name="storyline">Storyline</string>
+    <string name="characters">Characters</string>
+    <string name="director">Director, Screenplay, Story</string>
+    <string name="producer">Producer</string>
+    <string name="writer">Writer</string>
 </resources>

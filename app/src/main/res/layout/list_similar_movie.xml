@@ -8,6 +8,9 @@
         <variable
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.adapters.MovieAdapter" />
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

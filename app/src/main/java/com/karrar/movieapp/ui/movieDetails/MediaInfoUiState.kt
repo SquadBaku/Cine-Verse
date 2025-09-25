@@ -11,4 +11,5 @@ data class MediaInfoUiState(
     val hours: Int = 0,
     val minutes: Int = 0,
     val formattedDuration: String = "${hours}h ${minutes}m",
+    val overview: String = "",
 )

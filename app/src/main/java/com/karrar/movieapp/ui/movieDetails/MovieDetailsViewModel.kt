@@ -11,6 +11,7 @@ import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
+import com.karrar.movieapp.ui.movieDetails.mapper.BehindTheScenesUiStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MovieDetailsUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.ReviewUIStateMapper
@@ -36,6 +37,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieDetailsUIStateMapper: MovieDetailsUIStateMapper,
     private val actorUIStateMapper: ActorUIStateMapper,
     private val mediaUIStateMapper: MediaUIStateMapper,
+    val behindTheScenesUiStateMapper: BehindTheScenesUiStateMapper,
     private val getMovieRate: GetMovieRateUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
     private val sessionIDUseCase: GetSessionIDUseCase,
@@ -53,11 +55,12 @@ class MovieDetailsViewModel @Inject constructor(
 
     init {
         getData()
-        viewModelScope.launch{
+        viewModelScope.launch {
             _uiState.collect {
-                Log.e("TAG", "MovieDetailsViewModel: ${it.errorUIStates}", )
+                Log.e("TAG", "MovieDetailsViewModel: ${it.errorUIStates}")
             }
-        }    }
+        }
+    }
 
     override fun getData() {
         _uiState.update { it.copy(isLoading = true, errorUIStates = emptyList()) }
@@ -66,7 +69,34 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieCast(args.movieId)
         getSimilarMovie(args.movieId)
         getMovieReviews(args.movieId)
-        onAddMovieDetailsItemOfNestedView(DetailItemUIState.Promotion)
+//        getCredits(args.movieId)
+    }
+
+    private fun getCredits(movieId: Int) {
+        viewModelScope.launch {
+            try {
+                val result = getMovieDetailsUseCase.getMovieCredits(movieId)
+                _uiState.update {
+                    it.copy(
+                        isLoading = false
+                    )
+                }
+               onAddMovieDetailsItemOfNestedView(
+                   DetailItemUIState.BehindScenes(behindTheScenesUiStateMapper.map(result))
+               )
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        errorUIStates = listOf(
+                            ErrorUIState(
+                                code = Constants.INTERNET_STATUS,
+                                message = e.message.toString()
+                            )
+                        ), isLoading = false,
+                    )
+                }
+            }
+        }
     }
 
     private fun getMovieDetails(movieId: Int) {
@@ -153,7 +183,8 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(ratingValue = getMovieRate(movieId)) }
-                onAddMovieDetailsItemOfNestedView(DetailItemUIState.Rating(this@MovieDetailsViewModel))
+                if (_uiState.value.ratingValue > 0f)
+                    onAddMovieDetailsItemOfNestedView(DetailItemUIState.Promotion)
             } catch (e: Throwable) {
             }
         }
@@ -189,12 +220,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun setReviews(showSeeAll: Boolean) {
+        onAddMovieDetailsItemOfNestedView(DetailItemUIState.ReviewText)
         _uiState.value.movieReview.forEach {
             onAddMovieDetailsItemOfNestedView(DetailItemUIState.Comment(it))
-        }
-        onAddMovieDetailsItemOfNestedView(DetailItemUIState.ReviewText)
-        if (showSeeAll) {
-            onAddMovieDetailsItemOfNestedView(DetailItemUIState.SeeAllReviewsButton)
         }
     }
 

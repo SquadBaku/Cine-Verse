@@ -20,19 +20,6 @@ class DetailAdapter(
 ) : BaseAdapter<DetailItemUIState>(items, listener) {
     override val layoutID: Int = 0
 
-    companion object {
-        @JvmStatic
-        @BindingAdapter("imageUrl")
-        fun setImageUrl(view: ImageView, url: String?) {
-            view.load(url) {
-                placeholder(R.drawable.image)
-                error(R.drawable.image)
-                crossfade(true)
-            }
-        }
-
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ItemViewHolder(
             DataBindingUtil.inflate(
@@ -60,12 +47,6 @@ class DetailAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
-//            is DetailItemUIState.MediaInfo ->{
-//                holder.binding.run {
-//                    setVariable(BR.item, currentItem.data)
-//                    setVariable(BR.listener, listener as DetailInteractionListener)
-//                }
-//            }
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
                     setVariable(

@@ -12,6 +12,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentTvShowDetailsBinding
 import com.karrar.movieapp.domain.enums.MediaType
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.movieDetails.MovieDetailsFragmentDirections
 import com.karrar.movieapp.utilities.collectLast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -92,6 +93,14 @@ class TvShowDetailsFragment : BaseFragment<FragmentTvShowDetailsBinding>() {
             TvShowDetailsUIEvent.ClickShowMoreSeasonsEvent -> {
                 action = TvShowDetailsFragmentDirections
                     .actionTvShowDetailsFragmentToSeasonListFragment()
+            }
+
+            TvShowDetailsUIEvent.DismissSheet -> TODO()
+            is TvShowDetailsUIEvent.RateTheMovie -> {
+                action = if (event.isLoggedIn)
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToRatingDialog(args.tvShowId)
+                else
+                    TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToRatingDialog(-1)
             }
         }
         action?.let { findNavController().navigate(it) }

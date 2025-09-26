@@ -1,10 +1,13 @@
 package com.karrar.movieapp.ui.movieDetails
 
 import android.util.Log
+import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
@@ -18,6 +21,7 @@ import com.karrar.movieapp.ui.movieDetails.mapper.ReviewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.DetailItemUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieUIState
+import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.SaveMovieUIEvent
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
 import com.karrar.movieapp.utilities.SingleActionListener
@@ -41,9 +45,10 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieRate: GetMovieRateUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
     private val sessionIDUseCase: GetSessionIDUseCase,
+    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
-    DetailInteractionListener, SingleActionListener {
+    DetailInteractionListener {
 
     private val args = MovieDetailsFragmentArgs.fromSavedStateHandle(state)
 
@@ -69,7 +74,7 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieCast(args.movieId)
         getSimilarMovie(args.movieId)
         getMovieReviews(args.movieId)
-//        getCredits(args.movieId)
+        getCredits(args.movieId)
     }
 
     private fun getCredits(movieId: Int) {
@@ -191,14 +196,25 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun onChangeRating(value: Float) {
+        _uiState.update { it.copy(ratingValue = value) }
+    }
+
+    fun submitRating() {
+        val rating = _uiState.value.ratingValue
+        if (rating <= 0f) return
+
         viewModelScope.launch {
             try {
-                setRatingUseCase(args.movieId, value)
-                _uiState.update { it.copy(ratingValue = value) }
+                setRatingUseCase(args.movieId, rating)
                 _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.MessageAppear) }
             } catch (e: Throwable) {
+
             }
         }
+    }
+
+    override fun onClickEscButton(view: View) {
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.DismissSheet) }
     }
 
     private fun getMovieReviews(movieId: Int) {
@@ -233,7 +249,14 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSave() {
-        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent) }
+        val isLoggedIn = checkIfLoggedInUseCase()
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent(isLoggedIn)) }
+    }
+
+    override fun onClickRate() {
+        Log.d("testRating","clicked")
+        val isLoggedIn = checkIfLoggedInUseCase()
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.RateTheMovie(isLoggedIn)) }
     }
 
     override fun onClickPlayTrailer() {
@@ -256,10 +279,6 @@ class MovieDetailsViewModel @Inject constructor(
 
     override fun onClickActor(actorID: Int) {
         _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickCastEvent(actorID)) }
-    }
-
-    override fun onClick() {
-        //TODO click promotion
     }
 
 }

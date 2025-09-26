@@ -6,11 +6,9 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -86,6 +84,7 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         }
     }
 
+
     private fun handleUIState(state: MyRateUIState) {
 
         adapter.setItems(state.ratedList)
@@ -98,7 +97,8 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
         binding.recyclerViewRatedMovies.isVisible = !state.isLoading && hasData && !hasError
         binding.emptyLayout.root.isVisible = !state.isLoading && isEmpty && !hasError
-        binding.errorGroup.isVisible = !state.isLoading && hasError
+
+        binding.noInternetContainer.isVisible = !state.isLoading && hasError
 
         if (hasError) {
             binding.buttonRetry.setOnClickListener {
@@ -115,7 +115,8 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         val targetView = when {
             binding.recyclerViewRatedMovies.isVisible -> binding.recyclerViewRatedMovies
             binding.emptyLayout.root.isVisible -> binding.emptyLayout.root
-            binding.errorGroup.isVisible -> binding.errorGroup
+            // تم تغيير من errorGroup إلى noInternetContainer
+            binding.noInternetContainer.isVisible -> binding.noInternetContainer
             else -> null
         }
 
@@ -145,13 +146,6 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.toolbar.toolbar.apply {
-                textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-                setTitleTextColor(resources.getColor(R.color.button_onSecondary, null))
-                title = getString(R.string.my_ratings)
-            }
-        }
     }
 
     private fun setupTabClickListeners() {

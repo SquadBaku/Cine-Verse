@@ -16,10 +16,6 @@
         android:orientation="vertical"
         android:background="@color/background_screen">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/include_toolbar" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/info_card"
             android:layout_width="match_parent"
@@ -204,12 +200,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/errorGroup"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/no_internet_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
+                android:layout_height="match_parent"
+                android:background="@color/background_screen"
                 android:padding="24dp"
                 android:visibility="@{!viewModel.ratedUiState.loading &amp;&amp; !viewModel.ratedUiState.error.empty ? View.VISIBLE : View.GONE}"
                 app:layout_constraintTop_toTopOf="parent"
@@ -217,21 +212,61 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_lost_connection"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:background="@drawable/bg_circle_red"
+                    android:padding="@dimen/spacing_18"
+                    android:src="@drawable/ic_station"
+                    app:layout_constraintBottom_toTopOf="@+id/title_lost_connection"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:lottie_autoPlay="true" />
+
                 <TextView
-                    android:id="@+id/textError"
+                    android:id="@+id/title_lost_connection"
+                    style="@style/SemiBold.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_extra_large"
+                    android:text="@string/oops_no_internet"
+                    android:textColor="@color/shade_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/description_lost_connection"
                     style="@style/Regular.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/error_message"
-                    android:textColor="@color/brand_color" />
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:gravity="center"
+                    android:text="@string/looks_like_you_re_offline_let_s_reconnect_so_nyou_don_t_miss_out"
+                    android:textColor="@color/shade_secondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonRetry"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/button_retry"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/retry" />
-            </LinearLayout>
+                    android:layout_marginHorizontal="@dimen/spacing_60"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:backgroundTint="@color/button_primary"
+                    android:text="@string/try_again"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_onPrimary"
+                    app:cornerRadius="@dimen/radius_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description_lost_connection" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

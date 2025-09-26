@@ -42,6 +42,30 @@ class SeriesRepositoryImp @Inject constructor(
         return service.getGenreTvShowList().body()?.genres
     }
 
+    override suspend fun getTVShowDuration(tvId: Int): Int {
+
+        val tvResp = service.getTvShowDetails(tvShowId = tvId)
+        val details = tvResp.body()
+
+        val firstRealSeasonNumber = details?.season
+            ?.mapNotNull { it.seasonNumber }
+            ?.filter { it >= 1 }
+            ?.minOrNull()
+
+        if (firstRealSeasonNumber == null) {
+            val avg = details?.episodeRunTime?.firstOrNull()
+            return avg ?: 0
+        }
+
+        val epResp = service.getEpisodeDetails(
+            tvId = tvId,
+            seasonNumber = firstRealSeasonNumber,
+            episodeNumber = 1
+        )
+        val runtime = epResp.body()?.episodeRunTime
+        return runtime?.firstOrNull() ?: 0
+    }
+
     override suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto? {
         return service.getTvShowTrailer(tvShowId).body()
     }
@@ -163,21 +187,21 @@ class SeriesRepositoryImp @Inject constructor(
 
     private suspend fun refreshTopRatedTvShow(currentDate: Date) {
         try {
-            val items = mutableListOf<TopRatedSeriesEntity>()
-            service.getTopRatedTvShow().body()?.items?.first()?.let {
-                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
-            }
-            service.getPopularTvShow().body()?.items?.first()?.let {
-                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
-            }
-            service.getAiringToday().body()?.items?.first()?.let {
-                items.add(localSeriesMappersContainer.topRatedSeriesMapper.map(it))
-            }
-            seriesDao.deleteAllTopRatedSeries()
-            seriesDao.insertTopRatedSeries(items)
-            appConfiguration.saveRequestDate(
-                Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY,
-                currentDate.time
+            refreshWrapper(
+                { service.getTopRatedTvShow() },
+                { list ->
+                    list?.map {
+                        localSeriesMappersContainer.topRatedSeriesMapper.map(it)
+                    }
+                },
+                {
+                    seriesDao.deleteAllTopRatedSeries()
+                    seriesDao.insertTopRatedSeries(it)
+                    appConfiguration.saveRequestDate(
+                        Constants.TOP_RATED_SERIES_REQUEST_DATE_KEY,
+                        currentDate.time
+                    )
+                },
             )
         } catch (_: Throwable) {
 

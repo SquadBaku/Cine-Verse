@@ -19,6 +19,8 @@ class MovieDetailsUIStateMapper @Inject constructor() : Mapper<MovieDetails, Med
             hours = duration.hours,
             minutes = duration.minutes,
             overview = input.movieOverview,
+            userRating = input.userRating
+
         )
     }
 

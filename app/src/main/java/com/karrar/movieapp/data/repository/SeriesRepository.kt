@@ -19,7 +19,7 @@ import com.karrar.movieapp.domain.models.*
 import kotlinx.coroutines.flow.Flow
 
 interface SeriesRepository {
-
+    suspend fun getTVShowDuration(tvId: Int): Int
     suspend fun getTVShowsGenreList(): List<GenreDto>?
 
     suspend fun getTvShowTrailer(tvShowId: Int): TrailerDto?

@@ -59,6 +59,14 @@ class GetMediaByTypeUseCase @Inject constructor(
                     movieMapper::map
                 )
             }
+
+            AllMediaType.MATCH_YOUR_VIBE -> {
+                wrapper(
+                    { movieRepository.getMovieByGenre(Constants.ACTION_ID) },
+                    movieMapper::map
+                )
+
+            }
         }
     }
 

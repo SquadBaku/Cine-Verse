@@ -32,4 +32,7 @@ data class MovieDto(
     val voteAverage: Double?,
     @SerializedName("vote_count")
     val voteCount: Int?,
+    @SerializedName("runtime")
+    val runtime: Int? = null,
+
 )

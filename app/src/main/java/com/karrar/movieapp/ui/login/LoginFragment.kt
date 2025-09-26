@@ -1,10 +1,7 @@
 package com.karrar.movieapp.ui.login
 
-import android.content.Intent
-import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentLoginBinding
 import com.karrar.movieapp.ui.base.BaseFragment
@@ -30,10 +27,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             is LoginUIEvent.LoginEvent -> {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProfileFragment())
             }
+
+            is LoginUIEvent.GuestJoin -> {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+            }
+
             LoginUIEvent.SignUpEvent -> {
-                val browserIntent =
-                    Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
-                startActivity(browserIntent)
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinCineVerseBottomSheet())
             }
         }
     }

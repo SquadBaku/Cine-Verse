@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="adapterRecycler"
+            type="com.karrar.movieapp.ui.home.adapter.RecentlyViewedAdapter" />
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.home.HomeInteractionListener" />
+
+        <variable
+            name="isVisible"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/radius_xl">
+
+        <TextView
+            android:id="@+id/text_recently_viewed"
+            style="@style/Typography.title_sm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_medium"
+            android:text="@string/title_recently_viewed"
+            android:textColor="@color/shade_primary"
+            android:visibility="@{isVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/title_recently_viewed" />
+
+        <TextView
+            style="@style/Typography.body_md_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/radius_xl"
+            android:onClick="@{() -> listener.onClickSeeAllRecentlyViewed()}"
+            android:text="@string/show_more"
+            android:textColor="@color/brand_primary"
+            android:visibility="@{isVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_recently_viewed"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_movie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/radius_lg"
+            android:layout_marginStart="@dimen/radius_xl"
+            android:adapter="@{adapterRecycler}"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_recently_viewed"
+            tools:listitem="@layout/item_recently_viewed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

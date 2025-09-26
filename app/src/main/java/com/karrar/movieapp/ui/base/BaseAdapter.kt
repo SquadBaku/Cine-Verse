@@ -34,15 +34,16 @@ abstract class BaseAdapter<T>(
             setVariable(BR.listener, listener)
         }
     }
-
+    fun getItems(): List<T> = items
     class ItemViewHolder(val binding: ViewDataBinding) : BaseViewHolder(binding)
 
     abstract class BaseViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun getItemCount() = items.size
 
-  open  fun setItems(newItems: List<T>) {
-        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(items, newItems,::areItemsSame, ::areContentSame))
+    open fun setItems(newItems: List<T>) {
+        val diffResult =
+            DiffUtil.calculateDiff(BaseDiffUtil(items, newItems, ::areItemsSame, ::areContentSame))
         items = newItems
         diffResult.dispatchUpdatesTo(this)
     }
@@ -50,6 +51,7 @@ abstract class BaseAdapter<T>(
     open fun areItemsSame(oldItem: T, newItem: T): Boolean {
         return oldItem?.equals(newItem) == true
     }
+
     open fun areContentSame(oldPosition: T, newPosition: T) = true
 
 }

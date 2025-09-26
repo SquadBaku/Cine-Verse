@@ -8,11 +8,28 @@ import com.karrar.movieapp.data.local.database.daos.MovieDao
 import com.karrar.movieapp.data.local.database.entity.ActorEntity
 import com.karrar.movieapp.data.local.database.entity.SearchHistoryEntity
 import com.karrar.movieapp.data.local.database.entity.WatchHistoryEntity
-import com.karrar.movieapp.data.local.database.entity.movie.*
+import com.karrar.movieapp.data.local.database.entity.movie.AdventureMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.MysteryMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.NowStreamingMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.PopularMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.TrendingMovieEntity
+import com.karrar.movieapp.data.local.database.entity.movie.UpcomingMovieEntity
 import com.karrar.movieapp.data.local.mappers.movie.LocalMovieMappersContainer
-import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.BaseListResponse
+import com.karrar.movieapp.data.remote.response.CreatedListDto
+import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.DailyTrendingDto
+import com.karrar.movieapp.data.remote.response.DefaultResponse
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.RatedMoviesDto
+import com.karrar.movieapp.data.remote.response.SavedListDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actor.ActorProfileResponse
+import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaResponse
 import com.karrar.movieapp.data.remote.response.genre.GenreDto
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
 import com.karrar.movieapp.data.remote.response.movie.RatingDto
@@ -24,7 +41,7 @@ import com.karrar.movieapp.data.repository.mediaDataSource.movie.MovieDataSource
 import com.karrar.movieapp.data.repository.serchDataSource.SearchDataSourceContainer
 import com.karrar.movieapp.domain.mappers.MediaDataSourceContainer
 import kotlinx.coroutines.flow.Flow
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 class MovieRepositoryImp @Inject constructor(
@@ -49,6 +66,11 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getDailyTrending().body()!!
     }
 
+    override suspend fun getMovieDuration(movieId: Int): Int {
+        val response = movieService.getMovieDetails(movieId)
+        return response.body()?.runtime ?: 0
+    }
+
 
     override suspend fun getRatedMovie(): List<RatedMoviesDto>? {
         return movieService.getRatedMovie().body()?.items
@@ -64,6 +86,14 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun getActorDetails(actorId: Int): ActorDto? {
         return movieService.getActorDetails(actorId = actorId).body()
+    }
+
+    override suspend fun getActorSocialMediaIDs(actorId: Int): ActorSocialMediaResponse? {
+        return movieService.getActorExternalIds(actorId).body()
+    }
+
+    override suspend fun getActorImages(actorId: Int): ActorProfileResponse? {
+        return movieService.getActorImages(actorId).body()
     }
 
     override suspend fun getActorMovies(actorId: Int): ActorMoviesDto? {
@@ -115,6 +145,18 @@ class MovieRepositoryImp @Inject constructor(
         return movieDao.delete(item)
     }
 
+    override suspend fun deleteSearchHistoryItemByName(name: String) {
+        movieDao.deleteFromSearchHistoryByName(name = name)
+    }
+
+    override suspend fun deleteSearchHistoryItemById(id: Long) {
+        movieDao.deleteFromSearchHistoryById(id = id)
+    }
+
+    override suspend fun deleteAllSearchHistory() {
+        movieDao.deleteAllSearchHistory()
+    }
+
     override suspend fun insertMovie(movie: WatchHistoryEntity) {
         return movieDao.insert(movie)
     }
@@ -143,6 +185,22 @@ class MovieRepositoryImp @Inject constructor(
                 dataSource
             }
         )
+    }
+
+    override suspend fun getMatchListMovie(
+        genres: List<String>?,
+        withRuntimeGte: Int?,
+        withRuntimeLte: Int?,
+        primaryReleaseDateGte: String?,
+        primaryReleaseDateLte: String?,
+    ): List<MovieDto>? {
+        return movieService.getMatchListMovie(
+            genres = genres,
+            withRuntimeGte = withRuntimeGte,
+            withRuntimeLte = withRuntimeLte,
+            primaryReleaseDateGte = primaryReleaseDateGte,
+            primaryReleaseDateLte = primaryReleaseDateLte
+        ).body()?.items
     }
 
 
@@ -209,17 +267,20 @@ class MovieRepositoryImp @Inject constructor(
 
 
     override suspend fun getTrendingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.trendingMovieDataSource })
     }
 
     override suspend fun getNowPlayingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.nowStreamingMovieMovieDataSource })
     }
 
     override suspend fun getUpcomingMoviesPager(): Pager<Int, MovieDto> {
-        return Pager(config = config,
+        return Pager(
+            config = config,
             pagingSourceFactory = { movieMovieDataSource.upcomingMovieMovieDataSource })
     }
 
@@ -407,4 +468,15 @@ class MovieRepositoryImp @Inject constructor(
         return movieService.getMovieTrailer(movieId).body()
     }
 
+    override suspend fun removeMovieFromCollection(
+        sessionId: String,
+        collectionId: String,
+        movieId: Int
+    ): DefaultResponse? {
+        return movieService.removeMovieFromCollection(
+            collectionId = collectionId,
+            sessionId = sessionId,
+            movieId = movieId
+        ).body()
+    }
 }

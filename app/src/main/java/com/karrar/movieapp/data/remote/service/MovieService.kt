@@ -1,10 +1,26 @@
 package com.karrar.movieapp.data.remote.service
 
-import com.karrar.movieapp.data.remote.response.*
+import com.karrar.movieapp.data.remote.response.AddListResponse
+import com.karrar.movieapp.data.remote.response.AddMovieDto
+import com.karrar.movieapp.data.remote.response.BaseListResponse
+import com.karrar.movieapp.data.remote.response.CreatedListDto
+import com.karrar.movieapp.data.remote.response.CreditsDto
+import com.karrar.movieapp.data.remote.response.DailyTrendingDto
+import com.karrar.movieapp.data.remote.response.DefaultResponse
+import com.karrar.movieapp.data.remote.response.LogoutResponse
+import com.karrar.movieapp.data.remote.response.MovieDto
+import com.karrar.movieapp.data.remote.response.MyListsDto
+import com.karrar.movieapp.data.remote.response.RatedMoviesDto
+import com.karrar.movieapp.data.remote.response.RatedTvShowDto
+import com.karrar.movieapp.data.remote.response.SeasonDto
+import com.karrar.movieapp.data.remote.response.TVShowsDTO
 import com.karrar.movieapp.data.remote.response.account.AccountDto
 import com.karrar.movieapp.data.remote.response.actor.ActorDto
 import com.karrar.movieapp.data.remote.response.actor.ActorMoviesDto
+import com.karrar.movieapp.data.remote.response.actor.ActorProfileResponse
+import com.karrar.movieapp.data.remote.response.actor.ActorSocialMediaResponse
 import com.karrar.movieapp.data.remote.response.genre.GenreResponse
+import com.karrar.movieapp.data.remote.response.login.GuestSessionResponse
 import com.karrar.movieapp.data.remote.response.login.RequestTokenResponse
 import com.karrar.movieapp.data.remote.response.login.SessionResponse
 import com.karrar.movieapp.data.remote.response.movie.MovieDetailsDto
@@ -14,7 +30,15 @@ import com.karrar.movieapp.data.remote.response.trailerVideosDto.TrailerDto
 import com.karrar.movieapp.data.remote.response.tvShow.TvShowDetailsDto
 import com.karrar.movieapp.domain.enums.TrendingTimeWindow
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FieldMap
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieService {
 
@@ -36,6 +60,17 @@ interface MovieService {
         @Query("page") page: Int = 1
     ): Response<BaseListResponse<MovieDto>>
 
+    @GET("discover/movie")
+    suspend fun getMatchListMovie(
+        @Query("page") page: Int = 1,
+        @Query("WITH_GENRES") genres: List<String>? = null,
+        @Query("with_runtime.gte") withRuntimeGte: Int?= null,
+        @Query("with_runtime.lte") withRuntimeLte: Int? = null,
+        @Query("primary_release_date.gte") primaryReleaseDateGte: String? = null,
+        @Query("primary_release_date.lte") primaryReleaseDateLte: String? = null,
+        @Query("sort_by") sortBy: String = "popularity.desc"
+    ): Response<BaseListResponse<MovieDto>>
+
     @GET("trending/person/{time_window}")
     suspend fun getTrendingActors(
         @Path("time_window") timeWindow: String = TrendingTimeWindow.DAY.value,
@@ -47,6 +82,16 @@ interface MovieService {
         @Query("query") query: String,
         @Query("page") page: Int
     ): Response<BaseListResponse<ActorDto>>
+
+    @GET("person/{person_id}/external_ids")
+    suspend fun getActorExternalIds(
+        @Path("person_id") personId: Int
+    ): Response<ActorSocialMediaResponse>
+
+    @GET("person/{person_id}/images")
+    suspend fun getActorImages(
+        @Path("person_id") personId: Int
+    ): Response<ActorProfileResponse>
 
     @GET("search/movie")
     suspend fun searchForMovie(
@@ -120,6 +165,8 @@ interface MovieService {
         @Path("movie_id") movieId: Int,
     ): Response<RatingDto>
 
+    @GET("authentication/guest_session/new")
+    suspend fun createGuestSession(): Response<GuestSessionResponse>
     @FormUrlEncoded
     @POST("tv/{tv_id}/rating")
     suspend fun postTvShowRating(
@@ -149,8 +196,12 @@ interface MovieService {
     ): Response<AddMovieDto>
 
 
+
+
     @GET("list/{list_id}")
     suspend fun getList(@Path("list_id") listId: Int): Response<MyListsDto>
+
+
 
     @GET("tv/on_the_air")
     suspend fun getOnTheAir(@Query("page") page: Int = 1): Response<BaseListResponse<TVShowsDTO>>
@@ -219,6 +270,13 @@ interface MovieService {
         @Path("season_number") seasonId: Int,
     ): Response<SeasonDto>
 
+    @GET(value = "tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodeDetails(
+        @Path(value = "tv_id") tvId: Int,
+        @Path(value = "season_number") seasonNumber: Int,
+        @Path(value = "episode_number") episodeNumber: Int
+    ): Response<TvShowDetailsDto>
+
     @GET("tv/{tv_id}/videos")
     suspend fun getTvShowTrailer(@Path("tv_id") tvShowId: Int): Response<TrailerDto>
 
@@ -227,4 +285,12 @@ interface MovieService {
         @Path("tv_id") tvId: Int,
     ): Response<RatingDto>
 
+    @FormUrlEncoded
+    @POST("list/{collection_id}/remove_item")
+    @Headers("need_session_id: true")
+    suspend fun removeMovieFromCollection(
+        @Path("collection_id") collectionId: String,
+        @Query("session_id") sessionId: String,
+        @Field("media_id") movieId: Int
+    ): Response<DefaultResponse>
 }

@@ -17,6 +17,7 @@ class SeasonMapper @Inject constructor(
             input.airDate ?: "",
             input.seasonNumber ?: 0,
             input.episodeCount ?: 0,
+            input.voteAverage ?: 0F,
             input.overview ?: "",
             input.episodes?.map {
                 episodeMapper.map(it)

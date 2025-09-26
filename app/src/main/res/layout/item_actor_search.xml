@@ -28,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/Circle"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ActorImage"
             tools:src="@drawable/actor"
             app:posterImage="@{item.mediaImage}"
             android:onClick="@{() -> listener.onClickActorResult(item.mediaID, item.mediaName)}"/>

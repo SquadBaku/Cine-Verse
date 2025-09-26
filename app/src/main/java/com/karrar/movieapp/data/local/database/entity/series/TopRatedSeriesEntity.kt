@@ -8,4 +8,6 @@ data class TopRatedSeriesEntity(
     @PrimaryKey val id: Int,
     val name: String,
     val imageUrl: String,
+    val rate : Float,
+    val duration: Int
 )

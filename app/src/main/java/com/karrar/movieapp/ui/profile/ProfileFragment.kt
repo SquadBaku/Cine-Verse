@@ -85,15 +85,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ProfileUIEvent.DialogLanguageEvent -> {
                 val bottomSheet = LanguageBottomSheet()
                 bottomSheet.setOnLanguageSelectedListener { newLang ->
-                    // خزّن العنصر الحالي اللي متحدد في الـ BottomNavigation
                     val selectedItemId = (requireActivity() as MainActivity).getSelectedNavItem()
                     PrefsManager.saveSelectedNavItem(requireContext(), selectedItemId)
 
-                    // احفظ اللغة وطبقها
                     PrefsManager.saveLanguage(requireContext(), newLang)
                     LanguageManager.setLocale(requireContext(), newLang)
 
-                    // أعد تشغيل الـ Activity
                     requireActivity().recreate()
                 }
                 bottomSheet.show(parentFragmentManager, "LanguageBottomSheet")

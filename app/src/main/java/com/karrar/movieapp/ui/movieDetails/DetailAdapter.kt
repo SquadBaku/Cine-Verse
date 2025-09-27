@@ -5,7 +5,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
-import com.karrar.movieapp.ui.adapters.*
+import com.karrar.movieapp.ui.adapters.ActorAdapter
+import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieAdapter
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.DetailItemUIState
@@ -30,6 +33,13 @@ class DetailAdapter(
 
     override fun bind(holder: ItemViewHolder, position: Int) {
         when (val currentItem = items[position]) {
+            is DetailItemUIState.Poster -> {
+                holder.binding.run {
+                    setVariable(BR.item, currentItem.data)
+                    setVariable(BR.listener, listener as DetailInteractionListener)
+                }
+            }
+
             is DetailItemUIState.Header -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
@@ -41,13 +51,29 @@ class DetailAdapter(
                     setVariable(
                         BR.adapterRecycler,
                         ActorAdapter(
-                            currentItem.data,
-                            R.layout.item_cast,
+                            currentItem.data.take(currentItem.data.size / 2),
+                            R.layout.new_cast_item,
                             listener as ActorsInteractionListener
+                        )
+                    )
+                    setVariable(
+                        BR.secondListAdapter,
+                        ActorAdapter(
+                            currentItem.data.drop(currentItem.data.size / 2),
+                            R.layout.new_cast_item,
+                            listener
                         )
                     )
                 }
             }
+
+            is DetailItemUIState.Promotion -> {
+                holder.binding.setVariable(
+                    BR.listener,
+                    listener
+                )
+            }
+
             is DetailItemUIState.SimilarMovies -> {
                 holder.binding.run {
                     setVariable(
@@ -56,23 +82,24 @@ class DetailAdapter(
                     )
                 }
             }
-            is DetailItemUIState.Rating -> {
-                holder.binding.run {
-                    setVariable(BR.viewModel, currentItem.viewModel)
-                }
+
+
+            is DetailItemUIState.ReviewText -> {
+                holder.binding.setVariable(BR.listener, listener as DetailInteractionListener)
             }
+
             is DetailItemUIState.Comment -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener)
                 }
             }
-            is DetailItemUIState.ReviewText -> {}
-            DetailItemUIState.SeeAllReviewsButton -> {
+            is DetailItemUIState.BehindScenes->{
                 holder.binding.run {
-                    setVariable(BR.listener, listener as DetailInteractionListener)
+                    setVariable(BR.item,currentItem.data)
                 }
             }
+
         }
     }
 
@@ -87,13 +114,15 @@ class DetailAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is DetailItemUIState.Header -> R.layout.item_movie_detail_header
+
+            is DetailItemUIState.Poster -> R.layout.poster
+            is DetailItemUIState.Header -> R.layout.media_card
             is DetailItemUIState.Cast -> R.layout.list_cast
             is DetailItemUIState.SimilarMovies -> R.layout.list_similar_movie
-            is DetailItemUIState.Rating -> R.layout.item_rating
-            is DetailItemUIState.Comment -> R.layout.item_movie_review
+            is DetailItemUIState.Promotion -> R.layout.promotion_card
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
-            DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
+            is DetailItemUIState.Comment -> R.layout.item_movie_review
+            is DetailItemUIState.BehindScenes -> R.layout.item_behind_the_scenes
         }
     }
 

@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.karrar.movieapp.BuildConfig
 import com.karrar.movieapp.R
+import androidx.core.net.toUri
 
 class JoinCineVerseBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(
@@ -28,7 +29,7 @@ class JoinCineVerseBottomSheet : BottomSheetDialogFragment() {
 
         view.findViewById<MaterialButton>(R.id.btnWebsite).setOnClickListener {
             val browserIntent =
-                Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TMDB_SIGNUP_URL))
+                Intent(Intent.ACTION_VIEW, BuildConfig.TMDB_SIGNUP_URL.toUri())
             startActivity(browserIntent)
         }
     }

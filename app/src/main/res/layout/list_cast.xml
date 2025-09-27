@@ -9,6 +9,10 @@
             name="adapterRecycler"
             type="com.karrar.movieapp.ui.adapters.ActorAdapter" />
 
+        <variable
+            name="secondListAdapter"
+            type="com.karrar.movieapp.ui.adapters.ActorAdapter" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:text="@string/cast"
+            android:text="@string/star_cast"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,15 +36,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:orientation="horizontal"
-            android:clipToPadding="false"
-            android:paddingHorizontal="@dimen/spacing_small"
             android:adapter="@{adapterRecycler}"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cast"
             tools:listitem="@layout/item_cast" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_height="wrap_content"
+            android:adapter="@{secondListAdapter}"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/cast_adapter"
+            tools:listitem="@layout/item_cast" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

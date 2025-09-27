@@ -6,11 +6,12 @@ import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,10 +29,17 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
     override val layoutIdFragment: Int = R.layout.fragment_my_ratings
     override val viewModel: MyRatingsViewModel by viewModels()
 
+
+    private var isAdviceShowing = true
+
     private var isAnimating = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (isAdviceShowing) {
+            binding.infoCard.visibility = View.VISIBLE
+
+        } else binding.infoCard.visibility = View.GONE
 
 
         val adapter = RatedMoviesAdapter(items = emptyList(), listener = viewModel)
@@ -39,7 +47,10 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
 
         setupTabAnimations()
         initializeTabs()
-        binding.btnClose.setOnClickListener { binding.infoCard.visibility = View.GONE }
+        binding.btnClose.setOnClickListener {
+            binding.infoCard.visibility = View.GONE
+            isAdviceShowing = false
+        }
         binding.emptyLayout.btnStartRating.setOnClickListener { findNavController().navigate(R.id.exploringFragment) }
 
         collectLast(flow = viewModel.myRatingUIEvent) {
@@ -53,22 +64,20 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onResume() {
         super.onResume()
 
-        try {
-            val activity = requireActivity() as AppCompatActivity
-            activity.supportActionBar?.title = getString(R.string.my_ratings)
-            activity.supportActionBar?.setBackgroundDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.color.background_screen
+            binding.toolbar.toolbar.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+            binding.toolbar.toolbar.navigationIcon
+            binding.toolbar.toolbar.setTitleTextColor(
+                resources.getColor(
+                    R.color.button_onSecondary,
+                    null
                 )
             )
-            view?.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)?.title = getString(R.string.my_ratings)
-        } catch (e: Exception) {
+            binding.toolbar.toolbar.title = getString(R.string.my_ratings)
 
-        }
     }
 
 //    private fun setupToolbar() {
@@ -125,7 +134,8 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
         val activeTextView = if (isMoviesTab) binding.tvMovies else binding.tvSeries
         val inactiveTextView = if (isMoviesTab) binding.tvSeries else binding.tvMovies
         val activeIndicator = if (isMoviesTab) binding.indicatorMovies else binding.indicatorSeries
-        val inactiveIndicator = if (isMoviesTab) binding.indicatorSeries else binding.indicatorMovies
+        val inactiveIndicator =
+            if (isMoviesTab) binding.indicatorSeries else binding.indicatorMovies
 
         val animatorSet = AnimatorSet()
 
@@ -190,7 +200,10 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
                 activeTextView.scaleY = 1f
 
                 activeTextView.setTypeface(activeTextView.typeface, android.graphics.Typeface.BOLD)
-                inactiveTextView.setTypeface(inactiveTextView.typeface, android.graphics.Typeface.NORMAL)
+                inactiveTextView.setTypeface(
+                    inactiveTextView.typeface,
+                    android.graphics.Typeface.NORMAL
+                )
             }
         })
 
@@ -202,6 +215,7 @@ class MyRatingsFragment : BaseFragment<FragmentMyRatingsBinding>() {
             is MyRatingUIEvent.MovieEvent -> {
                 MyRatingsFragmentDirections.actionRatedMoviesFragmentToMovieDetailFragment(event.movieID)
             }
+
             is MyRatingUIEvent.TVShowEvent -> {
                 MyRatingsFragmentDirections.actionRatedMoviesFragmentToTvShowDetailsFragment(event.tvShowID)
             }

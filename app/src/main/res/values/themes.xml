@@ -1,5 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+
     <style name="Theme.CineVerse" parent="Theme.Material3.DayNight.NoActionBar"/>
     <style name="AppToolbarStyle">
         <item name="android:background">@color/background_screen</item>
@@ -14,7 +15,8 @@
         <item name="android:fontFamily">@font/manrope_medium</item>
     </style>
 
-    <style name="Typography"/>
+
+    <style name="Typography" />
 
     <style name="Typography.display_xl">
         <item name="fontFamily">@font/manrope_bold</item>
@@ -128,7 +130,6 @@
         <item name="cornerSizeTopRight">@dimen/spacing_medium</item>
         <item name="cornerSizeBottomLeft">@dimen/spacing_medium</item>
         <item name="cornerSizeBottomRight">@dimen/radius_xl</item>
-
     </style>
 
     <style name="GalleryRounded">
@@ -154,6 +155,29 @@
     <style name="CardCorners.Large">
         <item name="cornerSize">@dimen/radius_lg</item>
     </style>
+
+    <style name="CardCorners.ImageCard">
+        <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeTopRight">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+
+    <style name="RoundButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/background_card</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@color/shade_primary</item>
+        <item name="android:textAppearance">@style/Typography.label_md_medium</item>
+        <item name="cornerRadius">@dimen/radius_full</item>
+        <item name="iconTint">@color/brand_primary</item>
+    </style>
+
+
+
 
     <!--  old App Theme -->
     <style name="Theme.MovieApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -207,6 +231,11 @@
     <style name="SemiBold.Small">
         <item name="android:textSize">@dimen/text_small</item>
     </style>
+    <style name="ShapeAppearance.Poster.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
 
 
     <style name="Regular">
@@ -290,6 +319,14 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="CastImageStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
     <style name="Chip.Regular.Small" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="chipStrokeColor">@color/chip_stroke</item>
         <item name="chipBackgroundColor">@color/chip_background</item>
@@ -321,6 +358,11 @@
     <style name="Regular.Small.Primary">
         <item name="android:textColor">@color/shade_primary_color</item>
 
+    </style>
+
+    <style name="RoundedImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
 

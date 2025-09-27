@@ -1,16 +1,19 @@
 package com.karrar.movieapp.ui.movieDetails
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
 import com.karrar.movieapp.domain.models.MovieDetails
+import com.karrar.movieapp.domain.usecases.CheckIfLoggedInUseCase
 import com.karrar.movieapp.domain.usecases.GetSessionIDUseCase
 import com.karrar.movieapp.domain.usecases.movieDetails.*
 import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseViewModel
 import com.karrar.movieapp.ui.movieDetails.mapper.ActorUIStateMapper
+import com.karrar.movieapp.ui.movieDetails.mapper.BehindTheScenesUiStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MediaUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.MovieDetailsUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.mapper.ReviewUIStateMapper
@@ -35,9 +38,11 @@ class MovieDetailsViewModel @Inject constructor(
     private val movieDetailsUIStateMapper: MovieDetailsUIStateMapper,
     private val actorUIStateMapper: ActorUIStateMapper,
     private val mediaUIStateMapper: MediaUIStateMapper,
+    val behindTheScenesUiStateMapper: BehindTheScenesUiStateMapper,
     private val getMovieRate: GetMovieRateUseCase,
     private val reviewUIStateMapper: ReviewUIStateMapper,
     private val sessionIDUseCase: GetSessionIDUseCase,
+    private val checkIfLoggedInUseCase: CheckIfLoggedInUseCase,
     state: SavedStateHandle,
 ) : BaseViewModel(), ActorsInteractionListener, MovieInteractionListener,
     DetailInteractionListener {
@@ -52,6 +57,11 @@ class MovieDetailsViewModel @Inject constructor(
 
     init {
         getData()
+        viewModelScope.launch {
+            _uiState.collect {
+                Log.e("TAG", "MovieDetailsViewModel: ${it.errorUIStates}")
+            }
+        }
     }
 
     override fun getData() {
@@ -61,6 +71,34 @@ class MovieDetailsViewModel @Inject constructor(
         getMovieCast(args.movieId)
         getSimilarMovie(args.movieId)
         getMovieReviews(args.movieId)
+        getCredits(args.movieId)
+    }
+
+    private fun getCredits(movieId: Int) {
+        viewModelScope.launch {
+            try {
+                val result = getMovieDetailsUseCase.getMovieCredits(movieId)
+                _uiState.update {
+                    it.copy(
+                        isLoading = false
+                    )
+                }
+               onAddMovieDetailsItemOfNestedView(
+                   DetailItemUIState.BehindScenes(behindTheScenesUiStateMapper.map(result))
+               )
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        errorUIStates = listOf(
+                            ErrorUIState(
+                                code = Constants.INTERNET_STATUS,
+                                message = e.message.toString()
+                            )
+                        ), isLoading = false,
+                    )
+                }
+            }
+        }
     }
 
     private fun getMovieDetails(movieId: Int) {
@@ -73,7 +111,12 @@ class MovieDetailsViewModel @Inject constructor(
                         isLoading = false,
                     )
                 }
-                onAddMovieDetailsItemOfNestedView(DetailItemUIState.Header(_uiState.value.movieDetailsResult))
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Poster(_uiState.value.movieDetailsResult)
+                )
+                onAddMovieDetailsItemOfNestedView(
+                    DetailItemUIState.Header(_uiState.value.movieDetailsResult)
+                )
                 addToWatchHistory(result)
             } catch (e: Exception) {
                 _uiState.update {
@@ -142,21 +185,33 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(ratingValue = getMovieRate(movieId)) }
-                onAddMovieDetailsItemOfNestedView(DetailItemUIState.Rating(this@MovieDetailsViewModel))
+                if (_uiState.value.ratingValue == 0f)
+                    onAddMovieDetailsItemOfNestedView(DetailItemUIState.Promotion)
             } catch (e: Throwable) {
             }
         }
     }
 
     fun onChangeRating(value: Float) {
+        _uiState.update { it.copy(ratingValue = value) }
+    }
+
+    fun submitRating() {
+        val rating = _uiState.value.ratingValue
+        if (rating <= 0f) return
+
         viewModelScope.launch {
             try {
-                setRatingUseCase(args.movieId, value)
-                _uiState.update { it.copy(ratingValue = value) }
+                setRatingUseCase(args.movieId, rating)
                 _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.MessageAppear) }
             } catch (e: Throwable) {
+
             }
         }
+    }
+
+    override fun onClickEscButton(view: View) {
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.DismissSheet) }
     }
 
     private fun getMovieReviews(movieId: Int) {
@@ -178,12 +233,9 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     private fun setReviews(showSeeAll: Boolean) {
+        onAddMovieDetailsItemOfNestedView(DetailItemUIState.ReviewText)
         _uiState.value.movieReview.forEach {
             onAddMovieDetailsItemOfNestedView(DetailItemUIState.Comment(it))
-        }
-        onAddMovieDetailsItemOfNestedView(DetailItemUIState.ReviewText)
-        if (showSeeAll) {
-            onAddMovieDetailsItemOfNestedView(DetailItemUIState.SeeAllReviewsButton)
         }
     }
 
@@ -194,7 +246,14 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     override fun onClickSave() {
-        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent) }
+        val isLoggedIn = checkIfLoggedInUseCase()
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.ClickSaveEvent(isLoggedIn)) }
+    }
+
+    override fun onClickRate() {
+        Log.d("testRating","clicked")
+        val isLoggedIn = checkIfLoggedInUseCase()
+        _movieDetailsUIEvent.update { Event(MovieDetailsUIEvent.RateTheMovie(isLoggedIn)) }
     }
 
     override fun onClickPlayTrailer() {

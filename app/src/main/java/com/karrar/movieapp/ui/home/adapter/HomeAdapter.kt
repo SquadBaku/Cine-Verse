@@ -12,6 +12,8 @@ import com.karrar.movieapp.ui.adapters.MediaAdapter
 import com.karrar.movieapp.ui.adapters.MediaInteractionListener
 import com.karrar.movieapp.ui.adapters.MovieAdapter
 import com.karrar.movieapp.ui.adapters.MovieInteractionListener
+import com.karrar.movieapp.ui.adapters.SeriesAdapter
+import com.karrar.movieapp.ui.adapters.SeriesInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.home.HomeInteractionListener
@@ -154,10 +156,27 @@ class HomeAdapter(
                         setVariable(BR.isVisible, currentItem.items.isNotEmpty())
                     }
                 }
+
+                is HomeItem.WhatShouldIWatch -> {
+                    holder.binding.setVariable(BR.listener, listener as HomeInteractionListener)
+                }
+
+                is HomeItem.NeedMoreToWatch -> {
+                    holder.binding.setVariable(BR.listener, listener as HomeInteractionListener)
+                }
+
+                is HomeItem.TopRatedMovie -> {
+                    bindSeries(holder , currentItem.items,currentItem.type)
+                }
+
+                is HomeItem.MatchYourVibe -> {
+                    bindMovie(holder, currentItem.items , currentItem.type)
+                }
             }
     }
 
     private fun bindMovie(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
+
         holder.binding.run {
             setVariable(
                 BR.adapterRecycler,
@@ -165,6 +184,19 @@ class HomeAdapter(
             )
             setVariable(BR.movieType, type)
         }
+
+
+    }
+
+    private fun bindSeries(holder: ItemViewHolder, items: List<MediaUiState>, type: HomeItemsType) {
+
+        holder.binding.setVariable(
+            BR.adapterRecycler,
+            SeriesAdapter(items, listener as SeriesInteractionListener)
+        )
+        holder.binding.setVariable(BR.movieType, type)
+
+
     }
 
     override fun setItems(newItems: List<HomeItem>) {
@@ -191,6 +223,8 @@ class HomeAdapter(
                 is HomeItem.Slider -> R.layout.list_popular
                 is HomeItem.AiringToday -> R.layout.list_airing_today
                 is HomeItem.OnTheAiring -> R.layout.list_tvshow
+                is HomeItem.WhatShouldIWatch -> R.layout.what_should_i_watch
+                is HomeItem.NeedMoreToWatch -> R.layout.need_more_to_watch
                 is HomeItem.RecentlyViewed -> R.layout.list_recently_viewed
                 is HomeItem.Adventure,
                 is HomeItem.Mystery,
@@ -200,6 +234,8 @@ class HomeAdapter(
                     -> R.layout.list_movie
 
                 is HomeItem.Collections -> R.layout.list_home_collections
+                is HomeItem.TopRatedMovie -> R.layout.list_series
+                is HomeItem.MatchYourVibe -> R.layout.list_movie
             }
         }
         return -1

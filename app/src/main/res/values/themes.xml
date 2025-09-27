@@ -108,6 +108,22 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ImageRadiusLarge" >
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeTopRight">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_lg</item>
+
+    </style>
+    <style name="PosterCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeTopRight">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
     <style name="RoundedImage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">@dimen/radius_xl</item>
@@ -134,14 +150,6 @@
 
     <style name="CardCorners">
         <item name="cornerFamily">rounded</item>
-    </style>
-
-    <style name="PosterCorners" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">@dimen/radius_lg</item>
-        <item name="cornerSizeTopRight">@dimen/radius_lg</item>
-        <item name="cornerSizeBottomLeft">@dimen/radius_lg</item>
-        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
     <style name="CardCorners.Large">
@@ -223,6 +231,11 @@
     <style name="SemiBold.Small">
         <item name="android:textSize">@dimen/text_small</item>
     </style>
+    <style name="ShapeAppearance.Poster.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
 
 
     <style name="Regular">
@@ -304,6 +317,14 @@
 
     <style name="Circle">
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="CastImageStyle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
     <style name="Chip.Regular.Small" parent="Widget.MaterialComponents.Chip.Filter">

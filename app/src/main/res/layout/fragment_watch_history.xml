@@ -5,31 +5,102 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.karrar.movieapp.ui.profile.watchhistory.WatchHistoryViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_color">
+        android:background="@color/background_screen"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/empty_layout"
+            layout="@layout/empty_history"
+            android:visibility="gone"
+            app:showWhenListEmpty="@{viewModel.uiState.allMedia}"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/info_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/borded_card_background"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/iv_info"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/info_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_info"
+                style="@style/Typography.body_sm_regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/tap"
+                android:textColor="@color/shade_primary"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_close"
+                app:layout_constraintStart_toEndOf="@id/iv_info"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btn_close"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="0dp"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TableLayout
+            android:id="@+id/tabs_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@color/background_screen"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </TableRow>
+        </TableLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_watch_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingStart="@dimen/spacing_small"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_small"
             android:paddingBottom="@dimen/spacing_medium"
-            app:items="@{viewModel.uiState.allMedia}"
+            android:scrollbars="none"
+            app:items='@{viewModel.uiState.allMedia}'
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/item_watch_history" />
+            tools:listitem="@layout/item_rated_movie" />
 
         <TextView
             style="@style/SemiBold.Medium"
@@ -37,11 +108,53 @@
             android:layout_height="wrap_content"
             android:text="@string/this_list_has_no_movies"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showWhenListEmpty="@{viewModel.uiState.allMedia}" />
+            app:doneLoad='@{viewModel.uiState.loading}'
+            app:emptyData='@{viewModel.uiState.ratedList}'
+            app:noError='@{viewModel.uiState.error}' />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title_lost_connection"
+                style="@style/SemiBold.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_extra_large"
+                android:text="@string/oops"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/description_lost_connection"
+                style="@style/Regular.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center"
+                android:text="@string/description"
+                android:textColor="@color/brand_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_lost_connection" />
+
+            <Button
+                android:id="@+id/button_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:onClick='@{() -> viewModel.retryConnect()}'
+                android:text="@string/retry"
+                android:textColor="@color/white_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description_lost_connection" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
 </layout>

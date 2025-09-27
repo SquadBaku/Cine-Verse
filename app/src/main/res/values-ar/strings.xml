@@ -189,5 +189,24 @@
     <string name="arabic">العربية</string>
     <string name="we_will_help_you_skip_the_scroll_and_go_straight_to_the_good_stuff.">سنساعدك على تجاوز المحتوى غير المهم والوصول مباشرة إلى ما هو مفيد.</string>
     <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like.">استكشف جميع الأفلام والمسلسلات حسب النوع أو ابحث عن أي شيء تفضله.</string>
-    <string name="star_cast">Star Cast</string>
+    <string name="star_cast">نجوم التمثيل</string>
+    <string name="add_rating">أضف تقييم</string>
+    <string name="add_to_collection">أضافة الى المجموعة</string>
+    <string name="new_collection">مجموعة جديدة</string>
+    <string name="create_a_new_collection_to_start_saving_your_favorite_movies_and_series">ابدأ مجموعة جديدة لحفظ ما تحب</string>
+    <string name="create_collection">أنشا مجموعة</string>
+    <string name="you_re_almost_there">أنت قريب</string>
+    <string name="not_now">ليس الان</string>
+    <string name="behind_the_scenes">خلف الكواليس</string>
+    <string name="you_might_also_like">من الممكن ان تحب ايضا</string>
+    <string name="did_you_watch_it">هل شاهدته؟</string>
+    <string name="give_it_stars">أعطه نجمه!</string>
+    <string name="let_the_world_know_how_you_felt">دع العالم يعلم ما شعرت</string>
+    <string name="top_reviews">اعلى تقييم</string>
+    <string name="storyline">القصة</string>
+    <string name="characters">الشخصيات</string>
+    <string name="director">مخرج</string>
+    <string name="producer">أنتاج</string>
+    <string name="writer">كاتب</string>
+    <string name="delete">حذف</string>
 </resources>

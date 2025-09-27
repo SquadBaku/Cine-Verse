@@ -18,7 +18,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp">
 
 
             <FrameLayout
@@ -46,9 +47,9 @@
                 style="@style/Typography.title_sm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/shade_primary"
                 android:layout_marginTop="@dimen/radius_xl"
                 android:text="@string/are_you_sure_you_want_to_logout"
+                android:textColor="@color/shade_primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/icon_container" />
@@ -59,8 +60,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/radius_s"
-                android:textColor="@color/shade_secondary"
                 android:text="@string/you_can_always_sign_back_in_with_your_account"
+                android:textColor="@color/shade_secondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_confirmation" />
@@ -70,42 +71,42 @@
                 android:id="@+id/buttons_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/radius_xl"
                 android:layout_marginTop="@dimen/radius_3xl"
                 android:layout_marginBottom="@dimen/radius_xl"
-                android:layout_marginHorizontal="@dimen/radius_xl"
                 android:orientation="horizontal"
                 android:weightSum="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_confirmation_message" >
+                app:layout_constraintTop_toBottomOf="@+id/text_confirmation_message">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_cancel"
-                    android:layout_width="0dp"
-                    android:background="@drawable/btn_rectangle"
                     style="@style/Typography.body_md_medium"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewModel.onCloseDialog()}"
-                    android:textColor="@color/button_onSecondary"
-                    app:backgroundTint="@color/button_secondary"
                     android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle"
+                    android:onClick="@{() -> viewModel.onCloseDialog()}"
                     android:text="@string/cancel"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_onSecondary"
+                    app:backgroundTint="@color/button_secondary" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_confirm"
-                    android:background="@drawable/btn_rectangle"
-                    android:layout_width="0dp"
                     style="@style/Typography.body_md_medium"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/radius_lg"
                     android:layout_weight="1"
+                    android:background="@drawable/btn_rectangle"
                     android:onClick="@{() -> viewModel.onLogout()}"
-                    android:textColor="@color/button_onPrimary"
-                    app:backgroundTint="@color/additional_primary_red"
                     android:text="@string/logout"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_onPrimary"
+                    app:backgroundTint="@color/additional_primary_red" />
 
             </LinearLayout>
 

@@ -3,22 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+<variable
+    name="listener"
+    type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium">
 
         <TextView
             android:id="@+id/reviews_comment"
             style="@style/SemiBold.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:text="@string/reviews_comment"
+            android:text="@string/top_reviews"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/Typography.body_md_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_more"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{()->listener.onclickViewReviews()}"
+            android:textColor="@color/brand_primary"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,5 +1,6 @@
 package com.karrar.movieapp.ui.tvShowDetails
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -14,7 +15,7 @@ import com.karrar.movieapp.ui.tvShowDetails.tvShowUIState.DetailItemUIState
 
 class DetailUIStateAdapter(
     private var items: List<DetailItemUIState>,
-    private val listener: BaseInteractionListener
+    private val listener: BaseInteractionListener,
 ) : BaseAdapter<DetailItemUIState>(items, listener) {
     override val layoutID: Int = 0
 
@@ -37,49 +38,78 @@ class DetailUIStateAdapter(
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
+
             is DetailItemUIState.Cast -> {
                 holder.binding.run {
                     setVariable(
                         BR.adapterRecycler,
                         ActorAdapter(
-                            currentItem.data,
-                            R.layout.item_cast,
+                            currentItem.data.take(currentItem.data.size / 2),
+                            R.layout.new_cast_item,
                             listener as ActorsInteractionListener
+                        )
+                    )
+
+                    setVariable(
+                        BR.secondListAdapter,
+                        ActorAdapter(
+                            currentItem.data.drop(currentItem.data.size / 2),
+                            R.layout.new_cast_item,
+                            listener
                         )
                     )
                 }
             }
+
             is DetailItemUIState.Seasons -> {
                 holder.binding.run {
                     setVariable(
                         BR.adapterRecycler,
-                        SeasonAdapterUIState(currentItem.data, listener as SeasonInteractionListener)
+                        SeasonAdapterUIState(
+                            currentItem.data,
+                            listener as SeasonInteractionListener
+                        )
                     )
                 }
             }
-            is DetailItemUIState.Rating -> {
-                holder.binding.run {
-                    setVariable(BR.viewModel, currentItem.viewModel)
-                }
-            }
+
             is DetailItemUIState.Comment -> {
                 holder.binding.run {
                     setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener)
                 }
             }
-            is DetailItemUIState.ReviewText -> {}
-            DetailItemUIState.SeeAllReviewsButton -> {
+
+            is DetailItemUIState.ReviewText -> {
+                holder.binding.setVariable(BR.listener, listener as DetailInteractionListener)
+            }
+
+            is DetailItemUIState.Promotion -> {
                 holder.binding.run {
+                    setVariable(BR.listener, listener)
+                }
+            }
+
+            is DetailItemUIState.BehindScenes -> {
+                holder.binding.run {
+                    setVariable(BR.item, currentItem.data)
+                }
+            }
+
+            is DetailItemUIState.Poster -> {
+                Log.d("DetailUIStateAdapter", "Binding Poster at position $position")
+                holder.binding.run {
+                    setVariable(BR.item, currentItem.data)
                     setVariable(BR.listener, listener as DetailInteractionListener)
                 }
             }
-            is DetailItemUIState.UserRating -> {
-                holder.binding.run {
-                    setVariable(BR.item, currentItem.data)
-                    setVariable(BR.listener, listener)
-                    executePendingBindings()
 
+            is DetailItemUIState.SimilarTvShows -> {
+                holder.binding.run {
+                    setVariable(
+                        BR.adapterRecycler,
+                        MovieAdapter(currentItem.data, listener as MovieInteractionListener)
+                    )
                 }
             }
         }
@@ -97,14 +127,15 @@ class DetailUIStateAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is DetailItemUIState.Header -> R.layout.item_tv_show_details_header
-            is DetailItemUIState.Cast -> R.layout.list_cast
+            is DetailItemUIState.Poster -> R.layout.poster
+            is DetailItemUIState.Header -> R.layout.media_card
             is DetailItemUIState.Seasons -> R.layout.list_season
-            is DetailItemUIState.Rating -> R.layout.item_tvshow_rating
+            is DetailItemUIState.Cast -> R.layout.list_cast
+            is DetailItemUIState.BehindScenes -> R.layout.item_behind_the_scenes
+            is DetailItemUIState.SimilarTvShows -> R.layout.list_similar_movie
+            is DetailItemUIState.Promotion -> R.layout.promotion_card
             is DetailItemUIState.Comment -> R.layout.item_tvshow_review
             is DetailItemUIState.ReviewText -> R.layout.item_review_text
-            DetailItemUIState.SeeAllReviewsButton -> R.layout.item_see_all_reviews
-            is DetailItemUIState.UserRating -> R.layout.item_tvshow_rating
         }
     }
 }

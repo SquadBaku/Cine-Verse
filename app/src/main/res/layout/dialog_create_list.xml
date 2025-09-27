@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.karrar.movieapp.ui.movieDetails.saveMovie.SaveMovieViewModel" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="307dp"
+        android:background="@drawable/bottom_sheet_corners"
+        android:paddingHorizontal="16dp"
+        android:fitsSystemWindows="true">
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/radius_12"
+            android:background="@drawable/bottom_sheet_bar"/>
+
+        <TextView
+            android:id="@+id/add_to_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_collection"
+            style="@style/Typography.title_sm"
+            android:textColor="@color/shade_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <ImageView
+            android:src="@drawable/cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_collection"
+            app:layout_constraintTop_toTopOf="@id/add_to_collection"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/shade_secondary"
+            android:onClick="@{viewModel.onClickEscButton}"/>
+
+
+
+        <FrameLayout
+            android:id="@+id/banner"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_to_collection"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/add_to_collection_icon">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/video_library"
+                android:layout_gravity="center"
+                app:tint="@color/brand_primary" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/no_collections_yet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/banner"
+            android:layout_marginTop="16dp"
+            style="@style/Typography.title_sm"
+            android:textColor="@color/shade_primary"/>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/create_a_new_collection_to_start_saving_your_favorite_movies_and_series"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            style="@style/Typography.body_sm_medium"
+            android:textColor="@color/shade_secondary"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/add_to_collection_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            android:layout_marginTop="24dp"
+            android:text="@string/create_collection"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/button_onPrimary"
+            android:onClick="@{viewModel.onClickAddButton}"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

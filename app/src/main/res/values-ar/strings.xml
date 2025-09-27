@@ -184,12 +184,10 @@
     <string name="what_should_i_watch">ما الذي ينبغي عليّ مشاهدته؟</string>
     <string name="let_us_choose_for_you">دعونا نختار لك!</string>
     <string name="title_non">no title</string>
+    <string name="change_language">تغيير اللغة</string>
+    <string name="english">الإنجليزية</string>
+    <string name="arabic">العربية</string>
     <string name="we_will_help_you_skip_the_scroll_and_go_straight_to_the_good_stuff.">سنساعدك على تجاوز المحتوى غير المهم والوصول مباشرة إلى ما هو مفيد.</string>
     <string name="explore_all_movies_and_series_by_genre_or_search_for_anything_you_like.">استكشف جميع الأفلام والمسلسلات حسب النوع أو ابحث عن أي شيء تفضله.</string>
-    <string name="delete">حذف</string>
-    <string name="error_message">خطأ</string>
-    <string name="loading">جارٍ التحميل</string>
-    <string name="title_empty_history">لا يوجد سجل بعد</string>
-    <string name="description_empty_history">المكان فارغ هنا… ابدأ بالمشاهدة وسنقوم بمتابعة ما تحبه </string>
-    <string name="cta_start_history">ابحث عن شيء لتشاهده</string>
+    <string name="star_cast">Star Cast</string>
 </resources>

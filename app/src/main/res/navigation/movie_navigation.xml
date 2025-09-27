@@ -109,6 +109,13 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
+       <action
+           android:id="@+id/actionMovieDetailFragmentToRatingDialog"
+           app:destination="@+id/ratingDialog"/>
+        <action
+            android:id="@+id/actionMovieDetailsFragmentToLoginDialog"
+            app:destination="@id/loginDialog"
+            />
         <action
             android:id="@+id/action_movieDetailsFragment_to_saveMovieDialog"
             app:destination="@id/saveMovieDialog" />
@@ -274,6 +281,24 @@
         <argument
             android:name="movie_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_create_new_list"
+            app:destination="@id/createListDialog" />
+        <action
+            android:id="@+id/action_save_to_list_dialog_to_loginDialog"
+            app:destination="@id/loginDialog"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/loginDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.saveMovie.LoginDialog"
+        tools:layout="@layout/dialog_login">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_loginDialog_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </dialog>
 
     <dialog
@@ -288,6 +313,19 @@
         <action
             android:id="@+id/action_logoutDialog_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/createListDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.saveMovie.CreateListDialog"
+        tools:layout="@layout/dialog_create_list">
+
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_homeFragment_to_savedListFragment"
+            app:destination="@id/myListFragment" />
     </dialog>
     <dialog
         android:id="@+id/createSavedList"
@@ -395,6 +433,9 @@
         <action
             android:id="@+id/action_tvShowDetailFragment_to_youtubePlayerActivity"
             app:destination="@id/youtubePlayerActivity" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_ratingDialog"
+            app:destination="@id/ratingDialog" />
     </fragment>
     <fragment
         android:id="@+id/matchResultFragment"
@@ -439,7 +480,8 @@
         android:id="@+id/seasonListFragment"
         android:name="com.karrar.movieapp.ui.tvShowDetails.SeasonListFragment"
         android:label="Seasons"
-        tools:layout="@layout/fragment_season_list"></fragment>
+        tools:layout="@layout/fragment_season_list">
+    </fragment>
     <dialog
         android:id="@+id/joinCineVerseBottomSheet"
         tools:layout="@layout/bottom_sheet_join_cineverse"
@@ -487,5 +529,20 @@
         android:name="com.karrar.movieapp.ui.login.EditProfileBottomSheet"
         android:label="EditProfileBottomSheet" />
 
-
+    <dialog
+        android:id="@+id/ratingDialog"
+        android:name="com.karrar.movieapp.ui.movieDetails.rateTheMovie.RatingDialog"
+        android:label="RatingDialog" >
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_ratingDialog_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment"
+            app:popUpTo="@id/movieDetailFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_ratingDialog_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </dialog>
 </navigation>

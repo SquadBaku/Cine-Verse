@@ -2,7 +2,6 @@ package com.karrar.movieapp.data.repository
 
 import com.karrar.movieapp.data.remote.service.MovieService
 import com.karrar.movieapp.domain.enums.MediaType
-
 import javax.inject.Inject
 
 class WatchHistoryRepositoryImp @Inject constructor(

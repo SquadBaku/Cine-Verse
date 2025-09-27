@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.main.MainActivity
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.LanguageManager
 import com.karrar.movieapp.utilities.PrefsManager
@@ -39,12 +40,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         binding.language.setOnClickListener {
-            val newLang = if (PrefsManager.getLanguage(requireContext()) == "en") "ar" else "en"
-            PrefsManager.saveLanguage(requireContext(), newLang)
-            LanguageManager.setLocale(requireContext(), newLang)
-            requireActivity().recreate()
+            viewModel.onClickLanguage()
         }
-
 
         collectLast(viewModel.profileUIEvent) {
             it.getContentIfNotHandled()?.let { onEvent(it) }
@@ -52,32 +49,53 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun onEvent(event: ProfileUIEvent) {
-        val action = when (event) {
+        when (event) {
             ProfileUIEvent.DialogLogoutEvent -> {
-                ProfileFragmentDirections.actionProfileFragmentToLogoutDialog()
+                val action = ProfileFragmentDirections.actionProfileFragmentToLogoutDialog()
+                findNavController().navigate(action)
             }
 
             ProfileUIEvent.LoginEvent -> {
-                ProfileFragmentDirections.actionProfileFragmentToLoginFragment(Constants.PROFILE)
+                val action =
+                    ProfileFragmentDirections.actionProfileFragmentToLoginFragment(Constants.PROFILE)
+                findNavController().navigate(action)
             }
 
             ProfileUIEvent.RatedMoviesEvent -> {
-                ProfileFragmentDirections.actionProfileFragmentToRatedMoviesFragment()
+                val action = ProfileFragmentDirections.actionProfileFragmentToRatedMoviesFragment()
+                findNavController().navigate(action)
             }
 
             ProfileUIEvent.WatchHistoryEvent -> {
-                ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
+                val action = ProfileFragmentDirections.actionProfileFragmentToWatchHistoryFragment()
+                findNavController().navigate(action)
             }
 
             ProfileUIEvent.MyCollectionsEvent -> {
-                ProfileFragmentDirections.actionProfileFragmentToMyListFragment()
+                val action = ProfileFragmentDirections.actionProfileFragmentToMyListFragment()
+                findNavController().navigate(action)
             }
 
             ProfileUIEvent.EditProfileEvent -> {
-                ProfileFragmentDirections.actionProfileFragmentToEditProfileBottomSheet()
+                val action =
+                    ProfileFragmentDirections.actionProfileFragmentToEditProfileBottomSheet()
+                findNavController().navigate(action)
             }
-        }
-        findNavController().navigate(action)
-    }
 
+            ProfileUIEvent.DialogLanguageEvent -> {
+                val bottomSheet = LanguageBottomSheet()
+                bottomSheet.setOnLanguageSelectedListener { newLang ->
+                    val selectedItemId = (requireActivity() as MainActivity).getSelectedNavItem()
+                    PrefsManager.saveSelectedNavItem(requireContext(), selectedItemId)
+
+                    PrefsManager.saveLanguage(requireContext(), newLang)
+                    LanguageManager.setLocale(requireContext(), newLang)
+
+                    requireActivity().recreate()
+                }
+                bottomSheet.show(parentFragmentManager, "LanguageBottomSheet")
+            }
+
+        }
+    }
 }

@@ -2,9 +2,11 @@ package com.karrar.movieapp.domain.usecases.tvShowDetails
 
 import com.karrar.movieapp.data.repository.SeriesRepository
 import com.karrar.movieapp.domain.enums.MediaType
+import com.karrar.movieapp.domain.mappers.CrewInfoMapper
 import com.karrar.movieapp.domain.mappers.ListMapper
 import com.karrar.movieapp.domain.mappers.SeriesMapperContainer
 import com.karrar.movieapp.domain.models.Actor
+import com.karrar.movieapp.domain.models.CrewInfo
 import com.karrar.movieapp.domain.models.MediaDetailsReviews
 import com.karrar.movieapp.domain.models.Season
 import com.karrar.movieapp.domain.models.TvShowDetails
@@ -15,7 +17,8 @@ import javax.inject.Inject
 class GetTvShowDetailsUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val seriesMapperContainer: SeriesMapperContainer,
-    private val getTVShowsReviews: GetReviewsUseCase
+    private val getTVShowsReviews: GetReviewsUseCase,
+    private val crewInfoMapper: CrewInfoMapper
 ) {
 
     suspend fun getTvShowDetails(tvShowId: Int): TvShowDetails {
@@ -27,6 +30,10 @@ class GetTvShowDetailsUseCase @Inject constructor(
     suspend fun getSeriesCast(tvShowId: Int): List<Actor> {
         return ListMapper(seriesMapperContainer.actorMapper)
             .mapList(seriesRepository.getTvShowCast(tvShowId)?.cast)
+    }
+    suspend fun getTvShowCredits(movieId: Int): List<CrewInfo>{
+        return ListMapper(crewInfoMapper)
+            .mapList(seriesRepository.getTvShowCast(movieId)?.crew)
     }
 
     suspend fun getSeasons(tvShowId: Int): List<Season> {

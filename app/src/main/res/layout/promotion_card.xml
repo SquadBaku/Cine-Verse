@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.karrar.movieapp.ui.movieDetails.DetailInteractionListener" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Typography.title_md"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/did_you_watch_it"
+            android:textColor="@color/shade_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+         android:onClick="@{()->listener.onClickRate()}"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/card_rounded_background"
+            android:paddingVertical="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/star_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@color/shade_quinary"
+                android:src="@drawable/star_colored"
+                android:tint="@color/brand_primary"
+                app:contentPadding="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/Circle" />
+
+            <TextView
+                android:id="@+id/card_title"
+                style="@style/Typography.title_sm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/give_it_stars"
+                android:textColor="@color/shade_primary"
+                app:layout_constraintStart_toEndOf="@id/star_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/card_description"
+                style="@style/Typography.body_sm_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/let_the_world_know_how_you_felt"
+                android:textColor="@color/shade_secondary"
+                app:layout_constraintStart_toStartOf="@id/card_title"
+                app:layout_constraintTop_toBottomOf="@id/card_title" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/alt_arrow_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/shade_tertiary" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

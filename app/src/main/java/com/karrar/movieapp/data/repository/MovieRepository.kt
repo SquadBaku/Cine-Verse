@@ -59,6 +59,7 @@ interface MovieRepository {
     suspend fun addMovieToList(sessionId: String, listId: Int, movieId: Int): AddMovieDto?
 
     suspend fun clearWatchHistory()
+    suspend fun deleteWatchHistoryItemById(id:Int)
 
     suspend fun insertSearchItem(item: SearchHistoryEntity)
 

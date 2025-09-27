@@ -14,6 +14,7 @@ import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.ActivityMainBinding
 import com.karrar.movieapp.utilities.Const.APP_PREF
 import com.karrar.movieapp.utilities.Const.ONBOARDING_COMPLETED
+import com.karrar.movieapp.utilities.PrefsManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,16 +33,13 @@ class MainActivity : AppCompatActivity() {
         )
         super.onCreate(savedInstanceState)
 
-
         setTheme(R.style.Theme_MovieApp)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
 
         installSplashScreen()
         supportActionBar?.hide()
 
         setupNavigationAndBottomNav()
-
     }
 
     private fun setupNavigationAndBottomNav() {
@@ -64,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
         setBottomNavigationVisibility(navController)
         setNavigationController(navController)
+
+        val lastSelected = PrefsManager.getSelectedNavItem(this)
+        if (lastSelected != 0) {
+            binding.bottomNavigation.selectedItemId = lastSelected
+        }
     }
 
     private fun setBottomNavigationVisibility(navController: NavController) {
@@ -84,6 +87,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getSelectedNavItem(): Int {
+        return binding.bottomNavigation.selectedItemId
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()

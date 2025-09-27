@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentProfileBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.main.MainActivity
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.LanguageManager
 import com.karrar.movieapp.utilities.PrefsManager
@@ -84,12 +85,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ProfileUIEvent.DialogLanguageEvent -> {
                 val bottomSheet = LanguageBottomSheet()
                 bottomSheet.setOnLanguageSelectedListener { newLang ->
+                    val selectedItemId = (requireActivity() as MainActivity).getSelectedNavItem()
+                    PrefsManager.saveSelectedNavItem(requireContext(), selectedItemId)
+
                     PrefsManager.saveLanguage(requireContext(), newLang)
                     LanguageManager.setLocale(requireContext(), newLang)
+
                     requireActivity().recreate()
                 }
                 bottomSheet.show(parentFragmentManager, "LanguageBottomSheet")
             }
+
         }
     }
 }

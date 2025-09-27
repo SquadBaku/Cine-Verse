@@ -72,7 +72,6 @@ class WatchHistoryViewModel @Inject constructor(
     }
 
     override fun onSwipeDelete(item: MediaHistoryUiState) {
-
         val prev = _history.value
 
         _history.value = prev.filterNot { it.id == item.id }
@@ -85,7 +84,6 @@ class WatchHistoryViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching { deleteWatchHistoryUseCase(item.id, type) }
                 .onFailure { err ->
-
                     _history.value = prev
                     onError(err.message ?: "Delete failed")
                 }

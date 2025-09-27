@@ -1,7 +1,9 @@
 package com.karrar.movieapp.ui.profile.watchhistory
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +26,7 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
 
     override val layoutIdFragment: Int = R.layout.fragment_watch_history
     override val viewModel: WatchHistoryViewModel by viewModels()
-
+    private var isItemSwiped = false
     private lateinit var adapter: WatchHistoryAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +35,7 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        handleInterceptedRecyclerItemTouchEvent()
 
         adapter = WatchHistoryAdapter(items = emptyList(), listener = viewModel)
         binding.recyclerViewWatchHistory.layoutManager = LinearLayoutManager(requireContext())
@@ -53,6 +56,32 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
         }
 
         collectEvent()
+    }
+
+    fun handleInterceptedRecyclerItemTouchEvent() {
+        binding.recyclerViewWatchHistory.addOnItemTouchListener(object :
+            RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                val child = rv.findChildViewUnder(e.x, e.y)
+                if (child != null) {
+                    val holder = rv.getChildViewHolder(child) as BaseAdapter.BaseViewHolder
+                    val trashView = adapter.deleteViewOf(holder)
+                    val rect = Rect()
+                    trashView?.getGlobalVisibleRect(rect)
+                    if (rect.contains(e.rawX.toInt(), e.rawY.toInt()) && isItemSwiped) {
+                        val item = adapter.getItemAt(holder.bindingAdapterPosition)
+                        viewModel.onSwipeDelete(item)
+                        isItemSwiped = false
+//                        trashView?.performClick()
+                        return true
+                    }
+                }
+                return false
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
     }
 
     private fun collectEvent() {
@@ -96,21 +125,14 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
             ) {
                 val fg: View? = adapter.foregroundOf(viewHolder as BaseAdapter.BaseViewHolder)
                 fg?.let {
-                    val currentTranslation = fg.translationX
                     val maxSwipe = -fg.width * 0.3f
                     if (isCurrentlyActive) {
-                        Log.d(
-                            "Swipe",
-                            "onChildDrawDX: $dX,deviceWidth:${resources.displayMetrics.widthPixels}"
-                        )
-                        Log.d("currentTranslation", "onChildDraw: $currentTranslation")
                         val limitedDx = min(0f, dX)
                         if (isDragged.not())
                             fg.translationX = limitedDx
                         else if (dX < maxSwipe) {
-                            val adjustedDx = abs(dX / resources.displayMetrics.widthPixels) * maxSwipe
-                            Log.d("adjustedDx","dx divided by device width: ${abs(dX / resources.displayMetrics.widthPixels)}")
-                            Log.d("adjustedDx", "onChildDrawDX: $adjustedDx")
+                            val adjustedDx =
+                                abs(dX / resources.displayMetrics.widthPixels) * maxSwipe
                             fg.translationX = min(0f, adjustedDx)
                         }
                     } else
@@ -121,6 +143,14 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
                                     Log.d("Swipe", "onChildDraw: $dX")
                                     fg.translationX = -fg.width * 0.3f
                                     isDragged = true
+                                    isItemSwiped = true
+                                    val trashIcon = adapter.deleteViewOf(viewHolder)
+                                    trashIcon?.setOnClickListener {
+                                        val pos = viewHolder.bindingAdapterPosition
+                                        if (pos != RecyclerView.NO_POSITION) {
+                                            adapter.removeAt(pos)
+                                        }
+                                    }
                                 }
                                 .start()
 
@@ -130,6 +160,7 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
                                 .withEndAction {
                                     fg.translationX = 0f
                                     isDragged = false
+                                    isItemSwiped = false
                                 }
                                 .start()
                         }
@@ -146,38 +177,30 @@ class WatchHistoryFragment : BaseFragment<FragmentWatchHistoryBinding>() {
                 }
             }
 
-//            override fun clearView(
-//                recyclerView: RecyclerView,
-//                viewHolder: RecyclerView.ViewHolder,
-//            ) {
-//                val fg = adapter.foregroundOf(viewHolder as BaseAdapter.BaseViewHolder)
-//                fg?.let {
-//                    val maxSwipe = -fg.width * 0.3f
-//                    Log.d("Swipe", "clearView: ${fg.translationX}")
-//                    if (fg.translationX <= maxSwipe) {
-//                        fg.animate()
-//                            .translationX(maxSwipe)
-//                            .setDuration(200)
-//                            .withEndAction { }
-//                            .start()
-//                    } else {
-//                        fg.animate().translationX(0f).setDuration(200).start()
-//                    }
-//                }
-//            }
+            override fun getSwipeEscapeVelocity(defaultValue: Float): Float {
+                return defaultValue * 10
+            }
+
+            override fun getSwipeVelocityThreshold(defaultValue: Float): Float {
+                return defaultValue * 10
+            }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val pos = viewHolder.bindingAdapterPosition
                 Log.d("Swipe", "onSwiped: $direction at pos: $pos")
                 if (pos == RecyclerView.NO_POSITION) return
-                val foreground = adapter.foregroundOf(viewHolder as BaseAdapter.BaseViewHolder)
-
-                val item = adapter.getItemAt(pos)
+                val trashIcon = adapter.deleteViewOf(viewHolder as BaseAdapter.BaseViewHolder)
+                trashIcon?.let {
+                    trashIcon.setOnClickListener {
+                        adapter.removeAt(pos)
+                    }
+                }
 
 //                adapter.removeAt(pos)
 
 //                viewModel.deleteHistory(item)
             }
+
         }
 
         ItemTouchHelper(callback).attachToRecyclerView(binding.recyclerViewWatchHistory)

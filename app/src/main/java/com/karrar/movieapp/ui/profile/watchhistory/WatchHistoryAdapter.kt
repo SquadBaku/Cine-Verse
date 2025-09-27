@@ -22,6 +22,9 @@ class WatchHistoryAdapter(
 
     override fun foregroundOf(holder: BaseViewHolder): View? =
         holder.itemView.findViewById(R.id.foreground)
+
+    fun deleteViewOf(holder: BaseViewHolder): View? =
+        holder.itemView.findViewById(R.id.trash_icon)
 }
 
 

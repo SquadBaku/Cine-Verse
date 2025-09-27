@@ -53,7 +53,7 @@ class MovieRepositoryImp @Inject constructor(
     private val mediaDataSourceContainer: MediaDataSourceContainer,
     private val searchDataSourceContainer: SearchDataSourceContainer,
     private val movieMovieDataSource: MovieDataSourceContainer,
-    private val actorMovieDataSource: ActorMovieDataSource
+    private val actorMovieDataSource: ActorMovieDataSource,
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getMovieGenreList(): List<GenreDto>? {
@@ -134,6 +134,10 @@ class MovieRepositoryImp @Inject constructor(
 
     override suspend fun clearWatchHistory() {
         return movieDao.deleteAllWatchedMovies()
+    }
+
+    override suspend fun deleteWatchHistoryItemById(id: Int) {
+        return movieDao.deleteWatchedMovieById(id)
     }
 
     override suspend fun insertSearchItem(item: SearchHistoryEntity) {

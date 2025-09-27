@@ -80,6 +80,15 @@
             app:layout_constraintTop_toBottomOf="@+id/appBar"
             app:spanCount="1" />
 
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/rvFeaturedCollections"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:overScrollMode="never"-->
+<!--            android:paddingStart="16dp"-->
+<!--            android:paddingEnd="16dp"-->
+<!--            android:clipToPadding="false"-->
+
         <include
             android:id="@+id/loading"
             layout="@layout/loading2"

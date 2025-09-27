@@ -5,9 +5,12 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.karrar.movieapp.R
 import com.karrar.movieapp.databinding.FragmentHomeBinding
 import com.karrar.movieapp.ui.base.BaseFragment
+import com.karrar.movieapp.ui.featuredCollection.FeaturedCollectionsAdapter
+import com.karrar.movieapp.ui.featuredCollection.FeaturedItem
 import com.karrar.movieapp.ui.home.adapter.HomeAdapter
 import com.karrar.movieapp.ui.home.homeUiState.HomeUIEvent
 import com.karrar.movieapp.utilities.collectLast
@@ -27,7 +30,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setAdapter()
         collectEvent()
         collectHomeData()
+       // setupFeaturedCollectionsRecycler()
     }
+//    private lateinit var featuredCollectionsAdapter: FeaturedCollectionsAdapter
+//    private fun setupFeaturedCollectionsRecycler() {
+//        val list = listOf(
+//            FeaturedItem(R.drawable.late_night_thrills, "Late Night Thrillers",
+//                FeaturedItem(R.drawable.family_night_picks, "Family Night Picks"),
+//                FeaturedItem(R.drawable.cinematic_masterpieces, "Cinematic Masterpieces"),
+//                FeaturedItem(R.drawable.mind_bending_stories, "Mind-Bending Stories"),
+//                FeaturedItem(R.drawable.based_on_true_events, "Based on True Events"),
+//                FeaturedItem(R.drawable.feel_good_favorites, "Feel-Good Favorites")
+//            )
+//
+//    }
+
+
 
     override fun onResume() {
         super.onResume()

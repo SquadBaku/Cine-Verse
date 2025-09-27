@@ -392,3 +392,11 @@ fun setOneDecimal(textView: TextView, number: Double?) {
         textView.text = String.format("%.1f", it)
     }
 }
+
+@BindingAdapter("layoutWidth", "layoutHeight", requireAll = false)
+fun setLayoutSize(view: View, width: Float?, height: Float?) {
+    val params = view.layoutParams
+    width?.let { params.width = it.toInt() }
+    height?.let { params.height = it.toInt() }
+    view.layoutParams = params
+}

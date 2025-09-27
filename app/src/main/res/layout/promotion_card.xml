@@ -27,6 +27,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+         android:onClick="@{()->listener.onClickRate()}"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/card_rounded_background"

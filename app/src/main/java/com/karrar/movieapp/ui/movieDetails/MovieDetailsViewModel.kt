@@ -2,7 +2,6 @@ package com.karrar.movieapp.ui.movieDetails
 
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.karrar.movieapp.domain.enums.HomeItemsType
@@ -21,10 +20,8 @@ import com.karrar.movieapp.ui.movieDetails.mapper.ReviewUIStateMapper
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.DetailItemUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.ErrorUIState
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.MovieUIState
-import com.karrar.movieapp.ui.movieDetails.saveMovie.uiState.SaveMovieUIEvent
 import com.karrar.movieapp.utilities.Constants
 import com.karrar.movieapp.utilities.Event
-import com.karrar.movieapp.utilities.SingleActionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -188,7 +185,7 @@ class MovieDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(ratingValue = getMovieRate(movieId)) }
-                if (_uiState.value.ratingValue > 0f)
+                if (_uiState.value.ratingValue == 0f)
                     onAddMovieDetailsItemOfNestedView(DetailItemUIState.Promotion)
             } catch (e: Throwable) {
             }

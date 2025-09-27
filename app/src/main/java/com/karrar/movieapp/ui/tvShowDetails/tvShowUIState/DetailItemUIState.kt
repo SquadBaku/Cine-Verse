@@ -1,23 +1,24 @@
 package com.karrar.movieapp.ui.tvShowDetails.tvShowUIState
 
-import androidx.lifecycle.ViewModel
 import com.karrar.movieapp.ui.models.ActorUiState
+import com.karrar.movieapp.ui.models.MediaUiState
+import com.karrar.movieapp.ui.movieDetails.MediaInfoUiState
+import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.BehindTheScenesState
 
 sealed class DetailItemUIState(val priority: Int) {
+    class Poster(val data: MediaInfoUiState) : DetailItemUIState(1)
+    class Header(val data: MediaInfoUiState) : DetailItemUIState(2)
 
-    class Header(val data: TvShowDetailsResultUIState) : DetailItemUIState(0)
+    class Seasons(val data: List<SeasonUIState>) : DetailItemUIState(3)
+    class Cast(val data: List<ActorUiState>) : DetailItemUIState(4)
 
-    class Cast(val data: List<ActorUiState>) : DetailItemUIState(1)
+    class BehindScenes(val data: BehindTheScenesState) : DetailItemUIState(5)
 
-    class Seasons(val data: List<SeasonUIState>) : DetailItemUIState(2)
+    class SimilarTvShows(val data: List<MediaUiState>) : DetailItemUIState(6)
+    object Promotion : DetailItemUIState(7)
 
-    class Rating(val viewModel: ViewModel) : DetailItemUIState(3)
+    object ReviewText : DetailItemUIState(8)
 
-    object ReviewText : DetailItemUIState(4)
+    class Comment(val data: ReviewUIState) : DetailItemUIState(9)
 
-    class Comment(val data: ReviewUIState) : DetailItemUIState(5)
-
-    object SeeAllReviewsButton : DetailItemUIState(6)
-
-    class UserRating(val data: String, val ratingValue: Float) : DetailItemUIState(7)
 }

@@ -12,6 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -36,21 +37,28 @@
             <TextView
                 android:id="@+id/character"
                 style="@style/Typography.body_md_regular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="@string/characters"
                 android:textColor="@color/shade_secondary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/character_value"
+                  />
 
             <TextView
+                android:id="@+id/character_value"
                 android:text="@{item.characters}"
                 style="@style/Typography.body_md_medium"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/shade_primary"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/character"
+                  />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/character_divider"
@@ -64,23 +72,29 @@
             <TextView
                 android:id="@+id/director"
                 style="@style/Typography.body_md_regular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/director"
                 android:textColor="@color/shade_secondary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/character_divider" />
+                app:layout_constraintTop_toBottomOf="@id/character_divider"
+                app:layout_constraintEnd_toStartOf="@+id/director_value"
+                  />
 
             <TextView
-                android:text="@{item.director}"
                 android:id="@+id/director_value"
+                android:text="@{item.director}"
                 style="@style/Typography.body_md_medium"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/shade_primary"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/director" />
+                app:layout_constraintTop_toTopOf="@id/director"
+                app:layout_constraintStart_toEndOf="@id/director"
+                  />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/director_divider"
@@ -94,23 +108,29 @@
             <TextView
                 android:id="@+id/producer"
                 style="@style/Typography.body_md_regular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/producer"
                 android:textColor="@color/shade_secondary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/director_divider" />
+                app:layout_constraintTop_toBottomOf="@id/director_divider"
+                app:layout_constraintEnd_toStartOf="@+id/producer_value"
+                  />
 
             <TextView
-                android:text="@{item.producer}"
                 android:id="@+id/producer_value"
+                android:text="@{item.producer}"
                 style="@style/Typography.body_md_medium"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/shade_primary"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/producer" />
+                app:layout_constraintTop_toTopOf="@id/producer"
+                app:layout_constraintStart_toEndOf="@id/producer"
+                  />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/producer_divider"
@@ -124,23 +144,29 @@
             <TextView
                 android:id="@+id/writer"
                 style="@style/Typography.body_md_regular"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/writer"
                 android:textColor="@color/shade_secondary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/producer_divider" />
+                app:layout_constraintTop_toBottomOf="@id/producer_divider"
+                app:layout_constraintEnd_toStartOf="@+id/writer_value"
+                  />
 
             <TextView
-                android:text="@{item.writer}"
                 android:id="@+id/writer_value"
+                android:text="@{item.writer}"
                 style="@style/Typography.body_md_medium"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/shade_primary"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/writer" />
+                app:layout_constraintTop_toTopOf="@id/writer"
+                app:layout_constraintStart_toEndOf="@id/writer"
+                  />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

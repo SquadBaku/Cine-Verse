@@ -2,17 +2,16 @@ package com.karrar.movieapp.ui.movieDetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import coil.load
 import com.karrar.movieapp.BR
 import com.karrar.movieapp.R
-import com.karrar.movieapp.ui.adapters.*
+import com.karrar.movieapp.ui.adapters.ActorAdapter
+import com.karrar.movieapp.ui.adapters.ActorsInteractionListener
+import com.karrar.movieapp.ui.adapters.MovieAdapter
+import com.karrar.movieapp.ui.adapters.MovieInteractionListener
 import com.karrar.movieapp.ui.base.BaseAdapter
 import com.karrar.movieapp.ui.base.BaseInteractionListener
 import com.karrar.movieapp.ui.movieDetails.movieDetailsUIState.DetailItemUIState
-import com.karrar.movieapp.utilities.SingleActionListener
 
 class DetailAdapter(
     private var items: List<DetailItemUIState>,
@@ -71,7 +70,7 @@ class DetailAdapter(
             is DetailItemUIState.Promotion -> {
                 holder.binding.setVariable(
                     BR.listener,
-                    listener as SingleActionListener
+                    listener
                 )
             }
 

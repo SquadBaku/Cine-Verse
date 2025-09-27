@@ -31,7 +31,7 @@ class TvShowRatingDialog: BaseDialogFragment<DialogCreateListBinding>() {
             dismiss()
         }
         if (event is TvShowDetailsUIEvent.MessageAppear) {
-            val tvShowId = viewModel.stateFlow.value.tvShowDetailsResult.tvShowId
+            val tvShowId = viewModel.stateFlow.value.tvShowDetailsResult.id
             action = RatingDialogDirections.actionRatingDialogToMovieDetailFragment(tvShowId)
             action?.let { findNavController().navigate(it) }
         }

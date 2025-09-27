@@ -58,6 +58,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:id="@+id/imagePoster1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/app_name"
@@ -76,6 +77,7 @@
                         android:background="@color/overlay_primary" />
 
                     <TextView
+                        android:id="@+id/textTitle1"
                         style="@style/Typography.body_sm_medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -120,6 +122,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:id="@+id/imagePoster2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/app_name"
@@ -138,6 +141,7 @@
                         android:background="@color/overlay_primary" />
 
                     <TextView
+                        android:id="@+id/textTitle2"
                         style="@style/Typography.body_sm_medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -147,6 +151,7 @@
                         android:textColor="@color/shade_primary" />
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
+
 
         </FrameLayout>
 

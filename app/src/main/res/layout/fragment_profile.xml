@@ -110,10 +110,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/RoundButton"
+                    android:onClick="@{() -> viewModel.onClickWatchHistory()}"
                     android:text="@string/history"
                     android:textAllCaps="false"
                     app:icon="@drawable/history"
-                    android:onClick="@{() -> viewModel.onClickWatchHistory()}"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp"
                     app:iconSize="16dp" />
@@ -121,9 +121,9 @@
                 <com.google.android.material.button.MaterialButton
                     style="@style/RoundButton"
                     android:layout_marginHorizontal="8dp"
+                    android:onClick="@{() -> viewModel.onClickMyCollections()}"
                     android:text="@string/my_collections"
                     android:textAllCaps="false"
-                    android:onClick="@{() -> viewModel.onClickMyCollections()}"
                     app:icon="@drawable/video_library"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp"
@@ -131,10 +131,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/RoundButton"
+                    android:onClick="@{() -> viewModel.onClickRatedMovies()}"
                     android:text="@string/my_ratings"
                     android:textAllCaps="false"
                     app:icon="@drawable/star"
-                    android:onClick="@{() -> viewModel.onClickRatedMovies()}"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp"
                     app:iconSize="16dp" />
@@ -150,8 +150,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/radius_xl"
             android:layout_marginVertical="@dimen/radius_lg"
-            android:text="@string/settings"
             android:onClick="@{() -> viewModel.onClickLogout()}"
+            android:text="@string/settings"
             android:textColor="@color/shade_primary"
             app:isVisible="@{viewModel.profileDetailsUIState.isLoggedIn}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -165,11 +165,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/radius_xl"
             android:layout_marginTop="@dimen/radius_lg"
+            app:cardBackgroundColor="@color/background_card"
             app:cardCornerRadius="@dimen/radius_lg"
             app:cardElevation="0dp"
-            app:strokeWidth="0dp"
-            app:cardBackgroundColor="@color/background_card"
-            app:layout_constraintTop_toBottomOf="@+id/text_setting">
+            app:layout_constraintTop_toBottomOf="@+id/text_setting"
+            app:strokeWidth="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -201,8 +201,8 @@
                     android:longClickable="false"
                     android:soundEffectsEnabled="false"
                     android:thumb="@drawable/custom_thumb"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/first_divider"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/text_dark_mode"
                     app:track="@drawable/custom_track" />
 
@@ -224,6 +224,7 @@
                     android:layout_marginHorizontal="@dimen/radius_xl"
                     android:drawableStart="@drawable/language"
                     android:drawablePadding="@dimen/radius_s"
+                    android:onClick="@{() -> viewModel.onClickLanguage()}"
                     android:paddingVertical="@dimen/radius_xl"
                     android:text="@string/language"
                     android:textColor="@color/shade_primary"
@@ -284,8 +285,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_medium"
                     app:dividerColor="@color/shade_quaternary"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:isVisible="@{viewModel.profileDetailsUIState.isLoggedIn}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/contentPreferences" />
 
@@ -311,12 +312,13 @@
                     android:id="@+id/edit_sign_out"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    style=""
                     android:src="@drawable/ic_arrow_right"
                     android:tint="@color/additional_primary_red"
-                    app:layout_constraintEnd_toEndOf="@+id/text_sign_out"
                     app:isVisible="@{viewModel.profileDetailsUIState.isLoggedIn}"
-                    app:layout_constraintTop_toBottomOf="@+id/third_divider"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/text_sign_out"
+                    app:layout_constraintTop_toBottomOf="@+id/third_divider" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

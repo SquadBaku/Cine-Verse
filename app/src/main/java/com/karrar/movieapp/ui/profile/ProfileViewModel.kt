@@ -72,6 +72,10 @@ class ProfileViewModel @Inject constructor(
         _profileUIEvent.update { Event(ProfileUIEvent.DialogLogoutEvent) }
     }
 
+    fun onClickLanguage() {
+        _profileUIEvent.update { Event(ProfileUIEvent.DialogLanguageEvent) }
+    }
+
     fun onClickWatchHistory() {
         _profileUIEvent.update { Event(ProfileUIEvent.WatchHistoryEvent) }
     }
